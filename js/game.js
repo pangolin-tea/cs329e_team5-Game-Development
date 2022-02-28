@@ -1,8 +1,7 @@
 var player;
 var enemy1;
 var enemy2;
-var treats;
-var platforms;
+var wall;
 var cursors;
 var score = 0;
 var gameOver = false;
@@ -18,25 +17,35 @@ var SceneA = new Phaser.Class({
 
     preload: function() {
         this.load.image('sub_bg', 'assets/filler_background.png');
-        this.load.image('sub_wall', 'assets/filler_wall.png');
+        this.load.image('wall_hor', 'assets/filler_wall_hor.png');
+        this.load.image('wall_ver', 'assets/filler_wall_ver.png');
+        this.load.image('sub_door', 'assets/door.png');
         this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 83 });
         this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 64, frameHeight: 83 });
     },
 
     create: function() {
-        //  background, ledges, ground
-        this.add.image(250, 150, 'sub_bg');
-        platforms = this.physics.add.staticGroup();
-        ground = this.physics.add.staticGroup();
-        ground.create(400, 568, 'sub_wall').setScale(2).refreshBody();
-        platforms.create(400, 400, 'sub_wall').setScale(0.5).refreshBody();
-        platforms.create(100, 325, 'sub_wall').setScale(0.5).refreshBody();
-        platforms.create(700, 325, 'sub_wall').setScale(0.5).refreshBody();
+        //  background, wall, door
+        this.add.image(400, 300, 'sub_bg').setScale(6);
+        wall = this.physics.add.staticGroup();
+        door = this.physics.add.staticGroup();
+
+        wall.create(400, 600, 'wall_hor').setScale(2).refreshBody();
+        wall.create(400, 0, 'wall_hor').setScale(2).refreshBody();
+        wall.create(-75, 300, 'wall_ver').setScale(3).refreshBody();
+        wall.create(875, 300, 'wall_ver').setScale(3).refreshBody();
+
+        wall.create(160, 158, 'wall_ver').setScale(0.2, 1.6).refreshBody();
+        wall.create(400, 400, 'wall_hor').setScale(0.5).refreshBody();
+        wall.create(140, 325, 'wall_hor').setScale(0.5).refreshBody();
+        wall.create(700, 325, 'wall_hor').setScale(0.5).refreshBody();
+
+        door.create(600, 0, 'sub_door').setScale(0.5, 1).refreshBody();
 
         // sprite and properties
         player = this.physics.add.sprite(400, 500, 'us');
         enemy1 = this.physics.add.sprite(700, 505, 'foe');
-        enemy2 = this.physics.add.sprite(100, 300, 'foe');
+        enemy2 = this.physics.add.sprite(200, 300, 'foe');
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         enemy1.setBounce(1);
@@ -76,12 +85,9 @@ var SceneA = new Phaser.Class({
         //  score and text
 
         //  collisions
-        this.physics.add.collider(player, platforms);
-        this.physics.add.collider(player, ground);
-        this.physics.add.collider(enemy1, platforms);
-        this.physics.add.collider(enemy1, ground);
-        this.physics.add.collider(enemy2, platforms);
-        this.physics.add.collider(enemy2, ground);
+        this.physics.add.collider(player, wall);
+        this.physics.add.collider(enemy1, wall);
+        this.physics.add.collider(enemy2, wall);
 
         // next level
         this.input.on('pointerdown', function() {
