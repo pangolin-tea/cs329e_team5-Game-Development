@@ -1,8 +1,3 @@
 # cs329e_team5
 
--------------History-------------  
-2/20  
-- @pangolin-tea created repository and README.md
-
-2/21  
-- @ananyaprak uploaded sprintone.zip with Sprint 1: Initial Prototype files  
+History will be kept up with through using Trello board tasks and watching commit history for files. 
