@@ -13,7 +13,6 @@ var config = {
   var controls;
   
   function preload() {
-    this.load.image("testTilemap", "assets/TileMapTest.png");
     this.load.image("tiles", "assets/tilesets/newtileset.png");
     this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
   }
@@ -27,8 +26,8 @@ var config = {
     var tileset = map.addTilesetImage("newtileset", "tiles");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    var belowLayer = map.createLayer("Below Player", tileset, 0, 0);
-    var worldLayer = map.createLayer("World", tileset, 0, 0);
+    var belowLayer = map.createStaticLayer("Below Player", tileset)
+    var worldLayer = map.createStaticLayer("World", tileset)
 
     var camera = this.cameras.main;
 
