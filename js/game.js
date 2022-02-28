@@ -43,7 +43,9 @@ var config = {
     var belowLayer = map.createStaticLayer("Below Player", tileset)
     var worldLayer = map.createStaticLayer("World", tileset)
 
-    worldLayer.setCollisionByExclusion(-1, true);
+    worldLayer.setCollisionByExclusion([-1]);
+    // this.physics.add.collider(player, worldLayer);
+    worldLayer.setCollisionByProperty({ collision: true });
 
     player = this.physics.add.sprite(150, 450, 'us');
     player.setBounce(0.2);
