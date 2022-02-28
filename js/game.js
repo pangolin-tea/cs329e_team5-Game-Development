@@ -20,15 +20,19 @@ var config = {
   var cursors;
   var controls;
   var player;
+  var camera;
   
   function preload() {
     this.load.image("tiles", "assets/tilesets/newtileset.png");
     this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
     this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 64, frameHeight: 83 });
+    this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 83 });
   }
   
   function create() {
     var map = this.make.tilemap({ key: "map" });
+
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
@@ -39,9 +43,16 @@ var config = {
     var belowLayer = map.createStaticLayer("Below Player", tileset)
     var worldLayer = map.createStaticLayer("World", tileset)
 
-    player = this.physics.add.sprite(400, 500, 'us');
+    worldLayer.setCollisionByExclusion(-1, true);
+
+    player = this.physics.add.sprite(150, 450, 'us');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+
+    enemy1 = this.physics.add.sprite(200, 325, 'foe');
+    enemy1.setBounce(1);
+    enemy1.setCollideWorldBounds(true);
+    enemy1.setVelocityX(-180);
 
     //  sprite animations
     this.anims.create({
@@ -70,53 +81,52 @@ var config = {
     //  arrow key inputs
     cursors = this.input.keyboard.createCursorKeys();
 
-    var camera = this.cameras.main;
-
-    var cursors = this.input.keyboard.createCursorKeys();
-    controls = new Phaser.Cameras.Controls.FixedKeyControl({
-        camera: camera,
-        left: cursors.left,
-        right: cursors.right,
-        up: cursors.up,
-        down: cursors.down,
-        speed: 0.5
-    });
-
+    // set up camera
+    camera = this.cameras.main;
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    camera.startFollow(player);
+
+    // controls = new Phaser.Cameras.Controls.FixedKeyControl({
+    //     camera: camera,
+    //     left: cursors.left,
+    //     right: cursors.right,
+    //     up: cursors.up,
+    //     down: cursors.down,
+    //     speed: 0.1
+    // });
 
   }
   
   function update(time, delta) {
-    controls.update(delta);
-    // // sprite movement
-    // if (cursors.left.isDown)
-    // {
-    //     player.setVelocityX(-160);
-    //     player.setVelocityY(0);
-    //     player.anims.play('usTurn', true);
-    // }
-    // else if (cursors.right.isDown)
-    // {
-    //     player.setVelocityX(160);
-    //     player.setVelocityY(0);
-    //     player.anims.play('usTurn', true);
-    // }
-    // else if (cursors.up.isDown)
-    // {
-    //     player.setVelocityX(0);
-    //     player.setVelocityY(-160);
-    //     player.anims.play('usTurn', true);
-    // }
-    // else if (cursors.down.isDown)
-    // {
-    //     player.setVelocityX(0);
-    //     player.setVelocityY(160);
-    //     player.anims.play('usTurn', true);
-    // }
-    // else
-    // {
-    //     player.setVelocityX(0);
-    //     player.setVelocityY(0);
-    //     player.anims.play('usStraight');
-    // }
+    // sprite movement
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-160);
+        player.setVelocityY(0);
+        player.anims.play('usTurn', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(160);
+        player.setVelocityY(0);
+        player.anims.play('usTurn', true);
+    }
+    else if (cursors.up.isDown)
+    {
+        player.setVelocityX(0);
+        player.setVelocityY(-160);
+        player.anims.play('usTurn', true);
+    }
+    else if (cursors.down.isDown)
+    {
+        player.setVelocityX(0);
+        player.setVelocityY(160);
+        player.anims.play('usTurn', true);
+    }
+    else
+    {
+        player.setVelocityX(0);
+        player.setVelocityY(0);
+        player.anims.play('usStraight');
+    }
   }
