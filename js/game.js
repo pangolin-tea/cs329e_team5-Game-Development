@@ -1,36 +1,70 @@
-var config = {
-    type: Phaser.AUTO, // Which renderer to use
-    width: 800, // Canvas width in pixels
-    height: 600, // Canvas height in pixels
-    physics: {
-        default: 'arcade',
-        arcade: {
-            // gravity: { y: 300 },
-            debug: false
-        }
-    },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
+var cursors;
+var controls;
+var player;
+var camera;
+var enemy1;
+var battle_token;
+var graphics;
+
+class UIScene extends Phaser.Scene{
+    constructor(){
+        super({key: 'UIScene'});
     }
-  };
-  
-  var game = new Phaser.Game(config);
-  var cursors;
-  var controls;
-  var player;
-  var camera;
-  
-  function preload() {
-    this.load.image("tiles", "assets/tilesets/newtileset.png");
-    this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
-    this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 64, frameHeight: 83 });
-    this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 83 });
-  }
-  
-  function create() {
-    var map = this.make.tilemap({ key: "map" });
+    create(){
+        this.graphics = this.add.graphics();
+        this.graphics.lineStyle(1, 0xffffff);
+        this.graphics.fillStyle(0x031f4c, 1);        
+        this.graphics.strokeRect(2, 500, 190, 100);
+        this.graphics.fillRect(2, 500, 190, 100);
+        this.graphics.strokeRect(195, 500, 190, 100);
+        this.graphics.fillRect(195, 500, 190, 100);
+        this.graphics.strokeRect(388, 500, 190, 100);
+        this.graphics.fillRect(388, 500, 190, 100);
+    }
+}
+class BattleScene extends Phaser.Scene {
+    constructor(){ 
+        super({ key: 'BattleScene' });
+    }
+    preload()
+    {
+        this.load.spritesheet('cat', 'assets/Cat.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('bevo', 'assets/bevo.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('turt', 'assets/turt.png', {frameWidth: 32, frameHeight:32});
+        this.load.spritesheet('squir', 'assets/squir.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('foe', 'assets/a&mfoe.png', {frameWidth: 64, frameHeight: 83});
+        this.load.image('background', "assets/battle_background.png");
+        this.load.image('cursor', 'assets/cursor.png');
+    }
+    create ()
+    {   
+        this.add.image(400, 300, 'background');
+        this.physics.add.sprite(100, 150, 'cat');
+        this.physics.add.sprite(100, 250, 'bevo');
+        this.physics.add.sprite(100, 350, 'turt');
+        this.physics.add.sprite(100, 450, 'squir');
+        this.physics.add.sprite(600, 300, 'foe');
+        game.scene.start('UIScene');
+
+        camera = this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
+    }
+
+};
+
+class WorldScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'WorldScene' });
+    }
+    preload()
+    {
+        this.load.image("tiles", "assets/tilesets/newtileset.png");
+        this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
+        this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 64, frameHeight: 83 });
+        this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 83 });
+    }
+    create()
+    {
+        var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   
@@ -44,7 +78,6 @@ var config = {
     var worldLayer = map.createStaticLayer("World", tileset)
 
     worldLayer.setCollisionByExclusion([-1]);
-    // this.physics.add.collider(player, worldLayer);
     worldLayer.setCollisionByProperty({ collision: true });
 
     player = this.physics.add.sprite(150, 450, 'us');
@@ -55,7 +88,7 @@ var config = {
     enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
     enemy1.setVelocityX(-180);
-
+      
     //  sprite animations
     this.anims.create({
         key: 'usTurn',
@@ -96,11 +129,16 @@ var config = {
     //     down: cursors.down,
     //     speed: 0.1
     // });
-
-  }
+    function battle(){
+        game.scene.remove('Worldscene');
+        game.scene.start('BattleScene');
+    }
+    this.physics.add.collider(player, enemy1, battle());
+    }
   
-  function update(time, delta) {
+    update(time, delta) {
     // sprite movement
+    
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
@@ -131,4 +169,22 @@ var config = {
         player.setVelocityY(0);
         player.anims.play('usStraight');
     }
-  }
+    }
+
+};
+
+var config = {
+    type: Phaser.AUTO, // Which renderer to use
+    width: 800, // Canvas width in pixels
+    height: 600, // Canvas height in pixels
+    physics: {
+        default: 'arcade',
+        arcade: {
+            // gravity: { y: 300 },
+            debug: false
+        }
+    },
+    scene: [WorldScene, BattleScene, UIScene]
+  };
+
+var game = new Phaser.Game(config);
