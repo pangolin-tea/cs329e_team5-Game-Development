@@ -64,8 +64,7 @@ class WorldScene extends Phaser.Scene {
     var worldLayer = map.createStaticLayer("World", tileset)
 
     worldLayer.setCollisionByExclusion([-1]);
-    worldLayer.setCollisionByProperty({ collision: true });
-
+   
     player = this.physics.add.sprite(150, 450, 'us');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
