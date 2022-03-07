@@ -106,11 +106,7 @@ class WorldScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
 
-    function battle(){
-        // console.log("hi")
-        game.scene.switch('WorldScene', 'BattleScene')
-    }
-    this.physics.add.collider(player, enemy1, battle(), null, this);
+    this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
     }
   
     update(time, delta) {
@@ -148,6 +144,9 @@ class WorldScene extends Phaser.Scene {
     }
     }
 
+    onMeetEnemy() {
+        game.scene.switch('WorldScene', 'BattleScene')
+    }
 };
 
 class BattleScene extends Phaser.Scene {
