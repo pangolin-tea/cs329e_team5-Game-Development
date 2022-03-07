@@ -6,6 +6,20 @@ var enemy1;
 var battle_token;
 var graphics;
 
+// class TutorialScene extends Phaser.Scene{
+//     constructor(){
+//         super({key: 'TutorialScene'});
+//     }
+//     preload(){}
+//     create(){
+//         function startGame(){
+//             game.scene.start('WorldScene')
+//         }
+//         this.input.on('pointerdown', startGame(), this);
+//     }
+//     update(){}
+// }
+
 class UIScene extends Phaser.Scene{
     constructor(){
         super({key: 'UIScene'});
@@ -22,34 +36,6 @@ class UIScene extends Phaser.Scene{
         this.graphics.fillRect(388, 500, 190, 100);
     }
 }
-class BattleScene extends Phaser.Scene {
-    constructor(){ 
-        super({ key: 'BattleScene' });
-    }
-    preload()
-    {
-        this.load.spritesheet('cat', 'assets/Cat.png', {frameWidth: 32, frameHeight: 32});
-        this.load.spritesheet('bevo', 'assets/bevo.png', {frameWidth: 32, frameHeight: 32});
-        this.load.spritesheet('turt', 'assets/turt.png', {frameWidth: 32, frameHeight:32});
-        this.load.spritesheet('squir', 'assets/squir.png', {frameWidth: 32, frameHeight: 32});
-        this.load.spritesheet('foe', 'assets/a&mfoe.png', {frameWidth: 64, frameHeight: 83});
-        this.load.image('background', "assets/battle_background.png");
-        this.load.image('cursor', 'assets/cursor.png');
-    }
-    create ()
-    {   
-        this.add.image(400, 300, 'background');
-        this.physics.add.sprite(100, 150, 'cat');
-        this.physics.add.sprite(100, 250, 'bevo');
-        this.physics.add.sprite(100, 350, 'turt');
-        this.physics.add.sprite(100, 450, 'squir');
-        this.physics.add.sprite(600, 300, 'foe');
-        game.scene.start('UIScene');
-
-        camera = this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
-    }
-
-};
 
 class WorldScene extends Phaser.Scene {
     constructor() {
@@ -85,9 +71,9 @@ class WorldScene extends Phaser.Scene {
     player.setCollideWorldBounds(true);
 
     enemy1 = this.physics.add.sprite(200, 325, 'foe');
-    enemy1.setBounce(1);
+    // enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
-    enemy1.setVelocityX(-180);
+    // enemy1.setVelocityX(-180);
       
     //  sprite animations
     this.anims.create({
@@ -121,19 +107,11 @@ class WorldScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
 
-    // controls = new Phaser.Cameras.Controls.FixedKeyControl({
-    //     camera: camera,
-    //     left: cursors.left,
-    //     right: cursors.right,
-    //     up: cursors.up,
-    //     down: cursors.down,
-    //     speed: 0.1
-    // });
     function battle(){
-        game.scene.remove('Worldscene');
-        game.scene.start('BattleScene');
+        // console.log("hi")
+        game.scene.switch('WorldScene', 'BattleScene')
     }
-    this.physics.add.collider(player, enemy1, battle());
+    this.physics.add.collider(player, enemy1, battle(), null, this);
     }
   
     update(time, delta) {
@@ -169,6 +147,35 @@ class WorldScene extends Phaser.Scene {
         player.setVelocityY(0);
         player.anims.play('usStraight');
     }
+    }
+
+};
+
+class BattleScene extends Phaser.Scene {
+    constructor(){ 
+        super({ key: 'BattleScene' });
+    }
+    preload()
+    {
+        this.load.spritesheet('cat', 'assets/Cat.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('bevo', 'assets/bevo.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('turt', 'assets/turt.png', {frameWidth: 32, frameHeight:32});
+        this.load.spritesheet('squir', 'assets/squir.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('foe', 'assets/a&mfoe.png', {frameWidth: 64, frameHeight: 83});
+        this.load.image('background', "assets/battle_background.png");
+        this.load.image('cursor', 'assets/cursor.png');
+    }
+    create ()
+    {   
+        this.add.image(400, 300, 'background');
+        this.physics.add.sprite(100, 150, 'cat');
+        this.physics.add.sprite(100, 250, 'bevo');
+        this.physics.add.sprite(100, 350, 'turt');
+        this.physics.add.sprite(100, 450, 'squir');
+        this.physics.add.sprite(600, 300, 'foe');
+        game.scene.start('UIScene');
+
+        camera = this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
     }
 
 };
