@@ -103,7 +103,7 @@ var Menu = new Phaser.Class({
     },
     confirm: function() {
         // wen the player confirms his slection, do the action
-    }   
+    },   
 	clear: function() {
         for(var i = 0; i < this.menuItems.length; i++) {
             this.menuItems[i].destroy();
@@ -193,11 +193,11 @@ class UIScene extends Phaser.Scene{
 	remapHeroes() {
         var heroes = this.battleScene.heroes;
         this.heroesMenu.remap(heroes);
-    },
+    }
     remapEnemies() {
         var enemies = this.battleScene.enemies;
         this.enemiesMenu.remap(enemies);
-    },
+    }
 	
 	
 }
