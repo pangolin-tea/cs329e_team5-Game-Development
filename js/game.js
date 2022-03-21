@@ -225,16 +225,28 @@ class WorldScene extends Phaser.Scene {
     var tileset = map.addTilesetImage("newtileset", "tiles");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    var belowLayer = map.createStaticLayer("Below Player", tileset)
-    var worldLayer = map.createStaticLayer("World", tileset)
+    var belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
+    var worldLayer = map.createStaticLayer("World", tileset, 0, 0);
+    var aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
+
+
 
     worldLayer.setCollisionByExclusion([-1]);
-   
-    player = this.physics.add.sprite(150, 450, 'us');
+    // worldLayer.setCollisionByProperty({collides:true}, true, true);
+    belowLayer.setCollisionByExclusion([-1]);
+    // worldLayer.setCollision(3, true, 'World');
+
+    player = this.physics.add.sprite(150, 450, 'us').setSize(24,40).setOffset(19,18);
+    
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
-    enemy1 = this.physics.add.sprite(200, 325, 'foe');
+    this.physics.add.collider(player, worldLayer);
+    this.physics.add.collider(player, belowLayer);
+
+
+
+    enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
     // enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
     // enemy1.setVelocityX(-180);
@@ -352,7 +364,7 @@ var config = {
         default: 'arcade',
         arcade: {
             // gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: [WorldScene, BattleScene, UIScene]
