@@ -413,13 +413,13 @@ var WorldScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
    
-    player = this.physics.add.sprite(150, 450, 'us');
+    player = this.physics.add.sprite(150, 450, 'us').setSize(24,40).setOffset(19,18);
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
     this.physics.add.collider(player, belowLayer);
 
-    enemy1 = this.physics.add.sprite(200, 325, 'foe');
+    enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
     // enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
     // enemy1.setVelocityX(-180);
