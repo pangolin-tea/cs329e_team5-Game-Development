@@ -3,6 +3,8 @@ var controls;
 var player;
 var camera;
 var enemy1;
+var enemy2;
+var enemy3;
 var battle_token;
 var graphics;
 
@@ -247,19 +249,33 @@ class WorldScene extends Phaser.Scene {
     // worldLayer.setCollision(3, true, 'World');
 
     player = this.physics.add.sprite(150, 450, 'us').setSize(24,40).setOffset(19,18);
-    
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
-
     this.physics.add.collider(player, worldLayer);
     this.physics.add.collider(player, belowLayer);
 
 
 
     enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
-    // enemy1.setBounce(1);
+    enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
-    // enemy1.setVelocityX(-180);
+    enemy1.setVelocityX(-180);
+    this.physics.add.collider(enemy1, worldLayer);
+    this.physics.add.collider(enemy1, belowLayer);
+
+    enemy2 = this.physics.add.sprite(735, 100, 'foe').setSize(24,40).setOffset(19,18);
+    enemy2.setBounce(1);
+    enemy2.setCollideWorldBounds(true);
+    // enemy2.setVelocityY(-180);
+    this.physics.add.collider(enemy2, worldLayer);
+    this.physics.add.collider(enemy2, belowLayer);
+
+    enemy3 = this.physics.add.sprite(1200, 300, 'foe').setSize(24,40).setOffset(19,18);
+    enemy3.setBounce(1);
+    enemy3.setCollideWorldBounds(true);
+    enemy3.setVelocityX(-180);
+    this.physics.add.collider(enemy3, worldLayer);
+    this.physics.add.collider(enemy3, belowLayer);
       
     //  sprite animations
     this.anims.create({
