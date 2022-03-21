@@ -6,19 +6,6 @@ var enemy1;
 var battle_token;
 var graphics;
 
-// class TutorialScene extends Phaser.Scene{
-//     constructor(){
-//         super({key: 'TutorialScene'});
-//     }
-//     preload(){}
-//     create(){
-//         function startGame(){
-//             game.scene.start('WorldScene')
-//         }
-//         this.input.on('pointerdown', startGame(), this);
-//     }
-//     update(){}
-// }
 var Unit = new Phaser.Class({
     Extends: Phaser.GameObjects.Sprite,
     initialize:
@@ -202,6 +189,29 @@ class UIScene extends Phaser.Scene{
 	
 }
 
+class TutorialScene extends Phaser.Scene{
+    constructor(){
+        super({key: 'TutorialScene'});
+    }
+    preload(){
+    }
+    create(){
+        this.add.text(16,104,"Welcome! A&M foes have taken over UT. It's", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,134,"your job, along with some surprise helpers,", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,164,"to stop them! Use your arrow keys to move", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,194,"around, but be careful when you get near an", { fontSize: '28px', color: '#CC5500' })
+        this.add.text(16,224,"enemy...", { fontSize: '28px', color: '#CC5500' })
+
+        this.add.text(16,284,"When you're ready to begin, click your mouse!", { fontSize: '28px', color: '#CC5500' })
+
+        function startGame(){
+            game.scene.start('WorldScene')
+        }
+        this.input.on('pointerdown', startGame, this);
+    }
+    update(){}
+}
+
 class WorldScene extends Phaser.Scene {
     constructor() {
         super({ key: 'WorldScene' });
@@ -353,6 +363,10 @@ class BattleScene extends Phaser.Scene {
 
         camera = this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
     }
+    nextTurn ()
+    {
+
+    }
 
 };
 
@@ -367,7 +381,7 @@ var config = {
             debug: false
         }
     },
-    scene: [WorldScene, BattleScene, UIScene]
+    scene: [TutorialScene, WorldScene, BattleScene, UIScene]
   };
 
 var game = new Phaser.Game(config);
