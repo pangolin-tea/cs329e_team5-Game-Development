@@ -375,7 +375,7 @@ class TutorialScene extends Phaser.Scene{
         this.add.text(16,284,"When you're ready to begin, click your mouse!", { fontSize: '28px', color: '#CC5500' })
 
         function startGame(){
-            game.scene.start('WorldScene')
+            game.scene.switch('WorldScene')
         }
         this.input.on('pointerdown', startGame, this);
     }
