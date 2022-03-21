@@ -416,6 +416,8 @@ var WorldScene  = new Phaser.Class({
     player = this.physics.add.sprite(150, 450, 'us');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    this.physics.add.collider(player, worldLayer);
+    this.physics.add.collider(player, belowLayer);
 
     enemy1 = this.physics.add.sprite(200, 325, 'foe');
     // enemy1.setBounce(1);
