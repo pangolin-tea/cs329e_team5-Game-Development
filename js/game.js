@@ -34,7 +34,7 @@ var BattleScene = new Phaser.Class({
     },
     preload: function()
     {
-        this.load.spritesheet('cat', 'assets/cat.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('cat', 'assets/Cat.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('bevo', 'assets/bevo.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('turt', 'assets/turt.png', {frameWidth: 32, frameHeight:32});
         this.load.spritesheet('squir', 'assets/squir.png', {frameWidth: 32, frameHeight: 32});
