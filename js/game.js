@@ -470,9 +470,38 @@ var TutorialScene = new Phaser.Class({
     function TutorialScene (){
         Phaser.Scene.call(this, { key: 'TutorialScene'});
     },
-    preload: function(){},
+    preload: function(){
+        this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
+    },
     create: function(){
-        this.add.text(16,104,"tutorial (click mouse)", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,104,"A&M has disrespected us by showing a Horns", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,134,"Down, and now they've taken over!", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,194,"There's an enemy! To move, use arrow keys", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,550,"(for now click to cont)", { fontSize: '30px', color: '#CC5500' })
+
+        player = this.physics.add.sprite(150, 400, 'us').setSize(24,40).setScale(3);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        enemy = this.physics.add.sprite(600, 450, 'foe').setSize(24,40).setScale(3);
+
+        //  sprite animations
+        this.anims.create({
+            key: 'usTurn',
+            frames: this.anims.generateFrameNumbers('us', { start: 0, end: 1 }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'usStraight',
+            frames: [ { key: 'us', frame: 0 } ],
+            frameRate: 6
+        });
+
+        cursors = this.input.keyboard.createCursorKeys();
+
+        // this.physics.add.overlap(player, enemy, startGame, this);
 
         function startGame(){
             game.scene.start('WorldScene')
@@ -480,7 +509,39 @@ var TutorialScene = new Phaser.Class({
         }
         this.input.on('pointerdown', startGame, this);
     },
-    update: function(){}
+    update: function(){
+        // sprite movement
+        if (cursors.left.isDown)
+        {
+            player.setVelocityX(-200);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.right.isDown)
+        {
+            player.setVelocityX(200);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.up.isDown)
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(-200);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.down.isDown)
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(200);
+            player.anims.play('usTurn', true);
+        }
+        else
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(0);
+            player.anims.play('usStraight');
+        }
+    }
 });
 
 var WorldScene  = new Phaser.Class({
@@ -497,6 +558,7 @@ var WorldScene  = new Phaser.Class({
         this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/utmedic.png', { frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('prof', 'assets/utprof.png', { frameWidth: 64, frameHeight: 64});
     },
     create: function()
     {
@@ -521,6 +583,13 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(player, worldLayer);
     this.physics.add.collider(player, belowLayer);
 
+    // enemy = this.physics.add.group();
+    // enemy.setBounce(1);
+    // enemy.setCollideWorldBounds(true);
+    // this.physics.add.collider(enemy, worldLayer);
+    // this.physics.add.collider(enemy, belowLayer);
+    // enemy1 = enemy.create(200, 325, 'foe').setSize(24,40).setOffset(19,18);
+
     enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
     enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
@@ -528,8 +597,14 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(enemy1, worldLayer);
     this.physics.add.collider(enemy1, belowLayer);
 
-    medic1 = this.physics.add.sprite(1250, 100, 'medic').setSize(24,40).setOffset(19,18);
-    medic2 = this.physics.add.sprite(1535, 1050, 'medic').setSize(24,40).setOffset(19,18);
+    medic = this.physics.add.staticGroup();
+    medic.create(1250, 100, 'medic').setSize(24,40).setOffset(19,18);
+    medic.create(1535, 1050, 'medic').setSize(24,40).setOffset(19,18);
+
+    prof = this.physics.add.staticGroup();
+    prof.create(85, 60, 'prof').setSize(24,40).setOffset(19,18);
+    prof.create(275, 60, 'prof').setSize(24,40).setOffset(19,18);
+    prof.create(450, 60, 'prof').setSize(24,40).setOffset(19,18);
       
     //  sprite animations
     this.anims.create({
@@ -564,8 +639,9 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(player);
     camera.setZoom(1.5);
 
-    this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
-    this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
+    this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this);
+    this.physics.add.collider(player, medic, this.onMeetMedic, false, this);
+    this.physics.add.collider(player, prof, this.onMeetMedic, false, this);
     },
   
     update: function(time, delta) {
@@ -610,7 +686,12 @@ var WorldScene  = new Phaser.Class({
 
     onMeetMedic: function()
     {
-        
+        console.log('healing dialogue');
+    },
+
+    onMeetProf: function()
+    {
+        console.log('skill progression menu');
     }
 });
 
@@ -655,7 +736,7 @@ var config = {
         default: 'arcade',
         arcade: {
             // gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: [TutorialScene, BootScene, WorldScene, BattleScene, UIScene]
