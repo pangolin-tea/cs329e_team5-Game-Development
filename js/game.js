@@ -45,6 +45,12 @@ var BattleScene = new Phaser.Class({
     create: function()
     {   
         this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
+        this.startBattle();
+        // on wake event we call startBattle too
+        this.sys.events.on('wake', this.endBattle, this); 
+    },
+    startBattle: function()
+    {
 		var cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Rogue', 80, 8, 'slash');
 		this.add.existing(cat);
 		var bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Warrior', 120, 5, 'charge');
@@ -57,9 +63,6 @@ var BattleScene = new Phaser.Class({
         this.add.existing(foe1);
         var foe2 = new Enemy(this, 600, 400, 'foe', 1, 'Bandit', 20, 6, 'none');
         this.add.existing(foe2);
-        
-
-        camera = this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
 		
 		this.heroes = [ cat, bevo, turt, squir];
 		
@@ -67,7 +70,7 @@ var BattleScene = new Phaser.Class({
 		
 		this.units = this.heroes.concat(this.enemies);
 		
-		this.scene.launch("UIScene");
+		
 		this.index = -1; 
         
         this.anims.create({
@@ -78,12 +81,12 @@ var BattleScene = new Phaser.Class({
         });
         cat.anims.play('cat_anim', true);
         
-        this.sys.events.on('wake', this.wake, this);
+        this.scene.launch("UIScene");
     },
-    wake: function() {
-        this.scene.run('UIScene');  
-        this.time.addEvent({delay: 2000, callback: this.exitBattle, callbackScope: this});        
-    },
+    //wake: function() {
+      //  this.scene.run('UIScene');  
+        //this.time.addEvent({delay: 2000, callback: this.exitBattle, callbackScope: this});        
+    //},
 	nextTurn: function() {  
         // if we have victory or game over
         if(this.checkEndBattle()) {           
@@ -113,7 +116,7 @@ var BattleScene = new Phaser.Class({
             // add timer for the next turn, so will have smooth gameplay
             this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });
         }
-    },     
+    },    
     // check for game over or victory
     checkEndBattle: function() {        
         var victory = true;
