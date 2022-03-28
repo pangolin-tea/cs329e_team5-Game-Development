@@ -499,6 +499,7 @@ var WorldScene  = new Phaser.Class({
         this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
         this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('medic', 'assets/utmedic.png', { frameWidth: 64, frameHeight: 64});
     },
     create: function()
     {
@@ -529,6 +530,9 @@ var WorldScene  = new Phaser.Class({
     enemy1.setVelocityX(-180);
     this.physics.add.collider(enemy1, worldLayer);
     this.physics.add.collider(enemy1, belowLayer);
+
+    medic1 = this.physics.add.sprite(1250, 100, 'medic').setSize(24,40).setOffset(19,18);
+    medic2 = this.physics.add.sprite(1535, 1050, 'medic').setSize(24,40).setOffset(19,18);
       
     //  sprite animations
     this.anims.create({
@@ -559,11 +563,12 @@ var WorldScene  = new Phaser.Class({
 
     // set up camera
     camera = this.cameras.main;
-    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(2);
+    camera.setZoom(1.5);
 
     this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
+    this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
     },
   
     update: function(time, delta) {
@@ -604,6 +609,11 @@ var WorldScene  = new Phaser.Class({
     onMeetEnemy: function() 
 	{
         this.scene.switch('BattleScene');
+    },
+
+    onMeetMedic: function()
+    {
+        
     }
 });
 
