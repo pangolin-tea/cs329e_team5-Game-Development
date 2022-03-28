@@ -475,7 +475,7 @@ var TutorialScene = new Phaser.Class({
     },
     preload: function(){},
     create: function(){
-        this.add.text(16,104,"tutorial (click mouse)", { fontSize: '30px', color: '#CC5500' })
+        this.add.text(16,104,"Tutorial: \n---------------------------------\n Press 'Spacebar' in combat to select actions \n\n---------------------------------\n\n\n\n Click M1 to continue", { fontSize: '28px', color: '#CC5500' })
 
         function startGame(){
             game.scene.start('WorldScene')
@@ -568,7 +568,7 @@ var WorldScene  = new Phaser.Class({
     camera.setZoom(1.5);
 
     this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
-    this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
+    // this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
     },
   
     update: function(time, delta) {
