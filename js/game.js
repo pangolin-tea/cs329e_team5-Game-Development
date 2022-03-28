@@ -562,9 +562,10 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(0.25);
+    camera.setZoom(1.5);
 
     this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
+    this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
     },
   
     update: function(time, delta) {
@@ -605,6 +606,11 @@ var WorldScene  = new Phaser.Class({
     onMeetEnemy: function() 
 	{
         this.scene.switch('BattleScene');
+    },
+
+    onMeetMedic: function()
+    {
+        
     }
 });
 
