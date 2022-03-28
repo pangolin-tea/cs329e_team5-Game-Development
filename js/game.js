@@ -481,7 +481,6 @@ var TutorialScene = new Phaser.Class({
         this.add.text(16,104,"A&M has disrespected us by showing a Horns", { fontSize: '30px', color: '#CC5500' })
         this.add.text(16,134,"Down, and now they've taken over!", { fontSize: '30px', color: '#CC5500' })
         this.add.text(16,194,"There's an enemy! To move, use arrow keys", { fontSize: '30px', color: '#CC5500' })
-        this.add.text(16,550,"(for now click to cont)", { fontSize: '30px', color: '#CC5500' })
 
         player = this.physics.add.sprite(150, 400, 'us').setSize(24,40).setScale(3);
         player.setBounce(0.2);
@@ -504,13 +503,13 @@ var TutorialScene = new Phaser.Class({
 
         cursors = this.input.keyboard.createCursorKeys();
 
-        // this.physics.add.overlap(player, enemy, startGame, this);
+        this.physics.add.overlap(player, enemy, this.startGame, false, this);
 
-        function startGame(){
-            game.scene.start('WorldScene')
-            game.scene.remove('TutorialScene')
-        }
-        this.input.on('pointerdown', startGame, this);
+        // function startGame(){
+        //     game.scene.start('WorldScene')
+        //     game.scene.remove('TutorialScene')
+        // }
+        // this.input.on('pointerdown', startGame, this);
     },
     update: function(){
         // sprite movement
@@ -544,7 +543,13 @@ var TutorialScene = new Phaser.Class({
             player.setVelocityY(0);
             player.anims.play('usStraight');
         }
-    }
+    },
+
+    startGame: function() 
+	{
+        this.scene.start('WorldScene');
+        this.scene.remove('TutorialScene');
+    },
 });
 
 var WorldScene  = new Phaser.Class({
