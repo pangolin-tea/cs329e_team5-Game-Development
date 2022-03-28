@@ -48,6 +48,9 @@ var BattleScene = new Phaser.Class({
         this.startBattle();
         // on wake event we call startBattle too
         this.sys.events.on('wake', this.endBattle, this); 
+
+        // temporary end battle thing
+        this.input.on('pointerdown', this.endBattle, this);
     },
     startBattle: function()
     {
@@ -157,7 +160,7 @@ var BattleScene = new Phaser.Class({
         this.scene.sleep('UIScene');
         // return to WorldScene and sleep current BattleScene
         this.scene.switch('WorldScene');
-    }
+    },
 });
 
 var Unit = new Phaser.Class({
