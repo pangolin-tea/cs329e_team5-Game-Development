@@ -499,9 +499,9 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(player, belowLayer);
 
     enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
-    // enemy1.setBounce(1);
+    enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
-    // enemy1.setVelocityX(-180);
+    enemy1.setVelocityX(-180);
     this.physics.add.collider(enemy1, worldLayer);
     this.physics.add.collider(enemy1, belowLayer);
       
