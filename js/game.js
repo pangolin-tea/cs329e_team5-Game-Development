@@ -45,17 +45,17 @@ var BattleScene = new Phaser.Class({
     create: function()
     {   
         this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
-		var cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Rogue', 80, 8);
+		var cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Rogue', 80, 8, 'slash');
 		this.add.existing(cat);
-		var bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Warrior', 120, 5);
+		var bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Warrior', 120, 5, 'charge');
         this.add.existing(bevo);
-		var turt = new PlayerCharacter(this, 100, 350, 'turt', 1, 'Wizard', 60, 10);
+		var turt = new PlayerCharacter(this, 100, 350, 'turt', 1, 'Wizard', 60, 10, 'freeze');
 		this.add.existing(turt);
-		var squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Bard', 70, 3);
+		var squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Bard', 70, 3, 'confuse');
 		this.add.existing(squir);
-		var foe1 = new Enemy(this, 600, 300, 'foe', 1, 'Bandit', 100, 6);
+		var foe1 = new Enemy(this, 600, 200, 'foe', 1, 'Bandit', 20, 6, 'none');
         this.add.existing(foe1);
-        var foe2 = new Enemy(this, 600, 350, 'foe', 1, 'Bandit', 100, 6);
+        var foe2 = new Enemy(this, 600, 400, 'foe', 1, 'Bandit', 20, 6, 'none');
         this.add.existing(foe2);
         
 
@@ -77,6 +77,12 @@ var BattleScene = new Phaser.Class({
         repeat: -1
         });
         cat.anims.play('cat_anim', true);
+        
+        this.sys.events.on('wake', this.wake, this);
+    },
+    wake: function() {
+        this.scene.run('UIScene');  
+        this.time.addEvent({delay: 2000, callback: this.exitBattle, callbackScope: this});        
     },
 	nextTurn: function() {  
         // if we have victory or game over
@@ -129,6 +135,9 @@ var BattleScene = new Phaser.Class({
         if(action == "attack") {            
             this.units[this.index].attack(this.enemies[target]);              
         }
+        else if(action == "spell") {
+            this.units[this.index].spell(this.enemies[target]);
+        }
         // next turn in 3 seconds
         this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });        
     },    
@@ -153,11 +162,12 @@ var Unit = new Phaser.Class({
 
     initialize:
 
-    function Unit(scene, x, y, texture, frame, type, hp, damage) {
+    function Unit(scene, x, y, texture, frame, type, hp, damage, spell) {
         Phaser.GameObjects.Sprite.call(this, scene, x, y, texture, frame)
         this.type = type;
         this.maxHp = this.hp = hp;
         this.damage = damage; // default damage     
+        this.spell = spell
         this.living = true;         
         this.menuItem = null;
     },
@@ -172,6 +182,14 @@ var Unit = new Phaser.Class({
             this.scene.events.emit("Message", this.type + " attacks " + target.type + " for " + this.damage + " damage");
         }
     },    
+    // spell the target unit
+    spell: function(target) {
+        if (target.living) {
+            target.takeDamage(this.damage);
+            this.scene.events.emit("Message", this.type + " uses " + this.spell + " on " + target.type + " for " + this.damage + " damage");
+        }
+    },
+    
     takeDamage: function(damage) {
         this.hp -= damage;
         if(this.hp <= 0) {
@@ -221,6 +239,10 @@ var MenuItem = new Phaser.Class({
     
     deselect: function() {
         this.setColor("#ffffff");
+    },
+    unitKilled: function() {
+        this.active = false;
+        this.visible = false;
     }
     
 });
@@ -553,7 +575,7 @@ var WorldScene  = new Phaser.Class({
 
     onMeetEnemy: function() 
 	{
-        game.scene.switch('WorldScene', 'BattleScene')
+        this.scene.switch('BattleScene');
     }
 });
 
