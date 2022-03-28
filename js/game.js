@@ -478,9 +478,6 @@ var TutorialScene = new Phaser.Class({
         this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
     },
     create: function(){
-<<<<<<< HEAD
-        this.add.text(16,104,"Tutorial: \n---------------------------------\n Press 'Spacebar' in combat to select actions \n\n---------------------------------\n\n\n\n Click M1 to continue", { fontSize: '28px', color: '#CC5500' })
-=======
         this.add.text(16,104,"A&M has disrespected us by showing a Horns", { fontSize: '30px', color: '#CC5500' })
         this.add.text(16,134,"Down, and now they've taken over!", { fontSize: '30px', color: '#CC5500' })
         this.add.text(16,194,"There's an enemy! To move, use arrow keys", { fontSize: '30px', color: '#CC5500' })
@@ -508,7 +505,6 @@ var TutorialScene = new Phaser.Class({
         cursors = this.input.keyboard.createCursorKeys();
 
         // this.physics.add.overlap(player, enemy, startGame, this);
->>>>>>> 27fd60a91067e5aac2517e4d31b373d69867bd83
 
         function startGame(){
             game.scene.start('WorldScene')
@@ -646,14 +642,9 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(player);
     camera.setZoom(1.5);
 
-<<<<<<< HEAD
-    this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
-    // this.physics.add.overlap(plater, medic1, this.onMeetMedic, false, this)
-=======
     this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this);
     this.physics.add.collider(player, medic, this.onMeetMedic, false, this);
-    this.physics.add.collider(player, prof, this.onMeetMedic, false, this);
->>>>>>> 27fd60a91067e5aac2517e4d31b373d69867bd83
+    this.physics.add.collider(player, prof, this.onMeetProf, false, this);
     },
   
     update: function(time, delta) {
