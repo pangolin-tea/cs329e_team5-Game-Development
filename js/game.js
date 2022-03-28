@@ -463,6 +463,26 @@ var UIScene = new Phaser.Class({
     },
 });
 
+var TutorialScene = new Phaser.Class({
+    Extends: Phaser.Scene,
+
+    initialize:
+    function TutorialScene (){
+        Phaser.Scene.call(this, { key: 'TutorialScene'});
+    },
+    preload: function(){},
+    create: function(){
+        this.add.text(16,104,"tutorial (click mouse)", { fontSize: '30px', color: '#CC5500' })
+
+        function startGame(){
+            game.scene.start('WorldScene')
+            game.scene.remove('TutorialScene')
+        }
+        this.input.on('pointerdown', startGame, this);
+    },
+    update: function(){}
+});
+
 var WorldScene  = new Phaser.Class({
 	Extends: Phaser.Scene,
 	
@@ -494,14 +514,18 @@ var WorldScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
    
-    player = this.physics.add.sprite(150, 450, 'us');
+    player = this.physics.add.sprite(150, 450, 'us').setSize(24,40);
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    this.physics.add.collider(player, worldLayer);
+    this.physics.add.collider(player, belowLayer);
 
-    enemy1 = this.physics.add.sprite(200, 325, 'foe');
-    // enemy1.setBounce(1);
+    enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
+    enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
-    // enemy1.setVelocityX(-180);
+    enemy1.setVelocityX(-180);
+    this.physics.add.collider(enemy1, worldLayer);
+    this.physics.add.collider(enemy1, belowLayer);
       
     //  sprite animations
     this.anims.create({
@@ -534,6 +558,7 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
+    camera.setZoom(2);
 
     this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this)
     },
@@ -611,9 +636,6 @@ var Message = new Phaser.Class({
     }
 });
 
-
-
-
 var config = {
     type: Phaser.AUTO, // Which renderer to use
 	parent: "content",
@@ -623,10 +645,10 @@ var config = {
         default: 'arcade',
         arcade: {
             // gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene]
+    scene: [TutorialScene, BootScene, WorldScene, BattleScene, UIScene]
   };
 
 var game = new Phaser.Game(config);
