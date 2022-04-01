@@ -664,7 +664,7 @@ var config = {
             debug: false
         }
     },
-    scene: [TutorialScene, BootScene, WorldScene, BattleScene, UIScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene]
   };
 
 var game = new Phaser.Game(config);
