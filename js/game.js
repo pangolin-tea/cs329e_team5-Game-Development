@@ -586,8 +586,6 @@ var WorldScene  = new Phaser.Class({
     },
     update: function(){
 
-        // player.setVelocity(0);
-
         if(keyA.isDown) {
             player.setVelocityX(-160);
             player.setVelocityY(0);
@@ -604,6 +602,9 @@ var WorldScene  = new Phaser.Class({
             player.setVelocityX(0);
             player.setVelocityY(-160);
             player.anims.play('usTurn', true);
+         } else {
+            player.setVelocity(0);
+            player.anims.play('usStraight', true);
          }
         },
 
