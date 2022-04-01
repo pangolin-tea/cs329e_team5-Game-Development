@@ -34,11 +34,11 @@ var BattleScene = new Phaser.Class({
     },
     preload: function()
     {
-        this.load.spritesheet('cat', 'assets/Cat.png', {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('bevo', 'assets/bevo.png', {frameWidth: 32, frameHeight: 32});
-        this.load.spritesheet('turt', 'assets/turt.png', {frameWidth: 32, frameHeight:32});
-        this.load.spritesheet('squir', 'assets/squir.png', {frameWidth: 32, frameHeight: 32});
-        this.load.spritesheet('foe', 'assets/a&mfoe.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('cat', 'assets/party/Cat.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('bevo', 'assets/party/bevo.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('turt', 'assets/party/turt.png', {frameWidth: 32, frameHeight:32});
+        this.load.spritesheet('squir', 'assets/party/squir.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', {frameWidth: 64, frameHeight: 64});
         this.load.image('cursor', 'assets/cursor.png');
         this.load.image('background', 'assets/battle_background.png');
     },
@@ -477,8 +477,7 @@ var TutorialScene = new Phaser.Class({
         Phaser.Scene.call(this, { key: 'TutorialScene'});
     },
     preload: function(){
-        this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
     },
     create: function(){
         this.add.text(16,104,"A&M has disrespected us by showing a Horns", { fontSize: '30px', color: '#CC5500' })
@@ -566,10 +565,10 @@ var WorldScene  = new Phaser.Class({
     {
         this.load.image("tiles", "assets/tilesets/newtileset.png");
         this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
-        this.load.spritesheet('us', 'assets/utperson.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('foe', 'assets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
-        this.load.spritesheet('medic', 'assets/utmedic.png', { frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('prof', 'assets/utprof.png', { frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
     },
     create: function()
     {
