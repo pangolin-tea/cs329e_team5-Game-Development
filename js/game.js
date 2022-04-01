@@ -5,6 +5,9 @@ var camera;
 var enemy1;
 var battle_token;
 var graphics;
+var meet;
+var prof;
+var medic;
 
 var BootScene = new Phaser.Class({
 
@@ -593,6 +596,9 @@ var WorldScene  = new Phaser.Class({
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
     this.physics.add.collider(player, belowLayer);
+    
+    this.message = new Message(this, this.events);
+    this.add.existing(this.message); 
 
     // enemy = this.physics.add.group();
     // enemy.setBounce(1);
@@ -616,6 +622,7 @@ var WorldScene  = new Phaser.Class({
     prof.create(85, 60, 'prof').setSize(24,40).setOffset(19,18);
     prof.create(275, 60, 'prof').setSize(24,40).setOffset(19,18);
     prof.create(450, 60, 'prof').setSize(24,40).setOffset(19,18);
+        
       
     //  sprite animations
     this.anims.create({
@@ -643,6 +650,7 @@ var WorldScene  = new Phaser.Class({
 
     //  arrow key inputs
     cursors = this.input.keyboard.createCursorKeys();
+    this.input.keyboard.on("keydown", this.onKeyInput, this);   
 
     // set up camera
     camera = this.cameras.main;
@@ -654,47 +662,77 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(player, medic, this.onMeetMedic, false, this);
     this.physics.add.collider(player, prof, this.onMeetProf, false, this);
     },
-  
-    update: function(time, delta) {
-    // sprite movement
+    update: function(){
+        player.anims.play('usTurn', false);
+    },
+    /* update: function(){
+        // sprite movement
+        if (cursors.left.isDown)
+        {
+            player.setVelocityX(-200);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.right.isDown)
+        {
+            player.setVelocityX(200);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.up.isDown)
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(-200);
+            player.anims.play('usTurn', true);
+        }
+        else if (cursors.down.isDown)
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(200);
+            player.anims.play('usTurn', true);
+        }
+        else
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(0);
+            player.anims.play('usStraight');
+        }
+    },*/
+    onKeyInput: function(event) {
+            if(event.code === "ArrowUp" && meet !== true) {
+                player.setVelocityX(0);
+                player.setVelocityY(-160);
+                player.anims.play('usTurn', true);
+            } else if(event.code === "ArrowDown" && meet !== true) {
+                player.setVelocityX(0);
+                player.setVelocityY(160);
+                player.anims.play('usTurn', true);
+            } else if(event.code === "ArrowRight" && meet !== true) {
+                player.setVelocityX(160);
+                player.setVelocityY(0);
+                player.anims.play('usTurn', true);
+            } else if(event.code === "ArrowLeft" && meet !== true) {
+                player.setVelocityX(-160);
+                player.setVelocityY(0);
+                player.anims.play('usTurn', true);
+            } else if(event.code === "Space" && meet === true) {
+                this.scene.switch("BattleScene");
+            } else if(event.code === "None") {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+            }
+    },
+
     
-    if (cursors.left.isDown)
-    {
-        player.setVelocityX(-160);
-        player.setVelocityY(0);
-        player.anims.play('usTurn', true);
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocityX(160);
-        player.setVelocityY(0);
-        player.anims.play('usTurn', true);
-    }
-    else if (cursors.up.isDown)
-    {
-        player.setVelocityX(0);
-        player.setVelocityY(-160);
-        player.anims.play('usTurn', true);
-    }
-    else if (cursors.down.isDown)
-    {
-        player.setVelocityX(0);
-        player.setVelocityY(160);
-        player.anims.play('usTurn', true);
-    }
-    else
-    {
-        player.setVelocityX(0);
-        player.setVelocityY(0);
-        player.anims.play('usStraight');
-    }
-    },
-
     onMeetEnemy: function() 
-	{
-        this.scene.switch('BattleScene');
+	{  
+        player.setVelocityX(0);
+        player.setVelocityY(0);
+        meet = true;
+        enemy1.setVelocityX(0);
+        this.events.emit("Message", 'What are you doing here?')
     },
-
+                                   
     onMeetMedic: function()
     {
         console.log('healing dialogue');
