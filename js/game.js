@@ -1,4 +1,8 @@
 var cursors;
+var keyA;
+var keyS;
+var keyD;
+var keyW;
 var controls;
 var player;
 var camera;
@@ -482,7 +486,7 @@ var WorldScene  = new Phaser.Class({
     preload: function()
     {
         this.load.image("tiles", "assets/tilesets/newtileset.png");
-        this.load.tilemapTiledJSON("map", "assets/TileMap1.json");
+        this.load.tilemapTiledJSON("map", "assets/TileMapSmall.json");
         this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
@@ -505,7 +509,7 @@ var WorldScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
    
-    player = this.physics.add.sprite(150, 450, 'us').setSize(24,40);
+    player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
@@ -524,7 +528,7 @@ var WorldScene  = new Phaser.Class({
     enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
     enemy1.setBounce(1);
     enemy1.setCollideWorldBounds(true);
-    enemy1.setVelocityX(-180);
+    // enemy1.setVelocityX(-180);
     this.physics.add.collider(enemy1, worldLayer);
     this.physics.add.collider(enemy1, belowLayer);
 
@@ -564,7 +568,11 @@ var WorldScene  = new Phaser.Class({
 
     //  arrow key inputs
     cursors = this.input.keyboard.createCursorKeys();
-    this.input.keyboard.on("keydown", this.onKeyInput, this);   
+    // this.input.keyboard.on("keydown", this.onKeyInput, this);
+    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
     // set up camera
     camera = this.cameras.main;
@@ -577,67 +585,28 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(player, prof, this.onMeetProf, false, this);
     },
     update: function(){
-        player.anims.play('usTurn', false);
-    },
-    /* update: function(){
-        // sprite movement
-        if (cursors.left.isDown)
-        {
-            player.setVelocityX(-200);
-            player.setVelocityY(0);
-            player.anims.play('usTurn', true);
-        }
-        else if (cursors.right.isDown)
-        {
-            player.setVelocityX(200);
-            player.setVelocityY(0);
-            player.anims.play('usTurn', true);
-        }
-        else if (cursors.up.isDown)
-        {
-            player.setVelocityX(0);
-            player.setVelocityY(-200);
-            player.anims.play('usTurn', true);
-        }
-        else if (cursors.down.isDown)
-        {
-            player.setVelocityX(0);
-            player.setVelocityY(200);
-            player.anims.play('usTurn', true);
-        }
-        else
-        {
-            player.setVelocityX(0);
-            player.setVelocityY(0);
-            player.anims.play('usStraight');
-        }
-    },*/
-    onKeyInput: function(event) {
-            if(event.code === "ArrowUp" && meet !== true) {
-                player.setVelocityX(0);
-                player.setVelocityY(-160);
-                player.anims.play('usTurn', true);
-            } else if(event.code === "ArrowDown" && meet !== true) {
-                player.setVelocityX(0);
-                player.setVelocityY(160);
-                player.anims.play('usTurn', true);
-            } else if(event.code === "ArrowRight" && meet !== true) {
-                player.setVelocityX(160);
-                player.setVelocityY(0);
-                player.anims.play('usTurn', true);
-            } else if(event.code === "ArrowLeft" && meet !== true) {
-                player.setVelocityX(-160);
-                player.setVelocityY(0);
-                player.anims.play('usTurn', true);
-            } else if(event.code === "Space" && meet === true) {
-                this.scene.switch("BattleScene");
-            } else if(event.code === "None") {
-                player.setVelocityX(0);
-                player.setVelocityY(0);
-            }
-    },
 
-    
+        // player.setVelocity(0);
+
+        if(keyA.isDown) {
+            player.setVelocityX(-160);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+         } else if(keyS.isDown) {
+            player.setVelocityX(0);
+            player.setVelocityY(160);
+            player.anims.play('usTurn', true);
+         } else if(keyD.isDown) {
+            player.setVelocityX(160);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+         } else if(keyW.isDown) {
+            player.setVelocityX(0);
+            player.setVelocityY(-160);
+            player.anims.play('usTurn', true);
+         }
+        },
+
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
