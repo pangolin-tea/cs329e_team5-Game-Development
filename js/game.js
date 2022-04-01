@@ -478,6 +478,7 @@ var TutorialScene = new Phaser.Class({
     },
     preload: function(){
         this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
     },
     create: function(){
         this.add.text(16,104,"A&M has disrespected us by showing a Horns", { fontSize: '30px', color: '#CC5500' })
