@@ -504,8 +504,9 @@ var WorldScene  = new Phaser.Class({
     var tileset = map.addTilesetImage("newtileset", "tiles");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    var belowLayer = map.createStaticLayer("Below Player", tileset)
-    var worldLayer = map.createStaticLayer("World", tileset)
+    var belowLayer = map.createStaticLayer("Below Player", tileset);
+    var worldLayer = map.createStaticLayer("World", tileset);
+    var abovelayer = map.createStaticLayer("Above Player", tileset);
 
     worldLayer.setCollisionByExclusion([-1]);
    
