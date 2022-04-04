@@ -9,8 +9,7 @@ var camera;
 var battle_token;
 var graphics;
 var meet;
-var prof;
-var medic;
+var advisor = 0;
 
 var BootScene = new Phaser.Class({
 
@@ -604,8 +603,19 @@ var WorldScene  = new Phaser.Class({
     onMeetAdvisor: function()
     {
         player.setVelocity(0);
-        meet = true;
-        this.events.emit("Message", "test");
+        if (advisor == 0)
+        {
+            this.events.emit("Message", "stuff about beating enemy");
+        }
+        else if (advisor == 1)
+        {
+            this.events.emit("Message", "stuff about healing w medic");
+        }
+        else if (advisor == 1)
+        {
+            this.events.emit("Message", "stuff about optional skill prog");
+        }
+        advisor++;
     },
     
     onMeetEnemy: function() 
