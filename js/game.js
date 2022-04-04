@@ -11,11 +11,13 @@ var graphics;
 var meet;
 var aMeet = 1;
 var eMeet = 1;
-var e1;
+var e1, e2, e3, e4, e5;
 var p1, p1, p3;
 var m1;
-var a1, a2;
+var a1, a2, a3, a4;
 var choice;
+var bruteHP, nerdHP;
+var dHP, bHP, tHP, sHP;
 
 var BootScene = new Phaser.Class({
 
@@ -78,6 +80,13 @@ var BattleScene = new Phaser.Class({
         this.add.existing(foeBrute);
         var foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeNerd);
+        
+        catHP = this.add.text(16, 150, cat.hp + "hp", { fontSize: '12px', fill: '#000' });
+        bevoHP = this.add.text(16, 250, bevo.hp + "hp", { fontSize: '12px', fill: '#000' });
+        turtHP =  this.add.text(16, 350, turt.hp + "hp", { fontSize: '12px', fill: '#000' });
+        squirHP = this.add.text(16, 450, squir.hp + "hp", { fontSize: '12px', fill: '#000' });
+        bruteHP = this.add.text(660, 200, foeBrute.hp + "hp", { fontSize: '12px', fill: '#000' });
+        nerdHP = this.add.text(660, 400, foeNerd.hp + "hp", { fontSize: '12px', fill: '#000' });
 		
 		this.heroes = [cat, bevo, turt, squir];
 		
@@ -545,10 +554,16 @@ var WorldScene  = new Phaser.Class({
     advisors = this.physics.add.staticGroup();
     a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
     a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
+    a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
+    a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+    e2 = enemies.create(895, 675, 'foe').setSize(24,40).setOffset(19,18);
+    e3 = enemies.create(1327, 675, 'foe').setSize(24,40).setOffset(19,18);
+    e4 = enemies.create(1240, 855, 'foe').setSize(24,40).setOffset(19,18);
+    e5 = enemies.create(1410, 855, 'foe').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
     medics = this.physics.add.staticGroup();
@@ -558,7 +573,7 @@ var WorldScene  = new Phaser.Class({
     profs = this.physics.add.staticGroup();
     p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
     p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
-    p3 = profs.create(1325, 625, 'prof').setSize(24,40).setOffset(19,18);
+    p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
         
       
@@ -598,7 +613,7 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(1.5);
+    camera.setZoom(0.75);
 
     },
     update: function(){
