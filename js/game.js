@@ -9,7 +9,12 @@ var camera;
 var battle_token;
 var graphics;
 var meet;
-var advisor = 0;
+var aMeet = 1;
+var eMeet = 1;
+var e1;
+var p1, p1, p3;
+var m1;
+var a1, a2;
 
 var BootScene = new Phaser.Class({
 
@@ -518,22 +523,22 @@ var WorldScene  = new Phaser.Class({
     this.add.existing(this.message); 
 
     advisors = this.physics.add.staticGroup();
-    advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
-    advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
+    a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
+    a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     enemies = this.physics.add.staticGroup();
-    enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+    e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
     medics = this.physics.add.staticGroup();
-    medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
+    m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
 
     profs = this.physics.add.staticGroup();
-    profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
-    profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
-    profs.create(1325, 625, 'prof').setSize(24,40).setOffset(19,18);
+    p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
+    p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
+    p3 = profs.create(1325, 625, 'prof').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
         
       
@@ -603,19 +608,19 @@ var WorldScene  = new Phaser.Class({
     onMeetAdvisor: function()
     {
         player.setVelocity(0);
-        if (advisor == 0)
+        if (aMeet == 1)
         {
             this.events.emit("Message", "stuff about beating enemy");
         }
-        else if (advisor == 1)
+        else if (aMeet == 2)
         {
             this.events.emit("Message", "stuff about healing w medic");
         }
-        else if (advisor == 1)
+        else if (aMeet == 3)
         {
             this.events.emit("Message", "stuff about optional skill prog");
         }
-        advisor++;
+        aMeet++;
     },
     
     onMeetEnemy: function() 
@@ -624,6 +629,17 @@ var WorldScene  = new Phaser.Class({
         player.setVelocityY(0);
         meet = true;
         this.events.emit("Message", 'What are you doing here?')
+
+        if (eMeet == 1)
+        {
+            e1.destroy();
+        }
+        else if (eMeet == 2)
+        {
+            e2.destroy();
+        }
+        eMeet++;
+
         this.scene.switch('BattleScene');
     },
                                    
