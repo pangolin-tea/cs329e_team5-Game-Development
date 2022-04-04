@@ -6,7 +6,6 @@ var keyW;
 var controls;
 var player;
 var camera;
-var enemy1;
 var battle_token;
 var graphics;
 var meet;
@@ -491,6 +490,7 @@ var WorldScene  = new Phaser.Class({
         this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('advisor', 'assets/spritesheets/utadvisor.png', { frameWidth: 64, frameHeight: 64});
     },
     create: function()
     {
@@ -514,33 +514,28 @@ var WorldScene  = new Phaser.Class({
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
-    this.physics.add.collider(player, belowLayer);
     
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
 
-    // enemy = this.physics.add.group();
-    // enemy.setBounce(1);
-    // enemy.setCollideWorldBounds(true);
-    // this.physics.add.collider(enemy, worldLayer);
-    // this.physics.add.collider(enemy, belowLayer);
-    // enemy1 = enemy.create(200, 325, 'foe').setSize(24,40).setOffset(19,18);
+    advisors = this.physics.add.staticGroup();
+    advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
+    advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
+    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
-    enemy1 = this.physics.add.sprite(200, 325, 'foe').setSize(24,40).setOffset(19,18);
-    enemy1.setBounce(1);
-    enemy1.setCollideWorldBounds(true);
-    // enemy1.setVelocityX(-180);
-    this.physics.add.collider(enemy1, worldLayer);
-    this.physics.add.collider(enemy1, belowLayer);
+    enemies = this.physics.add.staticGroup();
+    enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+    this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
-    medic = this.physics.add.staticGroup();
-    medic.create(1250, 100, 'medic').setSize(24,40).setOffset(19,18);
-    medic.create(1535, 1050, 'medic').setSize(24,40).setOffset(19,18);
+    medics = this.physics.add.staticGroup();
+    medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
+    this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
 
-    prof = this.physics.add.staticGroup();
-    prof.create(85, 60, 'prof').setSize(24,40).setOffset(19,18);
-    prof.create(275, 60, 'prof').setSize(24,40).setOffset(19,18);
-    prof.create(450, 60, 'prof').setSize(24,40).setOffset(19,18);
+    profs = this.physics.add.staticGroup();
+    profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
+    profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
+    profs.create(1325, 625, 'prof').setSize(24,40).setOffset(19,18);
+    this.physics.add.collider(player, profs, this.onMeetProf, false, this);
         
       
     //  sprite animations
@@ -581,9 +576,6 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(player);
     camera.setZoom(1.5);
 
-    this.physics.add.overlap(player, enemy1, this.onMeetEnemy, false, this);
-    this.physics.add.collider(player, medic, this.onMeetMedic, false, this);
-    this.physics.add.collider(player, prof, this.onMeetProf, false, this);
     },
     update: function(){
 
@@ -609,13 +601,20 @@ var WorldScene  = new Phaser.Class({
          }
         },
 
+    onMeetAdvisor: function()
+    {
+        player.setVelocity(0);
+        meet = true;
+        this.events.emit("Message", "test");
+    },
+    
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
         player.setVelocityY(0);
         meet = true;
-        enemy1.setVelocityX(0);
         this.events.emit("Message", 'What are you doing here?')
+        this.scene.switch('BattleScene');
     },
                                    
     onMeetMedic: function()
