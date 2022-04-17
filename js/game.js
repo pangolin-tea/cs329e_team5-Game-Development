@@ -18,7 +18,6 @@ var a1, a2, a3, a4;
 var choice;
 var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
-var camCenterX, camCenterY;
 
 var BootScene = new Phaser.Class({
 
@@ -615,8 +614,6 @@ var WorldScene  = new Phaser.Class({
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(0.5);
-    camCenterX = camera.centerX;
-    camCenterY = camera.centerY;
 
     },
     update: function(){
@@ -697,8 +694,8 @@ var Message = new Phaser.Class({
     Extends: Phaser.GameObjects.Container,
 
     initialize:
-    function Message(scene, events, camCenterX, camCenterY) {
-        Phaser.GameObjects.Container.call(this, scene, camCenterX, camCenterY);
+    function Message(scene, events, camera) {
+        Phaser.GameObjects.Container.call(this, scene, camera.centerX, camera.centerY);
         var graphics = this.scene.add.graphics();
         this.add(graphics);
         graphics.lineStyle(1, 0xffffff, 0.8);
