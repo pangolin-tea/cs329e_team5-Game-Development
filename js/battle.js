@@ -1,3 +1,16 @@
+var cat;
+var bevo;
+var turt;
+var squir;
+var foeBrute;
+var foeNerd; 
+var catHP;
+var bevoHP;
+var turtHP;
+var squirHP;
+var bruteHP;
+
+
 var BattleScene = new Phaser.Class({
     Extends: Phaser.Scene,
 
@@ -29,30 +42,33 @@ var BattleScene = new Phaser.Class({
         this.input.on('pointerdown', this.endBattle, this);
     },
     startBattle: function()
-    {
-		var cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Domino', 80, 8, 'slash');
+    {	
+        cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Domino', 80, 8, 'slash');
 		this.add.existing(cat);
-		var bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Bevo', 120, 5, 'charge');
+		bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Bevo', 120, 5, 'charge');
         this.add.existing(bevo);
-		var turt = new PlayerCharacter(this, 100, 350, 'turt', 1, 'Pond Turtle', 60, 10, 'freeze');
+		turt = new PlayerCharacter(this, 100, 350, 'turt', 1, 'Pond Turtle', 60, 10, 'freeze');
 		this.add.existing(turt);
-		var squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse');
+		squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse');
 		this.add.existing(squir);
-		var foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 6, 'none').setScale(2.5);
+	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeBrute);
-        var foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
+        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeNerd);
-        
+
         var catHP = this.add.text(16, 150, cat.hp + "hp", { fontSize: '12px', fill: '#000' });
         var bevoHP = this.add.text(16, 250, bevo.hp + "hp", { fontSize: '12px', fill: '#000' });
         var turtHP =  this.add.text(16, 350, turt.hp + "hp", { fontSize: '12px', fill: '#000' });
         var squirHP = this.add.text(16, 450, squir.hp + "hp", { fontSize: '12px', fill: '#000' });
-        bruteHP = this.add.text(660, 200, foeBrute.hp + "hp", { fontSize: '12px', fill: '#000' });
-        nerdHP = this.add.text(660, 400, foeNerd.hp + "hp", { fontSize: '12px', fill: '#000' });
-		
+        var bruteHP = this.add.text(660, 200, foeBrute.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var nerdHP = this.add.text(660, 400, foeNerd.hp + "hp", { fontSize: '12px', fill: '#000' });
+
 		this.heroes = [cat, bevo, turt, squir];
 		
 		this.enemies = [foeBrute, foeNerd];
+
+        this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP];
+        this.units = [cat, bevo, turt, squir, foeBrute, foeNerd];
 
         // this.actions = ["Attack", "Skip"]
 		
@@ -60,17 +76,18 @@ var BattleScene = new Phaser.Class({
 		
 		
 		this.index = -1; 
-        
+
         this.anims.create({
-        key: 'cat_anim',
-        frames: this.anims.generateFrameNumbers('cat', { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1
-        });
+            key: 'cat_anim',
+            frames: this.anims.generateFrameNumbers('cat', { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1
+            });
         cat.anims.play('cat_anim', true);
         
         this.scene.launch("UIScene");
     },
+    
     //wake: function() {
       //  this.scene.run('UIScene');  
         //this.time.addEvent({delay: 2000, callback: this.exitBattle, callbackScope: this});        
@@ -81,13 +98,16 @@ var BattleScene = new Phaser.Class({
             this.endBattle();
             return;
         }
+        for (let i = 0; i < this.health.length; i++) {
+            this.health[i].setText(this.units[i].hp + "hp");
+        }
         do {
             // currently active unit
             this.index++;
             // if there are no more units, we start again from the first one
             if(this.index >= this.units.length) {
                 this.index = 0;
-            }            
+            }          
         } while(!this.units[this.index].living);
         // if its player hero
         if(this.units[this.index] instanceof PlayerCharacter) {
