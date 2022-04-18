@@ -1,22 +1,9 @@
 var cursors;
-var keyA;
-var keyS;
-var keyD;
-var keyW;
-var up;
-var controls;
+var keyA, keyS, keyD, keyW;
 var player;
 var camera;
 var battle_token;
 var graphics;
-var meet;
-var aMeet = 1;
-var eMeet = 1;
-var e1, e2, e3, e4, e5;
-var p1, p1, p3;
-var m1;
-var a1, a2, a3, a4;
-var choice;
 var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
 var playerx, playery;
@@ -132,18 +119,19 @@ var WorldScene  = new Phaser.Class({
     var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-  
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
 
     var tileset = map.addTilesetImage("newtileset", "tiles");
 
-    // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below Player", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
     var abovelayer = map.createStaticLayer("Above Player", tileset);
 
     worldLayer.setCollisionByExclusion([-1]);
+
+    var e1, e2, e3, e4, e5;
+    var p1, p1, p3;
+    var m1;
+    var a1, a2, a3, a4;
    
     player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
     /*player = new Body('us');
@@ -158,7 +146,7 @@ var WorldScene  = new Phaser.Class({
     a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
     a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
     a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
-    // this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
+    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     var enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
@@ -178,22 +166,20 @@ var WorldScene  = new Phaser.Class({
     p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
 
-    // set up camera
     camera = this.cameras.main;
-    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
+<<<<<<< HEAD
     camera.setZoom(1.25);
     /*this.message = new Message(this, this.events);
     this.add.existing(this.message); */
+=======
+    camera.setZoom(1.5);
+>>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
 
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
     }, this);
-
-    // msg.visible = false;
-
-    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
     
     },
     update: function(){
@@ -219,12 +205,17 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
+<<<<<<< HEAD
         playerx = player.x;
         playery = player.y;
+=======
+
+>>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
         },
         
-    onMeetAdvisor: function(msg, aNum)
+    onMeetAdvisor: function()
     {
+<<<<<<< HEAD
         var style = { font: "30px Arial", fill: "#ff0044"};
         var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
         msg.fixedToCamera = true;
@@ -250,12 +241,16 @@ var WorldScene  = new Phaser.Class({
         // {
         //     this.events.emit("Message", "stuff about optional skill prog");
         // }
+=======
+        this.message("tutorial", 140, 610);
+>>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
     },
     
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
         player.setVelocityY(0);
+<<<<<<< HEAD
         meet = true;
         this.events.emit("Message", 'What are you doing here?')
 
@@ -283,6 +278,10 @@ var WorldScene  = new Phaser.Class({
         //var BattleScene = game.scene.get('BattleScene')
         //BattleScene.scene.restart();
         this.scene.switch('BattleScene');
+=======
+        this.message("What are you doing here!?", 475, 710)
+        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
+>>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
     },
 
     onMeetMedic: function()
@@ -294,9 +293,11 @@ var WorldScene  = new Phaser.Class({
     {
         console.log('skill progression menu');
     },
-    msg: function(text)
+    message: function(text, xCoord, yCoord)
     {
-
+        var msg = this.add.text(xCoord,yCoord,text,{ font: "30px Arial", fill: "#ff0044"});
+        msg.visible = true
+        setTimeout(() => { msg.visible = false; }, 5);
     }
 });
 
@@ -316,13 +317,9 @@ var OutsideScene  = new Phaser.Class({
     create: function() {
     var map = this.make.tilemap({ key: "mapOut" });
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-  
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
 
     var tileset = map.addTilesetImage("terrain", "tiles", 32, 32);
     
-    // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
 
@@ -334,13 +331,8 @@ var OutsideScene  = new Phaser.Class({
     this.physics.add.collider(player, worldLayer);
 
     boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
-    
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message); 
 
-    // set up camera
     camera = this.cameras.main;
-    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
     },
@@ -372,14 +364,18 @@ var OutsideScene  = new Phaser.Class({
 }); 
 
 var config = {
-    type: Phaser.AUTO, // Which renderer to use
+    type: Phaser.AUTO,
 	parent: "content",
-    width: 800, // Canvas width in pixels
-    height: 600, // Canvas height in pixels
+    width: 800,
+    height: 600,
     physics: {
         default: 'arcade',
         arcade: {
+<<<<<<< HEAD
             // gravity: { y: 300 },
+=======
+            gravity: {},
+>>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
             debug: false
         }
     },
