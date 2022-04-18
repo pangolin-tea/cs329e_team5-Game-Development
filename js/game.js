@@ -314,8 +314,6 @@ var OutsideScene  = new Phaser.Class({
     this.physics.add.collider(player, worldLayer);
 
     boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
-
-    // .setScale(0.125).setSize(24, 20).setOffset(8, 12)
     
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
