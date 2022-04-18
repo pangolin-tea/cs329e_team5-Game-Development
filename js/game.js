@@ -171,10 +171,10 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(player);
     camera.setZoom(1.5);
 
-    /*this.input.on('pointerdown', function() {
+    this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
-    }, this);*/
+    }, this);
     
     },
     update: function(){
