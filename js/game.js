@@ -741,6 +741,55 @@ var WorldScene  = new Phaser.Class({
     }
 });
 
+var OutsideScene  = new Phaser.Class({
+	Extends: Phaser.Scene,
+	
+	initialize: 
+    function OutsideScene (){
+		Phaser.Scene.call(this, { key: "OutsideScene" });
+	},
+    preload: function()
+    {
+        this.load.image("tiles", "assets/tilesets/terrain.png");
+        this.load.tilemapTiledJSON("map", "assets/outsidetilemap.json");
+        // this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+    },
+    create: function() {},
+    update: function() {}
+}); 
+
+var Message = new Phaser.Class({
+
+    Extends: Phaser.GameObjects.Container,
+
+    initialize:
+    function Message(scene, events, camera) {
+        // Phaser.GameObjects.Container.call(this, scene, camera.centerX, camera.centerY);
+        Phaser.GameObjects.Container.call(this, scene, 200, 200);
+        var graphics = this.scene.add.graphics();
+        this.add(graphics);
+        graphics.lineStyle(1, 0xffffff, 0.8);
+        graphics.fillStyle(0x031f4c, 0.3);        
+        graphics.strokeRect(-90, -15, 180, 30);
+        graphics.fillRect(-90, -15, 180, 30);
+        this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
+        this.add(this.text);
+        this.text.setOrigin(0.5);        
+        events.on("Message", this.showMessage, this);
+        this.visible = false;
+    },
+    showMessage: function(text) {
+        this.text.setText(text);
+        this.visible = true;
+        if(this.hideEvent)
+            this.hideEvent.remove(false);
+        this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
+    },
+    hideMessage: function() {
+        this.hideEvent = null;
+        this.visible = false;
+    }
+});
 
 var config = {
     type: Phaser.AUTO, // Which renderer to use
@@ -754,7 +803,7 @@ var config = {
             debug: false
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene, OutsideScene]
   };
 
 var game = new Phaser.Game(config);
