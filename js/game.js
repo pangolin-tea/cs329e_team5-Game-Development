@@ -717,7 +717,7 @@ var WorldScene  = new Phaser.Class({
         eMeet++;
         this.scene.switch('BattleScene');
     },
-                                   
+
     onMeetMedic: function()
     {
         console.log('healing dialogue');
