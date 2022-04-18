@@ -9,3 +9,18 @@
 
 
 
+// var ActionsMenu = new Phaser.Class({
+//     Extends: Menu,
+    
+//     initialize:
+            
+//     function ActionsMenu(x, y, scene) {
+//         Menu.call(this, x, y, scene);   
+//         this.addMenuItem("Attack");
+//         this.addMenuItem("Skip");
+//     },
+    // confirm: function() {      
+    //     this.scene.events.emit("SelectEnemies");        
+    // }
+    
+// });

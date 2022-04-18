@@ -163,8 +163,6 @@ var BattleScene = new Phaser.Class({
         this.units.length = 0;
         // sleep the UI
         // return to WorldScene and sleep current BattleScene
-        this.scene.destroy();
-        this.scene.restart();
         this.scene.sleep('UIScene');
         this.scene.switch('WorldScene');
     },
@@ -354,22 +352,6 @@ var HeroesMenu = new Phaser.Class({
         this.scene.events.emit("SelectEnemies");        
     }
 });
-
-// var ActionsMenu = new Phaser.Class({
-//     Extends: Menu,
-    
-//     initialize:
-            
-//     function ActionsMenu(x, y, scene) {
-//         Menu.call(this, x, y, scene);   
-//         this.addMenuItem("Attack");
-//         this.addMenuItem("Skip");
-//     },
-    // confirm: function() {      
-    //     this.scene.events.emit("SelectEnemies");        
-    // }
-    
-// });
 
 var EnemiesMenu = new Phaser.Class({
     Extends: Menu,

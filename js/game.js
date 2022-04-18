@@ -151,6 +151,7 @@ var WorldScene  = new Phaser.Class({
 
     var enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+    // this.physics.add.overlap(player, enemies, this.meetE1, false, this);
     e2 = enemies.create(895, 675, 'foe').setSize(24,40).setOffset(19,18);
     e3 = enemies.create(1327, 675, 'foe').setSize(24,40).setOffset(19,18);
     e4 = enemies.create(1240, 855, 'foe').setSize(24,40).setOffset(19,18);
@@ -171,10 +172,10 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(player);
     camera.setZoom(1.5);
 
-    this.input.on('pointerdown', function() {
+    /*this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
-    }, this);
+    }, this);*/
     
     },
     update: function(){
@@ -206,7 +207,11 @@ var WorldScene  = new Phaser.Class({
     {
         this.message("tutorial", 140, 610);
     },
-    
+    // meetE1: function(e1)
+    // {
+    //     this.onMeetEnemy;
+    //     e1.destroy();
+    // },
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
@@ -299,6 +304,7 @@ var config = {
 	parent: "content",
     width: 800,
     height: 600,
+    pixelArt: true,
     physics: {
         default: 'arcade',
         arcade: {
