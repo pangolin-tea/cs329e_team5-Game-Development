@@ -1,22 +1,9 @@
 var cursors;
-var keyA;
-var keyS;
-var keyD;
-var keyW;
-var up;
-var controls;
+var keyA, keyS, keyD, keyW;
 var player;
 var camera;
 var battle_token;
 var graphics;
-var meet;
-var aMeet = 1;
-var eMeet = 1;
-var e1, e2, e3, e4, e5;
-var p1, p1, p3;
-var m1;
-var a1, a2, a3, a4;
-var choice;
 var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
 
@@ -78,38 +65,6 @@ var BootScene = new Phaser.Class({
     }
 });
 
-// var Message = new Phaser.Class({
-
-//     Extends: Phaser.GameObjects.Container,
-
-//     initialize:
-//     function Message(scene, events) {
-//         Phaser.GameObjects.Container.call(this, scene);
-//         var graphics = this.scene.add.graphics();
-//         this.add(graphics);
-//         graphics.lineStyle(1, 0xffffff, 0.8);
-//         graphics.fillStyle(0x031f4c, 0.3);        
-//         graphics.strokeRect(-90, -15, 180, 30);
-//         graphics.fillRect(-90, -15, 180, 30);
-//         this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
-//         this.add(this.text);
-//         this.text.setOrigin(0.5);        
-//         events.on("Message", this.showMessage, this);
-//         this.visible = false;
-//     },
-//     showMessage: function(text) {
-//         this.text.setText(text);
-//         this.visible = true;
-//         if(this.hideEvent)
-//             this.hideEvent.remove(false);
-//         this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
-//     },
-//     hideMessage: function() {
-//         this.hideEvent = null;
-//         this.visible = false;
-//     }
-// });
-
 var WorldScene  = new Phaser.Class({
 	Extends: Phaser.Scene,
 	
@@ -131,18 +86,19 @@ var WorldScene  = new Phaser.Class({
     var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-  
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
 
     var tileset = map.addTilesetImage("newtileset", "tiles");
 
-    // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below Player", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
     var abovelayer = map.createStaticLayer("Above Player", tileset);
 
     worldLayer.setCollisionByExclusion([-1]);
+
+    var e1, e2, e3, e4, e5;
+    var p1, p1, p3;
+    var m1;
+    var a1, a2, a3, a4;
    
     player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
     player.setBounce(0.2);
@@ -154,7 +110,7 @@ var WorldScene  = new Phaser.Class({
     a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
     a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
     a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
-    // this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
+    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     var enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
@@ -174,22 +130,14 @@ var WorldScene  = new Phaser.Class({
     p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
 
-    // set up camera
     camera = this.cameras.main;
-    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
-    // this.message = new Message(this, this.events);
-    // this.add.existing(this.message); 
 
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
     }, this);
-
-    // msg.visible = false;
-
-    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
     
     },
     update: function(){
@@ -215,67 +163,20 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-        // this.message = new Message(this, this.events, player.x, player.y);
-        // this.add.existing(this.message); 
 
         },
         
-    onMeetAdvisor: function(msg, aNum)
+    onMeetAdvisor: function()
     {
-        var style = { font: "30px Arial", fill: "#ff0044"};
-        var msg = this.add.text(140,610,"beat enemies",style);
-        msg.fixedToCamera = true;
-        msg.visible = true;
-        setTimeout(() => { msg.visible = false; }, 5);
-        // pickObject.onDown.add(function () {
-        //     advisors.kill();
-        //     pick_message.visible = false;
-        // });
-
-        // this.events.emit("Message", "stuff about beating enemy");
-        // if (aMeet == 1)
-        // {
-        //     this.events.emit("Message", "stuff about beating enemy");
-        // }
-        // else if (aMeet == 2)
-        // {
-        //     this.events.emit("Message", "stuff about healing w medic");
-        // }
-        // else if (aMeet == 3)
-        // {
-        //     this.events.emit("Message", "stuff about optional skill prog");
-        // }
+        this.message("beat enemies", 140, 610);
     },
     
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
         player.setVelocityY(0);
-        meet = true;
-        // this.events.emit("Message", 'What are you doing here?')
-
-        if (eMeet == 1)
-        {
-            e1.destroy();
-        }
-        else if (eMeet == 2)
-        {
-            e2.destroy();
-        }
-        else if (eMeet == 3)
-        {
-            e3.destroy();
-        }
-        else if (eMeet == 4)
-        {
-            e4.destroy();
-        }
-        else if (eMeet == 5)
-        {
-            e5.destroy();
-        }
-        eMeet++;
-        this.scene.switch('BattleScene');
+        var msg = this.add.text(140,610,"What are you doing here!?",{ font: "30px Arial", fill: "#ff0044"});
+        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
     },
 
     onMeetMedic: function()
@@ -287,9 +188,11 @@ var WorldScene  = new Phaser.Class({
     {
         console.log('skill progression menu');
     },
-    msg: function(text)
+    message: function(text, xCoord, yCoord)
     {
-
+        var msg = this.add.text(xCoord,yCoord,text,{ font: "30px Arial", fill: "#ff0044"});
+        msg.visible = true
+        setTimeout(() => { msg.visible = false; }, 5);
     }
 });
 
@@ -309,13 +212,9 @@ var OutsideScene  = new Phaser.Class({
     create: function() {
     var map = this.make.tilemap({ key: "mapOut" });
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-  
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
 
     var tileset = map.addTilesetImage("terrain", "tiles", 32, 32);
     
-    // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
 
@@ -327,13 +226,8 @@ var OutsideScene  = new Phaser.Class({
     this.physics.add.collider(player, worldLayer);
 
     boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
-    
-    // this.message = new Message(this, this.events);
-    // this.add.existing(this.message); 
 
-    // set up camera
     camera = this.cameras.main;
-    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
     },
@@ -365,14 +259,14 @@ var OutsideScene  = new Phaser.Class({
 }); 
 
 var config = {
-    type: Phaser.AUTO, // Which renderer to use
+    type: Phaser.AUTO,
 	parent: "content",
-    width: 800, // Canvas width in pixels
-    height: 600, // Canvas height in pixels
+    width: 800,
+    height: 600,
     physics: {
         default: 'arcade',
         arcade: {
-            // gravity: { y: 300 },
+            gravity: {},
             debug: true
         }
     },
