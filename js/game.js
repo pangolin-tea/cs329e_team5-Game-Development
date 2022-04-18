@@ -42,8 +42,8 @@ var Message = new Phaser.Class({
     Extends: Phaser.GameObjects.Container,
 
     initialize:
-    function Message(scene, events) {
-        Phaser.GameObjects.Container.call(this, scene, 400, 470);
+    function Message(scene, events, x, y) {
+        Phaser.GameObjects.Container.call(this, scene, x, y);
         var graphics = this.scene.add.graphics();
         this.add(graphics);
         graphics.lineStyle(1, 0xffffff, 0.8);
@@ -109,8 +109,7 @@ var WorldScene  = new Phaser.Class({
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
     
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message); 
+    
 
     var advisors = this.physics.add.staticGroup();
     a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
@@ -179,12 +178,9 @@ var WorldScene  = new Phaser.Class({
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
-
-    this.input.on('pointerdown', function() {
-        this.scene.destroy('WorldScene')
-        this.scene.start('OutsideScene');
-    }, this);
-
+    this.message = new Message(this, this.events, player.x, player.y);
+    this.add.existing(this.message); 
+    
     },
     update: function(){
 
@@ -208,10 +204,11 @@ var WorldScene  = new Phaser.Class({
             player.setVelocity(0);
             player.anims.play('usStraight', true);
          };
-         this.scene.sleep('UIScene');
-
+        this.scene.sleep('UIScene');
+        this.message = new Message(this, this.events, player.x, player.y);
+        this.add.existing(this.message); 
         },
-
+        
     onMeetAdvisor: function()
     {
         this.events.emit("Message", "stuff about beating enemy");
@@ -350,7 +347,6 @@ var OutsideScene  = new Phaser.Class({
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
-
     },
     update: function(){
 
