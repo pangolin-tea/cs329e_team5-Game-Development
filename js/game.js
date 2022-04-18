@@ -78,37 +78,37 @@ var BootScene = new Phaser.Class({
     }
 });
 
-var Message = new Phaser.Class({
+// var Message = new Phaser.Class({
 
-    Extends: Phaser.GameObjects.Container,
+//     Extends: Phaser.GameObjects.Container,
 
-    initialize:
-    function Message(scene, events) {
-        Phaser.GameObjects.Container.call(this, scene);
-        var graphics = this.scene.add.graphics();
-        this.add(graphics);
-        graphics.lineStyle(1, 0xffffff, 0.8);
-        graphics.fillStyle(0x031f4c, 0.3);        
-        graphics.strokeRect(-90, -15, 180, 30);
-        graphics.fillRect(-90, -15, 180, 30);
-        this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
-        this.add(this.text);
-        this.text.setOrigin(0.5);        
-        events.on("Message", this.showMessage, this);
-        this.visible = false;
-    },
-    showMessage: function(text) {
-        this.text.setText(text);
-        this.visible = true;
-        if(this.hideEvent)
-            this.hideEvent.remove(false);
-        this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
-    },
-    hideMessage: function() {
-        this.hideEvent = null;
-        this.visible = false;
-    }
-});
+//     initialize:
+//     function Message(scene, events) {
+//         Phaser.GameObjects.Container.call(this, scene);
+//         var graphics = this.scene.add.graphics();
+//         this.add(graphics);
+//         graphics.lineStyle(1, 0xffffff, 0.8);
+//         graphics.fillStyle(0x031f4c, 0.3);        
+//         graphics.strokeRect(-90, -15, 180, 30);
+//         graphics.fillRect(-90, -15, 180, 30);
+//         this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
+//         this.add(this.text);
+//         this.text.setOrigin(0.5);        
+//         events.on("Message", this.showMessage, this);
+//         this.visible = false;
+//     },
+//     showMessage: function(text) {
+//         this.text.setText(text);
+//         this.visible = true;
+//         if(this.hideEvent)
+//             this.hideEvent.remove(false);
+//         this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
+//     },
+//     hideMessage: function() {
+//         this.hideEvent = null;
+//         this.visible = false;
+//     }
+// });
 
 var WorldScene  = new Phaser.Class({
 	Extends: Phaser.Scene,
@@ -179,8 +179,8 @@ var WorldScene  = new Phaser.Class({
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
     camera.setZoom(1.5);
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message); 
+    // this.message = new Message(this, this.events);
+    // this.add.existing(this.message); 
 
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
@@ -215,17 +215,18 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-        this.message = new Message(this, this.events, player.x, player.y);
-        this.add.existing(this.message); 
+        // this.message = new Message(this, this.events, player.x, player.y);
+        // this.add.existing(this.message); 
 
         },
         
     onMeetAdvisor: function(msg, aNum)
     {
         var style = { font: "30px Arial", fill: "#ff0044"};
-        var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
+        var msg = this.add.text(140,610,"beat enemies",style);
         msg.fixedToCamera = true;
         msg.visible = true;
+        setTimeout(() => { msg.visible = false; }, 5);
         // pickObject.onDown.add(function () {
         //     advisors.kill();
         //     pick_message.visible = false;
@@ -251,7 +252,7 @@ var WorldScene  = new Phaser.Class({
         player.setVelocityX(0);
         player.setVelocityY(0);
         meet = true;
-        this.events.emit("Message", 'What are you doing here?')
+        // this.events.emit("Message", 'What are you doing here?')
 
         if (eMeet == 1)
         {
@@ -327,8 +328,8 @@ var OutsideScene  = new Phaser.Class({
 
     boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
     
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message); 
+    // this.message = new Message(this, this.events);
+    // this.add.existing(this.message); 
 
     // set up camera
     camera = this.cameras.main;
