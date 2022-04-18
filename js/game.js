@@ -3,6 +3,7 @@ var keyA;
 var keyS;
 var keyD;
 var keyW;
+var up;
 var controls;
 var player;
 var camera;
@@ -47,6 +48,7 @@ var BattleScene = new Phaser.Class({
     },
     preload: function()
     {
+        
         this.load.spritesheet('cat', 'assets/party/Cat.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('bevo', 'assets/party/bevo.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('turt', 'assets/party/turt.png', {frameWidth: 32, frameHeight:32});
@@ -62,7 +64,6 @@ var BattleScene = new Phaser.Class({
         this.startBattle();
         // on wake event we call startBattle too
         this.sys.events.on('wake', this.endBattle, this); 
-
         // temporary end battle thing
         this.input.on('pointerdown', this.endBattle, this);
     },
@@ -81,10 +82,10 @@ var BattleScene = new Phaser.Class({
         var foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeNerd);
         
-        catHP = this.add.text(16, 150, cat.hp + "hp", { fontSize: '12px', fill: '#000' });
-        bevoHP = this.add.text(16, 250, bevo.hp + "hp", { fontSize: '12px', fill: '#000' });
-        turtHP =  this.add.text(16, 350, turt.hp + "hp", { fontSize: '12px', fill: '#000' });
-        squirHP = this.add.text(16, 450, squir.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var catHP = this.add.text(16, 150, cat.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var bevoHP = this.add.text(16, 250, bevo.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var turtHP =  this.add.text(16, 350, turt.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var squirHP = this.add.text(16, 450, squir.hp + "hp", { fontSize: '12px', fill: '#000' });
         bruteHP = this.add.text(660, 200, foeBrute.hp + "hp", { fontSize: '12px', fill: '#000' });
         nerdHP = this.add.text(660, 400, foeNerd.hp + "hp", { fontSize: '12px', fill: '#000' });
 		
@@ -180,8 +181,9 @@ var BattleScene = new Phaser.Class({
         }
         this.units.length = 0;
         // sleep the UI
-        this.scene.sleep('UIScene');
         // return to WorldScene and sleep current BattleScene
+        this.scene.restart();
+        this.scene.sleep('UIScene');
         this.scene.switch('WorldScene');
     },
 });
@@ -508,6 +510,38 @@ var UIScene = new Phaser.Class({
     },
 });
 
+var Message = new Phaser.Class({
+
+    Extends: Phaser.GameObjects.Container,
+
+    initialize:
+    function Message(scene, events) {
+        Phaser.GameObjects.Container.call(this, scene, 400, 470);
+        var graphics = this.scene.add.graphics();
+        this.add(graphics);
+        graphics.lineStyle(1, 0xffffff, 0.8);
+        graphics.fillStyle(0x031f4c, 0.3);        
+        graphics.strokeRect(-90, -15, 180, 30);
+        graphics.fillRect(-90, -15, 180, 30);
+        this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
+        this.add(this.text);
+        this.text.setOrigin(0.5);        
+        events.on("Message", this.showMessage, this);
+        this.visible = false;
+    },
+    showMessage: function(text) {
+        this.text.setText(text);
+        this.visible = true;
+        if(this.hideEvent)
+            this.hideEvent.remove(false);
+        this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
+    },
+    hideMessage: function() {
+        this.hideEvent = null;
+        this.visible = false;
+    }
+});
+
 var WorldScene  = new Phaser.Class({
 	Extends: Phaser.Scene,
 	
@@ -551,14 +585,14 @@ var WorldScene  = new Phaser.Class({
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
 
-    advisors = this.physics.add.staticGroup();
+    var advisors = this.physics.add.staticGroup();
     a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
     a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
     a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
     a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
-    enemies = this.physics.add.staticGroup();
+    var enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
     e2 = enemies.create(895, 675, 'foe').setSize(24,40).setOffset(19,18);
     e3 = enemies.create(1327, 675, 'foe').setSize(24,40).setOffset(19,18);
@@ -566,11 +600,11 @@ var WorldScene  = new Phaser.Class({
     e5 = enemies.create(1410, 855, 'foe').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
-    medics = this.physics.add.staticGroup();
+    var medics = this.physics.add.staticGroup();
     m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
 
-    profs = this.physics.add.staticGroup();
+    var profs = this.physics.add.staticGroup();
     p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
     p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
     p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
@@ -608,6 +642,10 @@ var WorldScene  = new Phaser.Class({
     keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
     // set up camera
     camera = this.cameras.main;
@@ -618,30 +656,33 @@ var WorldScene  = new Phaser.Class({
     },
     update: function(){
 
-        if(keyA.isDown) {
+        if(keyA.isDown || left.isDown) {
             player.setVelocityX(-160);
             player.setVelocityY(0);
             player.anims.play('usTurn', true);
-         } else if(keyS.isDown) {
+         } else if(keyS.isDown || down.isDown) {
             player.setVelocityX(0);
             player.setVelocityY(160);
             player.anims.play('usTurn', true);
-         } else if(keyD.isDown) {
+         } else if(keyD.isDown || right.isDown) {
             player.setVelocityX(160);
             player.setVelocityY(0);
             player.anims.play('usTurn', true);
-         } else if(keyW.isDown) {
+         } else if(keyW.isDown || up.isDown) {
             player.setVelocityX(0);
             player.setVelocityY(-160);
             player.anims.play('usTurn', true);
          } else {
             player.setVelocity(0);
             player.anims.play('usStraight', true);
-         }
+         };
+         this.scene.sleep('UIScene');
+
         },
 
     onMeetAdvisor: function()
     {
+        this.events.emit("Message", "stuff about beating enemy");
         player.setVelocity(0);
         if (aMeet == 1)
         {
@@ -674,7 +715,6 @@ var WorldScene  = new Phaser.Class({
             e2.destroy();
         }
         eMeet++;
-
         this.scene.switch('BattleScene');
     },
                                    
