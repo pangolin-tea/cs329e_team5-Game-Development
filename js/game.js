@@ -291,6 +291,7 @@ var OutsideScene  = new Phaser.Class({
     {
         this.load.image("tiles", "assets/tilesets/terrain.png");
         this.load.tilemapTiledJSON("mapOut", "assets/outsidetilemap.json");
+        this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', { frameWidth: 800, frameHeight: 533 });
     },
     create: function() {
     var map = this.make.tilemap({ key: "mapOut" });
@@ -307,10 +308,14 @@ var OutsideScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
    
-    player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
+    player = this.physics.add.sprite(350, 30, 'us').setSize(24,40);
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
+
+    boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
+
+    // .setScale(0.125).setSize(24, 20).setOffset(8, 12)
     
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
@@ -357,7 +362,7 @@ var config = {
         default: 'arcade',
         arcade: {
             // gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: [BootScene, WorldScene, BattleScene, UIScene, OutsideScene]
