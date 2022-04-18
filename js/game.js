@@ -279,10 +279,99 @@ var OutsideScene  = new Phaser.Class({
     {
         this.load.image("tiles", "assets/tilesets/terrain.png");
         this.load.tilemapTiledJSON("map", "assets/outsidetilemap.json");
-        // this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
     },
-    create: function() {},
-    update: function() {}
+    create: function() {
+    var map = this.make.tilemap({ key: "map" });
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  
+    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+    // Phaser's cache (i.e. the name you used in preload)
+
+    var tileset = map.addTilesetImage("terrain", "tiles");
+
+    // Parameters: layer name (or index) from Tiled, tileset, x, y
+    var belowLayer = map.createStaticLayer("Below", tileset);
+    var worldLayer = map.createStaticLayer("World", tileset);
+
+    worldLayer.setCollisionByExclusion([-1]);
+   
+    player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
+    this.physics.add.collider(player, worldLayer);
+    
+    this.message = new Message(this, this.events);
+    this.add.existing(this.message); 
+      
+    //  sprite animations
+    this.anims.create({
+        key: 'usTurn',
+        frames: this.anims.generateFrameNumbers('us', { start: 0, end: 1 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'usStraight',
+        frames: [ { key: 'us', frame: 0 } ],
+        frameRate: 6
+    });
+    this.anims.create({
+        key: 'foeTurn',
+        frames: this.anims.generateFrameNumbers('foe', { start: 0, end: 1 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'foeStraight',
+        frames: [ { key: 'foe', frame: 0 } ],
+        frameRate: 20
+    });
+
+    //  arrow key inputs
+    cursors = this.input.keyboard.createCursorKeys();
+    // this.input.keyboard.on("keydown", this.onKeyInput, this);
+    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+    // set up camera
+    camera = this.cameras.main;
+    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    camera.startFollow(player);
+    camera.setZoom(0.5);
+
+    },
+    update: function(){
+
+        if(keyA.isDown || left.isDown) {
+            player.setVelocityX(-160);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+         } else if(keyS.isDown || down.isDown) {
+            player.setVelocityX(0);
+            player.setVelocityY(160);
+            player.anims.play('usTurn', true);
+         } else if(keyD.isDown || right.isDown) {
+            player.setVelocityX(160);
+            player.setVelocityY(0);
+            player.anims.play('usTurn', true);
+         } else if(keyW.isDown || up.isDown) {
+            player.setVelocityX(0);
+            player.setVelocityY(-160);
+            player.anims.play('usTurn', true);
+         } else {
+            player.setVelocity(0);
+            player.anims.play('usStraight', true);
+         };
+         this.scene.sleep('UIScene');
+
+        },
 }); 
 
 var config = {
