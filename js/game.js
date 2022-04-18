@@ -208,7 +208,7 @@ var WorldScene  = new Phaser.Class({
         player.setVelocityX(0);
         player.setVelocityY(0);
         this.message("What are you doing here!?", 475, 710)
-        setTimeout(() => { this.scene.switch('BattleScene'); }, 1200);
+        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
     },
 
     onMeetMedic: function()
