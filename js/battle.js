@@ -56,12 +56,12 @@ var BattleScene = new Phaser.Class({
         foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeNerd);
 
-        var catHP = this.add.text(16, 150, cat.hp + "hp", { fontSize: '12px', fill: '#000' });
-        var bevoHP = this.add.text(16, 250, bevo.hp + "hp", { fontSize: '12px', fill: '#000' });
-        var turtHP =  this.add.text(16, 350, turt.hp + "hp", { fontSize: '12px', fill: '#000' });
-        var squirHP = this.add.text(16, 450, squir.hp + "hp", { fontSize: '12px', fill: '#000' });
-        var bruteHP = this.add.text(660, 200, foeBrute.hp + "hp", { fontSize: '12px', fill: '#000' });
-        var nerdHP = this.add.text(660, 400, foeNerd.hp + "hp", { fontSize: '12px', fill: '#000' });
+        var catHP = this.add.text(16, 150, cat.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var bevoHP = this.add.text(16, 250, bevo.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var turtHP =  this.add.text(16, 350, turt.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var squirHP = this.add.text(16, 450, squir.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var bruteHP = this.add.text(660, 200, foeBrute.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var nerdHP = this.add.text(660, 400, foeNerd.hp + " hp", { fontSize: '12px', fill: '#000' });
 
 		this.heroes = [cat, bevo, turt, squir];
 		
@@ -99,7 +99,7 @@ var BattleScene = new Phaser.Class({
             return;
         }
         for (let i = 0; i < this.health.length; i++) {
-            this.health[i].setText(this.units[i].hp + "hp");
+            this.health[i].setText(this.units[i].hp + " hp");
         }
         do {
             // currently active unit
