@@ -4,6 +4,8 @@ var player;
 var camera;
 var battle_token;
 var graphics;
+var bruteHP, nerdHP;
+var dHP, bHP, tHP, sHP;
 var playerx, playery;
 var eMeet;
 
