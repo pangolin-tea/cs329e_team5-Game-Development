@@ -77,13 +77,13 @@ var BattleScene = new Phaser.Class({
 		
 		this.index = -1; 
 
-        this.anims.create({
-            key: 'cat_anim',
-            frames: this.anims.generateFrameNumbers('cat', { start: 0, end: 1 }),
-            frameRate: 5,
-            repeat: -1
-            });
-        cat.anims.play('cat_anim', true);
+        // this.anims.create({
+        //     key: 'cat_anim',
+        //     frames: this.anims.generateFrameNumbers('cat', { start: 0, end: 1 }),
+        //     frameRate: 5,
+        //     repeat: -1
+        //     });
+        // cat.anims.play('cat_anim', true);
         
         this.scene.launch("UIScene");
     },
