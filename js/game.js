@@ -222,7 +222,6 @@ var WorldScene  = new Phaser.Class({
         
     onMeetAdvisor: function(msg, aNum)
     {
-        console.log("hi")
         var style = { font: "30px Arial", fill: "#ff0044"};
         var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
         msg.fixedToCamera = true;
