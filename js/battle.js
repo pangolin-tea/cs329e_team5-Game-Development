@@ -8,7 +8,7 @@ var catHP;
 var bevoHP;
 var turtHP;
 var squirHP;
-var bruteHP;
+var bruteHP, nerdHP;
 
 
 var BattleScene = new Phaser.Class({
