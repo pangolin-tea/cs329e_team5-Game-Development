@@ -178,7 +178,12 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(0.5);
+    camera.setZoom(1.5);
+
+    this.input.on('pointerdown', function() {
+        this.scene.destroy('WorldScene')
+        this.scene.start('OutsideScene');
+    }, this);
 
     },
     update: function(){
@@ -288,7 +293,7 @@ var OutsideScene  = new Phaser.Class({
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
 
-    var tileset = map.addTilesetImage("terrain", "tiles");
+    var tileset = map.addTilesetImage("terrain", "tiles", 32, 32);
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below", tileset);
@@ -344,7 +349,7 @@ var OutsideScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(0.5);
+    camera.setZoom(1.5);
 
     },
     update: function(){
