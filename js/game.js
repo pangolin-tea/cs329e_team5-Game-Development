@@ -651,7 +651,7 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(1.5);
+    camera.setZoom(0.5);
 
     },
     update: function(){
@@ -730,6 +730,38 @@ var WorldScene  = new Phaser.Class({
 });
 
 
+<<<<<<< HEAD
+=======
+    Extends: Phaser.GameObjects.Container,
+
+    initialize:
+    function Message(scene, events, camera) {
+        Phaser.GameObjects.Container.call(this, scene, camera.centerX, camera.centerY);
+        var graphics = this.scene.add.graphics();
+        this.add(graphics);
+        graphics.lineStyle(1, 0xffffff, 0.8);
+        graphics.fillStyle(0x031f4c, 0.3);        
+        graphics.strokeRect(-90, -15, 180, 30);
+        graphics.fillRect(-90, -15, 180, 30);
+        this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", { color: "#ffffff", align: "center", fontSize: 15, wordWrap: { width: 180, useAdvancedWrap: true }});
+        this.add(this.text);
+        this.text.setOrigin(0.5);        
+        events.on("Message", this.showMessage, this);
+        this.visible = false;
+    },
+    showMessage: function(text) {
+        this.text.setText(text);
+        this.visible = true;
+        if(this.hideEvent)
+            this.hideEvent.remove(false);
+        this.hideEvent = this.scene.time.addEvent({ delay: 2000, callback: this.hideMessage, callbackScope: this });
+    },
+    hideMessage: function() {
+        this.hideEvent = null;
+        this.visible = false;
+    }
+});
+>>>>>>> 014bec33a850fa079b951b17e18534d4c2cd261d
 
 var config = {
     type: Phaser.AUTO, // Which renderer to use
