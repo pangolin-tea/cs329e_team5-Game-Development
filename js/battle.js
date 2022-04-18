@@ -99,7 +99,7 @@ var BattleScene = new Phaser.Class({
             return;
         }
         for (let i = 0; i < this.health.length; i++) {
-            this.health[i].setText(this.units[i].hp + "hp");
+            this.health[i].setText(this.units[i].hp + " hp");
         }
         do {
             // currently active unit
