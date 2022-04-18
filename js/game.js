@@ -7,6 +7,7 @@ var graphics;
 var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
 var playerx, playery;
+var eMeet;
 
 var BootScene = new Phaser.Class({
 
@@ -168,14 +169,10 @@ var WorldScene  = new Phaser.Class({
 
     camera = this.cameras.main;
     camera.startFollow(player);
-<<<<<<< HEAD
     camera.setZoom(1.25);
     /*this.message = new Message(this, this.events);
     this.add.existing(this.message); */
-=======
     camera.setZoom(1.5);
->>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
-
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
@@ -205,17 +202,12 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-<<<<<<< HEAD
         playerx = player.x;
         playery = player.y;
-=======
-
->>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
         },
         
     onMeetAdvisor: function()
     {
-<<<<<<< HEAD
         var style = { font: "30px Arial", fill: "#ff0044"};
         var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
         msg.fixedToCamera = true;
@@ -241,16 +233,12 @@ var WorldScene  = new Phaser.Class({
         // {
         //     this.events.emit("Message", "stuff about optional skill prog");
         // }
-=======
-        this.message("tutorial", 140, 610);
->>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
     },
     
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
         player.setVelocityY(0);
-<<<<<<< HEAD
         meet = true;
         this.events.emit("Message", 'What are you doing here?')
 
@@ -278,10 +266,6 @@ var WorldScene  = new Phaser.Class({
         //var BattleScene = game.scene.get('BattleScene')
         //BattleScene.scene.restart();
         this.scene.switch('BattleScene');
-=======
-        this.message("What are you doing here!?", 475, 710)
-        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
->>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
     },
 
     onMeetMedic: function()
@@ -371,11 +355,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-<<<<<<< HEAD
             // gravity: { y: 300 },
-=======
-            gravity: {},
->>>>>>> ac51075a5e6c585f524c927aa04f29bf8203e22d
             debug: false
         }
     },
