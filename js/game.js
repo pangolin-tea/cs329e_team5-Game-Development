@@ -19,6 +19,7 @@ var a1, a2, a3, a4;
 var choice;
 var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
+var playerx, playery;
 
 var BootScene = new Phaser.Class({
 
@@ -83,8 +84,8 @@ var Message = new Phaser.Class({
     Extends: Phaser.GameObjects.Container,
 
     initialize:
-    function Message(scene, events) {
-        Phaser.GameObjects.Container.call(this, scene);
+    function Message(scene, events, x, y) {
+        Phaser.GameObjects.Container.call(this, scene, 400, 470);
         var graphics = this.scene.add.graphics();
         this.add(graphics);
         graphics.lineStyle(1, 0xffffff, 0.8);
@@ -145,6 +146,9 @@ var WorldScene  = new Phaser.Class({
     worldLayer.setCollisionByExclusion([-1]);
    
     player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
+    /*player = new Body('us');
+
+    */
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
@@ -178,9 +182,9 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(1.5);
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message); 
+    camera.setZoom(1.25);
+    /*this.message = new Message(this, this.events);
+    this.add.existing(this.message); */
 
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
@@ -215,9 +219,8 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-        this.message = new Message(this, this.events, player.x, player.y);
-        this.add.existing(this.message); 
-
+        playerx = player.x;
+        playery = player.y;
         },
         
     onMeetAdvisor: function(msg, aNum)
@@ -226,6 +229,9 @@ var WorldScene  = new Phaser.Class({
         var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
         msg.fixedToCamera = true;
         msg.visible = true;
+        /* this.message = new Message(this, this.events, playerx, playery);
+        this.add.existing(this.message);
+        this.events.emit("Message", "stuff") */ 
         // pickObject.onDown.add(function () {
         //     advisors.kill();
         //     pick_message.visible = false;
@@ -274,6 +280,8 @@ var WorldScene  = new Phaser.Class({
             e5.destroy();
         }
         eMeet++;
+        //var BattleScene = game.scene.get('BattleScene')
+        //BattleScene.scene.restart();
         this.scene.switch('BattleScene');
     },
 
@@ -372,7 +380,7 @@ var config = {
         default: 'arcade',
         arcade: {
             // gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: [BootScene, WorldScene, BattleScene, UIScene, OutsideScene]

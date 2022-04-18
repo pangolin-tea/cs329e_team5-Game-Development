@@ -68,7 +68,7 @@ var BattleScene = new Phaser.Class({
 		this.enemies = [foeBrute, foeNerd];
 
         this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP];
-        this.units = [cat, bevo, turt, squir, foeBrute, foeNerd];
+        this.units_health = [cat, bevo, turt, squir, foeBrute, foeNerd];
 
         // this.actions = ["Attack", "Skip"]
 		
@@ -156,13 +156,14 @@ var BattleScene = new Phaser.Class({
         // clear state, remove sprites
         this.heroes.length = 0;
         this.enemies.length = 0;
-        for(var i = 0; i < this.units.length; i++) {
+        for(var i = 0; i < this.units_health.length; i++) {
             // link item
-            this.units[i].destroy();            
+            this.units_health[i].destroy();            
         }
         this.units.length = 0;
         // sleep the UI
         // return to WorldScene and sleep current BattleScene
+        this.scene.destroy();
         this.scene.restart();
         this.scene.sleep('UIScene');
         this.scene.switch('WorldScene');
@@ -440,7 +441,7 @@ var UIScene = new Phaser.Class({
         
         this.events.on("Enemy", this.onEnemy, this);
         
-        this.message = new Message(this, this.battleScene.events);
+        this.message = new Message(this, this.battleScene.events, 400, 470);
         this.add.existing(this.message);        
         
         this.battleScene.nextTurn();                
