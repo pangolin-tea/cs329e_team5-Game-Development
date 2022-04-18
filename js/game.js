@@ -169,10 +169,8 @@ var WorldScene  = new Phaser.Class({
 
     camera = this.cameras.main;
     camera.startFollow(player);
-    camera.setZoom(1.25);
-    /*this.message = new Message(this, this.events);
-    this.add.existing(this.message); */
     camera.setZoom(1.5);
+
     this.input.on('pointerdown', function() {
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
@@ -202,70 +200,19 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-        playerx = player.x;
-        playery = player.y;
         },
         
     onMeetAdvisor: function()
     {
-        var style = { font: "30px Arial", fill: "#ff0044"};
-        var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
-        msg.fixedToCamera = true;
-        msg.visible = true;
-        /* this.message = new Message(this, this.events, playerx, playery);
-        this.add.existing(this.message);
-        this.events.emit("Message", "stuff") */ 
-        // pickObject.onDown.add(function () {
-        //     advisors.kill();
-        //     pick_message.visible = false;
-        // });
-
-        // this.events.emit("Message", "stuff about beating enemy");
-        // if (aMeet == 1)
-        // {
-        //     this.events.emit("Message", "stuff about beating enemy");
-        // }
-        // else if (aMeet == 2)
-        // {
-        //     this.events.emit("Message", "stuff about healing w medic");
-        // }
-        // else if (aMeet == 3)
-        // {
-        //     this.events.emit("Message", "stuff about optional skill prog");
-        // }
+        this.message("tutorial", 140, 610);
     },
     
     onMeetEnemy: function() 
 	{  
         player.setVelocityX(0);
         player.setVelocityY(0);
-        meet = true;
-        this.events.emit("Message", 'What are you doing here?')
-
-        if (eMeet == 1)
-        {
-            e1.destroy();
-        }
-        else if (eMeet == 2)
-        {
-            e2.destroy();
-        }
-        else if (eMeet == 3)
-        {
-            e3.destroy();
-        }
-        else if (eMeet == 4)
-        {
-            e4.destroy();
-        }
-        else if (eMeet == 5)
-        {
-            e5.destroy();
-        }
-        eMeet++;
-        //var BattleScene = game.scene.get('BattleScene')
-        //BattleScene.scene.restart();
-        this.scene.switch('BattleScene');
+        this.message("What are you doing here!?", 475, 710)
+        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
     },
 
     onMeetMedic: function()
@@ -355,7 +302,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            // gravity: { y: 300 },
+            gravity: {},
             debug: false
         }
     },
