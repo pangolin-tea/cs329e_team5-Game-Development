@@ -83,8 +83,8 @@ var Message = new Phaser.Class({
     Extends: Phaser.GameObjects.Container,
 
     initialize:
-    function Message(scene, events, x, y) {
-        Phaser.GameObjects.Container.call(this, scene, x, y);
+    function Message(scene, events) {
+        Phaser.GameObjects.Container.call(this, scene);
         var graphics = this.scene.add.graphics();
         this.add(graphics);
         graphics.lineStyle(1, 0xffffff, 0.8);
@@ -97,10 +97,7 @@ var Message = new Phaser.Class({
         events.on("Message", this.showMessage, this);
         this.visible = false;
     },
-    showMessage: function(text, x, y) {
-        this.x = x;
-        this.y = y;
-        console.log(x, y);
+    showMessage: function(text) {
         this.text.setText(text);
         this.visible = true;
         if(this.hideEvent)
@@ -157,7 +154,7 @@ var WorldScene  = new Phaser.Class({
     a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
     a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
     a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
-    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
+    // this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     var enemies = this.physics.add.staticGroup();
     e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
@@ -189,6 +186,10 @@ var WorldScene  = new Phaser.Class({
         this.scene.destroy('WorldScene');
         this.scene.start('OutsideScene');
     }, this);
+
+    // msg.visible = false;
+
+    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
     
     },
     update: function(){
@@ -219,23 +220,31 @@ var WorldScene  = new Phaser.Class({
 
         },
         
-    onMeetAdvisor: function()
+    onMeetAdvisor: function(msg, aNum)
     {
-        this.events.emit("Message", "stuff about beating enemy");
-        player.setVelocity(0);
-        if (aMeet == 1)
-        {
-            this.events.emit("Message", "stuff about beating enemy");
-        }
-        else if (aMeet == 2)
-        {
-            this.events.emit("Message", "stuff about healing w medic");
-        }
-        else if (aMeet == 3)
-        {
-            this.events.emit("Message", "stuff about optional skill prog", camera.scrollX, camera.scrollY);
-        }
-        aMeet++;
+        console.log("hi")
+        var style = { font: "30px Arial", fill: "#ff0044"};
+        var msg = this.add.text(140,610,"Click 'E' to pick up the sword!",style);
+        msg.fixedToCamera = true;
+        msg.visible = true;
+        // pickObject.onDown.add(function () {
+        //     advisors.kill();
+        //     pick_message.visible = false;
+        // });
+
+        // this.events.emit("Message", "stuff about beating enemy");
+        // if (aMeet == 1)
+        // {
+        //     this.events.emit("Message", "stuff about beating enemy");
+        // }
+        // else if (aMeet == 2)
+        // {
+        //     this.events.emit("Message", "stuff about healing w medic");
+        // }
+        // else if (aMeet == 3)
+        // {
+        //     this.events.emit("Message", "stuff about optional skill prog");
+        // }
     },
     
     onMeetEnemy: function() 
@@ -277,6 +286,10 @@ var WorldScene  = new Phaser.Class({
     onMeetProf: function()
     {
         console.log('skill progression menu');
+    },
+    msg: function(text)
+    {
+
     }
 });
 
