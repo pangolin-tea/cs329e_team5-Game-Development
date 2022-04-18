@@ -714,6 +714,18 @@ var WorldScene  = new Phaser.Class({
         {
             e2.destroy();
         }
+        else if (eMeet == 3)
+        {
+            e3.destroy();
+        }
+        else if (eMeet == 4)
+        {
+            e4.destroy();
+        }
+        else if (eMeet == 5)
+        {
+            e5.destroy();
+        }
         eMeet++;
         this.scene.switch('BattleScene');
     },
