@@ -181,7 +181,7 @@ var WorldScene  = new Phaser.Class({
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(0.5);
+    camera.setZoom(1.5);
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
 
