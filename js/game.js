@@ -30,9 +30,50 @@ var BootScene = new Phaser.Class({
     {
         Phaser.Scene.call(this, { key: "BootScene" });
     },
+
+    preload: function ()
+    {
+        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+    },
 	
     create: function ()
     {
+        //  sprite animations
+        this.anims.create({
+            key: 'usTurn',
+            frames: this.anims.generateFrameNumbers('us', { start: 0, end: 1 }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'usStraight',
+            frames: [ { key: 'us', frame: 0 } ],
+            frameRate: 6
+        });
+        this.anims.create({
+            key: 'foeTurn',
+            frames: this.anims.generateFrameNumbers('foe', { start: 0, end: 1 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'foeStraight',
+            frames: [ { key: 'foe', frame: 0 } ],
+            frameRate: 20
+        });
+
+        //  arrow key inputs
+        cursors = this.input.keyboard.createCursorKeys();
+        // this.input.keyboard.on("keydown", this.onKeyInput, this);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
         this.scene.start("WorldScene");
     }
 });
@@ -56,7 +97,10 @@ var Message = new Phaser.Class({
         events.on("Message", this.showMessage, this);
         this.visible = false;
     },
-    showMessage: function(text) {
+    showMessage: function(text, x, y) {
+        this.x = x;
+        this.y = y;
+        console.log(x, y);
         this.text.setText(text);
         this.visible = true;
         if(this.hideEvent)
@@ -80,7 +124,6 @@ var WorldScene  = new Phaser.Class({
     {
         this.load.image("tiles", "assets/tilesets/newtileset.png");
         this.load.tilemapTiledJSON("map", "assets/TileMapSmall.json");
-        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
@@ -88,7 +131,7 @@ var WorldScene  = new Phaser.Class({
     },
     create: function()
     {
-        var map = this.make.tilemap({ key: "map" });
+    var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   
@@ -108,8 +151,6 @@ var WorldScene  = new Phaser.Class({
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
-    
-    
 
     var advisors = this.physics.add.staticGroup();
     a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
@@ -135,51 +176,19 @@ var WorldScene  = new Phaser.Class({
     p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
     p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
-        
-      
-    //  sprite animations
-    this.anims.create({
-        key: 'usTurn',
-        frames: this.anims.generateFrameNumbers('us', { start: 0, end: 1 }),
-        frameRate: 6,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'usStraight',
-        frames: [ { key: 'us', frame: 0 } ],
-        frameRate: 6
-    });
-    this.anims.create({
-        key: 'foeTurn',
-        frames: this.anims.generateFrameNumbers('foe', { start: 0, end: 1 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'foeStraight',
-        frames: [ { key: 'foe', frame: 0 } ],
-        frameRate: 20
-    });
-
-    //  arrow key inputs
-    cursors = this.input.keyboard.createCursorKeys();
-    // this.input.keyboard.on("keydown", this.onKeyInput, this);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
     // set up camera
     camera = this.cameras.main;
     // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(player);
-    camera.setZoom(1.5);
-    this.message = new Message(this, this.events, player.x, player.y);
+    camera.setZoom(0.5);
+    this.message = new Message(this, this.events);
     this.add.existing(this.message); 
+
+    this.input.on('pointerdown', function() {
+        this.scene.destroy('WorldScene');
+        this.scene.start('OutsideScene');
+    }, this);
     
     },
     update: function(){
@@ -207,6 +216,7 @@ var WorldScene  = new Phaser.Class({
         this.scene.sleep('UIScene');
         this.message = new Message(this, this.events, player.x, player.y);
         this.add.existing(this.message); 
+
         },
         
     onMeetAdvisor: function()
@@ -223,7 +233,7 @@ var WorldScene  = new Phaser.Class({
         }
         else if (aMeet == 3)
         {
-            this.events.emit("Message", "stuff about optional skill prog");
+            this.events.emit("Message", "stuff about optional skill prog", camera.scrollX, camera.scrollY);
         }
         aMeet++;
     },
@@ -280,18 +290,17 @@ var OutsideScene  = new Phaser.Class({
     preload: function()
     {
         this.load.image("tiles", "assets/tilesets/terrain.png");
-        this.load.tilemapTiledJSON("map", "assets/outsidetilemap.json");
-        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.tilemapTiledJSON("mapOut", "assets/outsidetilemap.json");
     },
     create: function() {
-    var map = this.make.tilemap({ key: "map" });
+    var map = this.make.tilemap({ key: "mapOut" });
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
 
     var tileset = map.addTilesetImage("terrain", "tiles", 32, 32);
-
+    
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     var belowLayer = map.createStaticLayer("Below", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
@@ -305,42 +314,6 @@ var OutsideScene  = new Phaser.Class({
     
     this.message = new Message(this, this.events);
     this.add.existing(this.message); 
-      
-    //  sprite animations
-    this.anims.create({
-        key: 'usTurn',
-        frames: this.anims.generateFrameNumbers('us', { start: 0, end: 1 }),
-        frameRate: 6,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'usStraight',
-        frames: [ { key: 'us', frame: 0 } ],
-        frameRate: 6
-    });
-    this.anims.create({
-        key: 'foeTurn',
-        frames: this.anims.generateFrameNumbers('foe', { start: 0, end: 1 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'foeStraight',
-        frames: [ { key: 'foe', frame: 0 } ],
-        frameRate: 20
-    });
-
-    //  arrow key inputs
-    cursors = this.input.keyboard.createCursorKeys();
-    // this.input.keyboard.on("keydown", this.onKeyInput, this);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
     // set up camera
     camera = this.cameras.main;
