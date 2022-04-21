@@ -8,6 +8,10 @@ var bruteHP, nerdHP;
 var dHP, bHP, tHP, sHP;
 var playerx, playery;
 var eMeet;
+var e1, e2, e3, e4, e5;
+var p1, p1, p3;
+var m1;
+var a1, a2, a3, a4;
 
 var BootScene = new Phaser.Class({
 
@@ -129,10 +133,7 @@ var WorldScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
 
-    var e1, e2, e3, e4, e5;
-    var p1, p1, p3;
-    var m1;
-    var a1, a2, a3, a4;
+    
    
     player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
     /*player = new Body('us');
@@ -207,17 +208,22 @@ var WorldScene  = new Phaser.Class({
     {
         this.message("tutorial", 140, 610);
     },
-    // meetE1: function(e1)
-    // {
-    //     this.onMeetEnemy;
-    //     e1.destroy();
-    // },
-    onMeetEnemy: function() 
+    meetE1: function(e1)
+     {
+         this.onMeetEnemy;
+         
+    },
+    onMeetEnemy: function(player, enemy) 
 	{  
+        console.log(player, enemy);
         player.setVelocityX(0);
         player.setVelocityY(0);
         this.message("What are you doing here!?", 475, 710)
-        setTimeout(() => { this.scene.switch('BattleScene'); }, 5);
+        
+        this.scene.sleep('WorldScene');
+        //BattleScene.scene.restart();
+        this.scene.switch('BattleScene');
+        enemy.destroy();
     },
 
     onMeetMedic: function()

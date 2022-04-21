@@ -98,7 +98,9 @@ var BattleScene = new Phaser.Class({
             this.endBattle();
             return;
         }
+        //console.log(">>>>>>>>>>>>>>");
         for (let i = 0; i < this.health.length; i++) {
+            //console.log(this.units[i].hp + " hp");
             this.health[i].setText(this.units[i].hp + " hp");
         }
         do {
