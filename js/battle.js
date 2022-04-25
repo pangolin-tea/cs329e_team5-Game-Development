@@ -191,7 +191,10 @@ var Unit = new Phaser.Class({
     // attack the target unit
     attack: function(target) {
         if(target.living) {
-            target.takeDamage(this.damage);
+            target.visible = false;
+            setTimeout(() => {target.visible = true;
+                target.takeDamage(this.damage);}, "250")
+            
             this.scene.events.emit("Message", this.type + " attacks " + target.type + " for " + this.damage + " damage");
         }
     },    
