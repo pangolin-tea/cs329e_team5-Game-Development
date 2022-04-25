@@ -112,12 +112,13 @@ var WorldScene  = new Phaser.Class({
 	},
     preload: function()
     {
-        this.load.image("tiles", "assets/tilesets/newtileset.png");
-        this.load.tilemapTiledJSON("map", "assets/TileMapSmall.json");
+        this.load.image("tiles", "assets/tilesets/bigtileset.png");
+        this.load.tilemapTiledJSON("map", "assets/final.json");
         this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('advisor', 'assets/spritesheets/utadvisor.png', { frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', { frameWidth: 800, frameHeight: 533 });
     },
     create: function()
     {
@@ -125,20 +126,15 @@ var WorldScene  = new Phaser.Class({
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-    var tileset = map.addTilesetImage("newtileset", "tiles");
-
-    var belowLayer = map.createStaticLayer("Below Player", tileset);
+    var tileset = map.addTilesetImage("bigtileset", "tiles");
+    var belowLayer = map.createStaticLayer("Below", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
-    var abovelayer = map.createStaticLayer("Above Player", tileset);
+    var abovelayer = map.createStaticLayer("Above", tileset);
 
     worldLayer.setCollisionByExclusion([-1]);
 
-    
-   
     player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
-    /*player = new Body('us');
 
-    */
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
@@ -151,13 +147,11 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
     var enemies = this.physics.add.staticGroup();
-    e1 = enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
-    // this.physics.add.overlap(player, enemies, this.meetE1, false, this);
-    e2 = enemies.create(895, 675, 'foe').setSize(24,40).setOffset(19,18);
-    e3 = enemies.create(1327, 675, 'foe').setSize(24,40).setOffset(19,18);
-    e4 = enemies.create(1240, 855, 'foe').setSize(24,40).setOffset(19,18);
-    e5 = enemies.create(1410, 855, 'foe').setSize(24,40).setOffset(19,18);
-    this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
+    enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+
+    var boss = this.physics.add.staticGroup();
+    boss.create(200, 700, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
+    // this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
 
     var medics = this.physics.add.staticGroup();
     m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
@@ -208,12 +202,7 @@ var WorldScene  = new Phaser.Class({
     {
         this.message("tutorial", 140, 610);
     },
-    meetE1: function(e1)
-     {
-         this.onMeetEnemy;
-         
-    },
-    onMeetEnemy: function(player, enemy) 
+    onMeetBoss: function(player, enemy) 
 	{  
         console.log(player, enemy);
         player.setVelocityX(0);
@@ -315,7 +304,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {},
-            debug: false
+            debug: true
         }
     },
     scene: [BootScene, WorldScene, BattleScene, UIScene, OutsideScene]
