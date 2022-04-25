@@ -133,7 +133,7 @@ var WorldScene  = new Phaser.Class({
 
     worldLayer.setCollisionByExclusion([-1]);
 
-    player = this.physics.add.sprite(125, 925, 'us').setSize(24,40);
+    player = this.physics.add.sprite(1000, 925, 'us').setSize(24,40);
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -150,8 +150,8 @@ var WorldScene  = new Phaser.Class({
     enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
 
     var boss = this.physics.add.staticGroup();
-    boss.create(200, 700, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
-    // this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
+    boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
+    this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
 
     var medics = this.physics.add.staticGroup();
     m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
