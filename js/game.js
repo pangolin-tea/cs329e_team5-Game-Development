@@ -12,6 +12,7 @@ var e1, e2, e3, e4, e5;
 var p1, p1, p3;
 var m1;
 var a1, a2, a3, a4;
+var partyCount = 0;
 
 var BootScene = new Phaser.Class({
 
@@ -114,6 +115,10 @@ var WorldScene  = new Phaser.Class({
     {
         this.load.image("tiles", "assets/tilesets/bigtileset.png");
         this.load.tilemapTiledJSON("map", "assets/final.json");
+        this.load.spritesheet('cat', 'assets/party/Cat.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('bevo', 'assets/party/bevo.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('turt', 'assets/party/turt.png', {frameWidth: 32, frameHeight:32});
+        this.load.spritesheet('squir', 'assets/party/squir.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('medic', 'assets/spritesheets/utmedic.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
@@ -129,15 +134,24 @@ var WorldScene  = new Phaser.Class({
     var tileset = map.addTilesetImage("bigtileset", "tiles");
     var belowLayer = map.createStaticLayer("Below", tileset);
     var worldLayer = map.createStaticLayer("World", tileset);
-    var abovelayer = map.createStaticLayer("Above", tileset);
+    var aboveLayer = map.createStaticLayer("Above", tileset);
 
     worldLayer.setCollisionByExclusion([-1]);
+    aboveLayer.setCollisionByExclusion([-1]);
 
-    player = this.physics.add.sprite(1000, 925, 'us').setSize(24,40);
+    player = this.physics.add.sprite(225, 1820, 'us').setSize(24,40);
+
+    var party = this.physics.add.staticGroup();
+    cat = party.create(2000, 800, 'cat').setScale(0.8);
+    turtle = party.create(3075, 745, 'turt').setScale(1.5);
+    bevo = party.create(780, 2350, 'bevo').setScale(1.6);
+    squirrel = party.create(2035, 1500, 'squir').setScale(1.5);
+    this.physics.add.collider(player, party, this.onMeetParty, false, this);
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     this.physics.add.collider(player, worldLayer);
+    this.physics.add.collider(player, aboveLayer);
 
     var advisors = this.physics.add.staticGroup();
     a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
@@ -146,8 +160,12 @@ var WorldScene  = new Phaser.Class({
     a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
     this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
-    var enemies = this.physics.add.staticGroup();
-    enemies.create(465, 700, 'foe').setSize(24,40).setOffset(19,18);
+    var enemies = this.physics.add.group();
+    this.physics.add.collider(enemies, worldLayer);
+    e1 = enemies.create(225, 1350, 'foe').setSize(24,40).setOffset(19,18);
+    e1.setVelocityX(100);
+    e1.setBounce(1);
+    this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
     var boss = this.physics.add.staticGroup();
     boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
@@ -165,12 +183,8 @@ var WorldScene  = new Phaser.Class({
 
     camera = this.cameras.main;
     camera.startFollow(player);
-    camera.setZoom(1.5);
-
-    /*this.input.on('pointerdown', function() {
-        this.scene.destroy('WorldScene');
-        this.scene.start('OutsideScene');
-    }, this);*/
+    camera.setZoom(1);
+    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     
     },
     update: function(){
@@ -197,24 +211,35 @@ var WorldScene  = new Phaser.Class({
          };
         this.scene.sleep('UIScene');
         },
-        
+
+    onMeetParty: function(player, party)
+    {
+        party.destroy();
+        partyCount += 1;
+        console.log(partyCount);
+    },  
     onMeetAdvisor: function()
     {
         this.message("tutorial", 140, 610);
     },
     onMeetBoss: function(player, enemy) 
 	{  
-        console.log(player, enemy);
-        player.setVelocityX(0);
-        player.setVelocityY(0);
-        this.message("What are you doing here!?", 475, 710)
-        
-        this.scene.sleep('WorldScene');
-        //BattleScene.scene.restart();
-        this.scene.switch('BattleScene');
-        enemy.destroy();
+        if (partyCount == 4)
+        {
+            player.setVelocityX(0);
+            player.setVelocityY(0);
+            this.message("What are you doing here!?", 475, 710)
+            
+            this.scene.sleep('WorldScene');
+            this.scene.switch('BattleScene');
+            enemy.destroy();
+        }
     },
-
+    onMeetEnemy: function(player, enemy)
+    {
+        player.x = 225;
+        player.y = 1820;
+    },
     onMeetMedic: function()
     {
         console.log('healing dialogue');
@@ -232,68 +257,6 @@ var WorldScene  = new Phaser.Class({
     }
 });
 
-var OutsideScene  = new Phaser.Class({
-	Extends: Phaser.Scene,
-	
-	initialize: 
-    function OutsideScene (){
-		Phaser.Scene.call(this, { key: "OutsideScene" });
-	},
-    preload: function()
-    {
-        this.load.image("tiles", "assets/tilesets/terrain.png");
-        this.load.tilemapTiledJSON("mapOut", "assets/outsidetilemap.json");
-        this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', { frameWidth: 800, frameHeight: 533 });
-    },
-    create: function() {
-    var map = this.make.tilemap({ key: "mapOut" });
-    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-    var tileset = map.addTilesetImage("terrain", "tiles", 32, 32);
-    
-    var belowLayer = map.createStaticLayer("Below", tileset);
-    var worldLayer = map.createStaticLayer("World", tileset);
-
-    worldLayer.setCollisionByExclusion([-1]);
-   
-    player = this.physics.add.sprite(350, 30, 'us').setSize(24,40);
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    this.physics.add.collider(player, worldLayer);
-
-    boss = this.physics.add.sprite(250, 540, 'boss').setScale(0.125).setSize(580, 460).setOffset(100, 20);
-
-    camera = this.cameras.main;
-    camera.startFollow(player);
-    camera.setZoom(1.5);
-    },
-    update: function(){
-
-        if(keyA.isDown || left.isDown) {
-            player.setVelocityX(-160);
-            player.setVelocityY(0);
-            player.anims.play('usTurn', true);
-         } else if(keyS.isDown || down.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(160);
-            player.anims.play('usTurn', true);
-         } else if(keyD.isDown || right.isDown) {
-            player.setVelocityX(160);
-            player.setVelocityY(0);
-            player.anims.play('usTurn', true);
-         } else if(keyW.isDown || up.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(-160);
-            player.anims.play('usTurn', true);
-         } else {
-            player.setVelocity(0);
-            player.anims.play('usStraight', true);
-         };
-         this.scene.sleep('UIScene');
-
-        },
-}); 
-
 var config = {
     type: Phaser.AUTO,
 	parent: "content",
@@ -307,7 +270,7 @@ var config = {
             debug: true
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene, OutsideScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene]
   };
 
 var game = new Phaser.Game(config);
