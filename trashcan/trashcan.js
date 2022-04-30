@@ -5,10 +5,6 @@
 
 
 
-// camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-
-
 // var ActionsMenu = new Phaser.Class({
 //     Extends: Menu,
     
