@@ -299,7 +299,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {},
-            debug: true
+            debug: false
         }
     },
     scene: [BootScene, WorldScene, BattleScene, UIScene]
