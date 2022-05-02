@@ -13,6 +13,7 @@ var p1, p1, p3;
 var m1;
 var a1, a2, a3, a4;
 var partyCount = 0;
+var space;
 
 var BootScene = new Phaser.Class({
 
@@ -67,7 +68,7 @@ var BootScene = new Phaser.Class({
         down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-
+        space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.scene.start("WorldScene");
     }
 });
@@ -205,6 +206,9 @@ var WorldScene  = new Phaser.Class({
             player.setVelocityX(0);
             player.setVelocityY(-160);
             player.anims.play('usTurn', true);
+         } else if (space.isDown){
+            this.scene.sleep('Worldscene');
+            this.scene.switch('BattleScene');
          } else {
             player.setVelocity(0);
             player.anims.play('usStraight', true);

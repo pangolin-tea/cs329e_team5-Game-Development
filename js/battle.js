@@ -22,7 +22,13 @@ var BattleScene = new Phaser.Class({
     },
     preload: function()
     {
-        
+        this.load.audio('cat_meow', ['assets/audio/cat.mp3']);
+        this.load.audio('moo', ['assets/audio/cow.mp3']);
+        this.load.audio('splash', ['assets/audio/splash.mp3']);
+        this.load.audio('chatter', ['assets/audio/squirrel.mp3']);
+        this.load.audio('aggie', ['assets/audio/aggie.mp3']);
+        this.load.audio('texas_eyes', ['assets/audio/texas_eyes.mp3']);
+        this.load.audio('grunt', ['assets/audio/grunt.mp3'])
         this.load.spritesheet('cat', 'assets/party/Cat.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('bevo', 'assets/party/bevo.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('turt', 'assets/party/turt.png', {frameWidth: 32, frameHeight:32});
@@ -63,7 +69,16 @@ var BattleScene = new Phaser.Class({
         var bruteHP = this.add.text(660, 200, foeBrute.hp + " hp", { fontSize: '12px', fill: '#000' });
         var nerdHP = this.add.text(660, 400, foeNerd.hp + " hp", { fontSize: '12px', fill: '#000' });
 
-		this.heroes = [cat, bevo, turt, squir];
+		var music1 = this.sound.add('cat_meow');
+        var music2 = this.sound.add('moo');
+        var music3 = this.sound.add('splash');
+        var music4 = this.sound.add('chatter');
+        var music5 = this.sound.add('aggie');
+        var music6 = this.sound.add('texas_eyes');
+        var music7 = this.sound.add('grunt');
+        this.sound = [music1, music2, music3, music4, music7, music7];
+
+        this.heroes = [cat, bevo, turt, squir];
 		
 		this.enemies = [foeBrute, foeNerd];
 
@@ -146,7 +161,8 @@ var BattleScene = new Phaser.Class({
     // when the player have selected the enemy to be attacked
     receivePlayerSelection: function(action, target) {
         if(action == "attack") {            
-            this.units[this.index].attack(this.enemies[target]);              
+            this.units[this.index].attack(this.enemies[target]);   
+            this.sound[this.index].play();           
         }
         else if(action == "skip") {
             this.battleScene.nextTurn();
