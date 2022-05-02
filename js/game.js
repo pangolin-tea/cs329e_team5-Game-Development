@@ -207,8 +207,8 @@ var WorldScene  = new Phaser.Class({
             player.setVelocityY(-160);
             player.anims.play('usTurn', true);
          } else if (space.isDown){
-            this.scene.sleep('Worldscene');
-            this.scene.switch('BattleScene');
+            //this.scene.sleep('Worldscene');
+            //this.scene.switch('BattleScene');
          } else {
             player.setVelocity(0);
             player.anims.play('usStraight', true);
