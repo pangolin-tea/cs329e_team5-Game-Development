@@ -35,6 +35,7 @@ var BattleScene = new Phaser.Class({
         this.load.spritesheet('squir', 'assets/party/squir.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('brute', 'assets/spritesheets/a&mbrute.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('nerd', 'assets/spritesheets/a&mnerd.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('dog', 'assets/spritesheets/a&mboss.png', {frameWidth: 800, frameHeight: 533});
         this.load.image('cursor', 'assets/cursor.png');
         this.load.image('background', 'assets/battle_background.png');
     },
@@ -61,6 +62,9 @@ var BattleScene = new Phaser.Class({
         this.add.existing(foeBrute);
         foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
         this.add.existing(foeNerd);
+        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Brute', 100, 10, 'none').setScale(.3);
+        foeDog.flipX = true;
+        this.add.existing(foeDog);
 
         var catHP = this.add.text(16, 150, cat.hp + " hp", { fontSize: '12px', fill: '#000' });
         var bevoHP = this.add.text(16, 250, bevo.hp + " hp", { fontSize: '12px', fill: '#000' });
@@ -68,6 +72,7 @@ var BattleScene = new Phaser.Class({
         var squirHP = this.add.text(16, 450, squir.hp + " hp", { fontSize: '12px', fill: '#000' });
         var bruteHP = this.add.text(660, 200, foeBrute.hp + " hp", { fontSize: '12px', fill: '#000' });
         var nerdHP = this.add.text(660, 400, foeNerd.hp + " hp", { fontSize: '12px', fill: '#000' });
+        var dogHP = this.add.text(560, 300, foeDog.hp + " hp", { fontSize: '12px', fill: '#000' });
 
 		var music1 = this.sound.add('cat_meow');
         var music2 = this.sound.add('moo');
@@ -80,10 +85,10 @@ var BattleScene = new Phaser.Class({
 
         this.heroes = [cat, bevo, turt, squir];
 		
-		this.enemies = [foeBrute, foeNerd];
+		this.enemies = [foeBrute, foeNerd, foeDog];
 
-        this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP];
-        this.units_health = [cat, bevo, turt, squir, foeBrute, foeNerd];
+        this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP, dogHP];
+        this.units_health = [cat, bevo, turt, squir, foeBrute, foeNerd, foeDog];
 
         // this.actions = ["Attack", "Skip"]
 		
