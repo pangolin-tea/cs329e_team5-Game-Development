@@ -183,12 +183,17 @@ var WorldScene  = new Phaser.Class({
     this.physics.add.collider(player, profs, this.onMeetProf, false, this);
 
     camera = this.cameras.main;
+    cameraDolly = new Phaser.Geom.Point(player.x, player.y);
     camera.startFollow(player);
+    camera.startFollow(cameraDolly);
     camera.setZoom(1);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     
     },
     update: function(){
+
+        cameraDolly.x = Math.floor(player.x);
+        cameraDolly.y = Math.floor(player.y);
 
         if(keyA.isDown || left.isDown) {
             player.setVelocityX(-160);
@@ -267,6 +272,7 @@ var config = {
     width: 800,
     height: 600,
     pixelArt: true,
+    // roundPixels: true,
     physics: {
         default: 'arcade',
         arcade: {
