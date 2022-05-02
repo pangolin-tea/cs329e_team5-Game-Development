@@ -487,13 +487,11 @@ var UIScene = new Phaser.Class({
     // },
     onKeyInput: function(event) {
         if(this.currentMenu) {
-            if(event.code === "ArrowUp") {
+            if(event.code === "ArrowUp" || event.code === "KeyW") {
                 this.currentMenu.moveSelectionUp();
-            } else if(event.code === "ArrowDown") {
+            } else if(event.code === "ArrowDown" || event.code === "KeyS") {
                 this.currentMenu.moveSelectionDown();
-            } else if(event.code === "ArrowRight" || event.code === "Shift") {
-
-            } else if(event.code === "Space" || event.code === "ArrowLeft") {
+            }  else if(event.code === "Space" || event.code === "ArrowRight") {
                 this.currentMenu.confirm();
             } 
         }
