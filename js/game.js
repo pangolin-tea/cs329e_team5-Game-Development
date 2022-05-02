@@ -14,6 +14,7 @@ var m1;
 var a1, a2, a3, a4;
 var partyCount = 0;
 var space;
+var go = false;
 
 var BootScene = new Phaser.Class({
 
@@ -29,6 +30,7 @@ var BootScene = new Phaser.Class({
     preload: function ()
     {
         this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('advisor', 'assets/spritesheets/utadvisor.png', { frameWidth: 64, frameHeight: 64});
     },
 	
     create: function ()
@@ -69,7 +71,33 @@ var BootScene = new Phaser.Class({
         left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.scene.start("WorldScene");
+        keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+        keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+
+        this.physics.add.sprite(625, 375, 'advisor').setScale(5);
+
+        var style = { font: "30px Bradley Hand", fill: "#000000", backgroundColor: "#fddab9"};
+        var txtZero = this.add.text(20, 20, "Welcome to UT. I'm your Advisor.", style);
+        // setTimeout(() => { txtZero.visible = false; }, 5000);
+        setTimeout(() => { txtOne = this.add.text(20, 80, "A&M has disrespected UT by\ndoing a 'Horns Down!'", style); }, 2000);
+        // setTimeout(() => { txtOne.visible = false; }, 10000);
+        setTimeout(() => { txtTwo = this.add.text(20, 180, "Now they're taking over campus.", style); }, 4000);
+        // setTimeout(() => { txtTwo.visible = false; }, 13000);
+        setTimeout(() => { txtThr = this.add.text(20, 240, "Use WASD/arrow keys to find and\ncollect animals to help\nyou in your fight.", style); }, 6000);
+        // setTimeout(() => { txtThr.visible = false; }, 20000);
+        setTimeout(() => { txtFour = this.add.text(20, 380, "Once you have all four\nanimals, you can fight the\nboss - A&M's mascot, Reveille the dog!", style); }, 8000);
+        // setTimeout(() => { txtFour.visible = false; }, 26000);
+        setTimeout(() => { txtFive = this.add.text(20, 520, "Click Y to play.", style); }, 10000);
+
+        go = true;
+    },
+
+    update: function()
+    {
+        if(keyY.isDown && go == true)
+        {
+            this.scene.start("WorldScene");
+        }
     }
 });
 
