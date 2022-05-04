@@ -14,6 +14,7 @@ var m1;
 var a1, a2, a3, a4;
 var partyCount = 0;
 var space;
+var ui_camera;
 
 var BootScene = new Phaser.Class({
 
@@ -128,6 +129,7 @@ var WorldScene  = new Phaser.Class({
     },
     create: function()
     {
+        
     var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -188,6 +190,30 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(cameraDolly);
     camera.setZoom(1);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    // var wintext = this.add.text(player.x,player.y,'test').setOrigin(0.5);
+
+    // var ui_camera = this.cameras.add().setScroll(0,1000);
+
+    // camera.ignore(wintext);
+    // ui_camera.ignore(player);
+
+    // var timeline = this.tweens.timeline({
+
+    //     tweens: [{
+    //         targets: ui_camera,
+    //         zoom:2,
+    //         scrollY:0,
+    //         duration:2000,
+    //         ease:'Sine.easeInOut'
+    //     },
+    //     {
+    //         targets: ui_camera,
+    //         zoom:1,
+    //         scrollY
+    //     }
+    // ]
+    // })
     
     },
     update: function(){
