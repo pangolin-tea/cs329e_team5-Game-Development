@@ -92,6 +92,7 @@ var BootScene = new Phaser.Class({
         // setTimeout(() => { txtFour.visible = false; }, 26000);
         setTimeout(() => { txtFive = this.add.text(20, 520, "Click Y to play.", style); }, 10000);
 
+        // setTimtout(() => { go = true; }, 10500);
         go = true;
     },
 
@@ -296,13 +297,13 @@ var WorldScene  = new Phaser.Class({
         {
             this.message("Domino has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
         }
-        else if (party.texture.key == 'turtle')
+        else if (party.texture.key == 'turt')
         {
             this.message("Turtle has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
         }
         else
         {
-            this.message("Albino Squirrel has\njoined your party!\n" + (4 - partyCount) +  "animals left.", player.x - 20, player.y - 80);
+            this.message("Albino Squirrel has\njoined your party!\n" + (4 - partyCount) +  " animals left.", player.x - 20, player.y - 80);
         }
 
     },  
@@ -390,6 +391,7 @@ var DefeatScene = new Phaser.Class ({
     },
     create: function()
     {
+    console.log('5');
     camera = this.cameras.main;
     camera.setBackgroundColor(0xbababa);
     var group = this.physics.add.staticGroup();
