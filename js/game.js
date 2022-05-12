@@ -288,7 +288,23 @@ var WorldScene  = new Phaser.Class({
     {
         party.destroy();
         partyCount += 1;
-        console.log(partyCount);
+        if (party.texture.key == 'bevo')
+        {
+            this.message("Bevo has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+        }
+        else if (party.texture.key == 'cat')
+        {
+            this.message("Domino has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+        }
+        else if (party.texture.key == 'turtle')
+        {
+            this.message("Turtle has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+        }
+        else
+        {
+            this.message("Albino Squirrel has\njoined your party!\n" + (4 - partyCount) +  "animals left.", player.x - 20, player.y - 80);
+        }
+
     },  
     onMeetAdvisor: function()
     {
@@ -326,7 +342,7 @@ var WorldScene  = new Phaser.Class({
     {
         var msg = this.add.text(xCoord,yCoord,text,{ font: "30px Arial", fill: "#ff0044"});
         msg.visible = true
-        setTimeout(() => { msg.visible = false; }, 5);
+        setTimeout(() => { msg.visible = false; }, 2000);
     }
 });
 
