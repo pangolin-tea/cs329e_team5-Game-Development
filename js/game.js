@@ -14,6 +14,8 @@ var m1;
 var a1, a2, a3, a4;
 var partyCount = 0;
 var space;
+var key;
+var theme;
 var ui_camera;
 var go = false;
 
@@ -154,6 +156,7 @@ var WorldScene  = new Phaser.Class({
         this.load.spritesheet('prof', 'assets/spritesheets/utprof.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('advisor', 'assets/spritesheets/utadvisor.png', { frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', { frameWidth: 800, frameHeight: 533 });
+        this.load.audio('texas_eyes', ['assets/audio/texas_eyes.mp3']);
     },
     create: function()
     {
@@ -161,6 +164,10 @@ var WorldScene  = new Phaser.Class({
     var map = this.make.tilemap({ key: "map" });
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    theme = this.sound.add('texas_eyes');
+    theme.loop = true;
+    theme.play();
 
     var tileset = map.addTilesetImage("bigtileset", "tiles");
     var belowLayer = map.createStaticLayer("Below", tileset);
@@ -266,14 +273,16 @@ var WorldScene  = new Phaser.Class({
             player.setVelocityY(-160);
             player.anims.play('usTurn', true);
          } else if (space.isDown){
-            //this.scene.sleep('Worldscene');
-            //this.scene.switch('BattleScene');
+            theme.stop();
+            this.scene.sleep('Worldscene');
+            this.scene.switch('BattleScene');
          } else {
             player.setVelocity(0);
             player.anims.play('usStraight', true);
          };
         this.scene.sleep('UIScene');
-        },
+    },
+        
 
     onMeetParty: function(player, party)
     {
@@ -308,6 +317,7 @@ var WorldScene  = new Phaser.Class({
             player.setVelocityX(0);
             player.setVelocityY(0);
             this.message("What are you doing here!?", 475, 710)
+            theme.stop();
             
             this.scene.sleep('WorldScene');
             this.scene.switch('BattleScene');
@@ -336,6 +346,61 @@ var WorldScene  = new Phaser.Class({
     }
 });
 
+var VictoryScene = new Phaser.Class ({
+    Extends: Phaser.Scene,
+	
+	initialize: 
+    function WorldScene (){
+		Phaser.Scene.call(this, { key: "VictoryScene" });
+	},
+    preload: function()
+    {
+        this.load.spritesheet('cat', 'assets/party/Cat.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('bevo', 'assets/party/bevo.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('turt', 'assets/party/turt.png', {frameWidth: 32, frameHeight:32});
+        this.load.spritesheet('squir', 'assets/party/squir.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('us', 'assets/spritesheets/utperson.png', { frameWidth: 32, frameHeight: 32 });
+    },
+    create: function()
+    {
+    camera = this.cameras.main;
+    camera.setBackgroundColor(0xbababa);
+    var group = this.physics.add.staticGroup();
+    cat = group.create(250, 400, 'cat').setScale(0.8);
+    turtle = group.create(350, 400, 'turt').setScale(1.5);
+    bevo = group.create(450, 400, 'bevo').setScale(1.6);
+    squirrel = group.create(550, 400, 'squir').setScale(1.5);
+    us = group.create(400, 500, 'us').setScale(1);
+
+    this.add.text(200, 200, "Thank you for playing!", { font: "30px Arial", fill: "#000000"});
+    }
+});
+
+var DefeatScene = new Phaser.Class ({
+    Extends: Phaser.Scene,
+	
+	initialize: 
+    function WorldScene (){
+		Phaser.Scene.call(this, { key: "DefeatScene" });
+	},
+    preload: function()
+    {
+        this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', { frameWidth: 800, frameHeight: 533 });
+        this.load.spritesheet('foe', 'assets/spritesheets/a&mfoe.png', { frameWidth: 64, frameHeight: 64 }); 
+    },
+    create: function()
+    {
+    camera = this.cameras.main;
+    camera.setBackgroundColor(0xbababa);
+    var group = this.physics.add.staticGroup();
+    cat = group.create(300, 400, 'boss').setScale(.125);
+    turtle = group.create(150, 400, 'foe');
+    bevo = group.create(450, 400, 'foe');
+
+    this.add.text("Game Over", 300, 200, { font: "30px Arial", fill: "#ff0044"});
+    }
+});
+
 var config = {
     type: Phaser.AUTO,
 	parent: "content",
@@ -350,7 +415,7 @@ var config = {
             debug: false
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene, VictoryScene, DefeatScene]
   };
 
 var game = new Phaser.Game(config);
