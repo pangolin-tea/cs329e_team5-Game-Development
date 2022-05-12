@@ -9,6 +9,8 @@ var bevoHP;
 var turtHP;
 var squirHP;
 var bruteHP, nerdHP;
+var key = true;
+var theme1;
 
 
 var BattleScene = new Phaser.Class({
@@ -58,11 +60,11 @@ var BattleScene = new Phaser.Class({
 		this.add.existing(turt);
 		squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse');
 		this.add.existing(squir);
-	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 6, 'none').setScale(2.5);
+	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 200, 'none').setScale(2.5);
         this.add.existing(foeBrute);
-        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 6, 'none').setScale(2.5);
+        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 200, 'none').setScale(2.5);
         this.add.existing(foeNerd);
-        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Brute', 100, 10, 'none').setScale(.3);
+        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Dog', 100, 200, 'none').setScale(.3);
         foeDog.flipX = true;
         this.add.existing(foeDog);
 
@@ -78,10 +80,13 @@ var BattleScene = new Phaser.Class({
         var music2 = this.sound.add('moo');
         var music3 = this.sound.add('splash');
         var music4 = this.sound.add('chatter');
-        var music5 = this.sound.add('aggie');
+        theme1 = this.sound.add('aggie');
         var music6 = this.sound.add('texas_eyes');
         var music7 = this.sound.add('grunt');
         this.sound = [music1, music2, music3, music4, music7, music7];
+
+        theme1.loop = true;
+        theme1.play();      
 
         this.heroes = [cat, bevo, turt, squir];
 		
@@ -106,6 +111,7 @@ var BattleScene = new Phaser.Class({
         // cat.anims.play('cat_anim', true);
         
         this.scene.launch("UIScene");
+        
     },
     
     //wake: function() {
@@ -161,7 +167,39 @@ var BattleScene = new Phaser.Class({
             if(this.heroes[i].living)
                 gameOver = false;
         }
-        return victory || gameOver;
+        if (gameOver == true) {
+            /*
+            this.heroes.length = 0;
+            this.enemies.length = 0;
+            for(var i = 0; i < this.units_health.length; i++) {
+            // link item
+                this.units_health[i].destroy();            
+            }
+            this.units.length = 0;
+            */
+            // sleep the UI
+            // return to WorldScene and sleep current BattleScene
+            theme1.pause();
+            this.scene.sleep('UIScene');
+            this.scene.switch('DefeatScene');
+        }
+        else if (victory == true) {
+            /*
+            this.heroes.length = 0;
+            this.enemies.length = 0;
+            for(var i = 0; i < this.units_health.length; i++) {
+            // link item
+                this.units_health[i].destroy();            
+            }
+            this.units.length = 0;
+            */
+            // sleep the UI
+            // return to WorldScene and sleep current BattleScene
+            theme1.pause();
+            this.scene.sleep('UIScene');
+            this.scene.switch('VictoryScene');
+        }
+        return;
     },
     // when the player have selected the enemy to be attacked
     receivePlayerSelection: function(action, target) {
@@ -187,7 +225,7 @@ var BattleScene = new Phaser.Class({
         // sleep the UI
         // return to WorldScene and sleep current BattleScene
         this.scene.sleep('UIScene');
-        this.scene.switch('WorldScene');
+        this.scene.switch('VictoryScene');
     },
 });
 
@@ -462,10 +500,10 @@ var UIScene = new Phaser.Class({
         this.battleScene.receivePlayerSelection("attack", index);
     },
     onPlayerSelect: function(id) {
-        // this.heroesMenu.select(id);
+        this.heroesMenu.select(id);
         // this.currentMenu = this.actionsMenu;
         // this.actionsMenu.select(0);
-        this.heroesMenu.select(0);
+        //this.heroesMenu.select(0);
         this.currentMenu = this.heroesMenu;
     },
     onSelectEnemies: function() {
