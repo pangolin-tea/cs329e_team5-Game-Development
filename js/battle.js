@@ -120,8 +120,7 @@ var BattleScene = new Phaser.Class({
     //},
 	nextTurn: function() {  
         // if we have victory or game over
-        if(this.checkEndBattle()) {           
-            this.endBattle();
+        if(this.checkEndBattle()) {  
             return;
         }
         //console.log(">>>>>>>>>>>>>>");
@@ -182,6 +181,7 @@ var BattleScene = new Phaser.Class({
             theme1.pause();
             this.scene.sleep('UIScene');
             this.scene.switch('DefeatScene');
+            return true;
         }
         else if (victory == true) {
             /*
@@ -198,6 +198,7 @@ var BattleScene = new Phaser.Class({
             theme1.pause();
             this.scene.sleep('UIScene');
             this.scene.switch('VictoryScene');
+            return true;
         }
         return;
     },

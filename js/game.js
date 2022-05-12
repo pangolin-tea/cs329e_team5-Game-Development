@@ -395,11 +395,11 @@ var DefeatScene = new Phaser.Class ({
     camera = this.cameras.main;
     camera.setBackgroundColor(0xbababa);
     var group = this.physics.add.staticGroup();
-    cat = group.create(300, 400, 'boss').setScale(.125);
-    turtle = group.create(150, 400, 'foe');
-    bevo = group.create(450, 400, 'foe');
+    cat = group.create(350, 400, 'boss').setScale(.125);
+    turtle = group.create(200, 400, 'foe');
+    bevo = group.create(500, 400, 'foe');
 
-    this.add.text("Game Over", 300, 200, { font: "30px Arial", fill: "#ff0044"});
+    this.add.text(300, 200, "Game Over", { font: "30px Arial", fill: "#ff0044"});
     }
 });
 
