@@ -4,7 +4,8 @@ var player;
 var camera;
 var battle_token;
 var graphics;
-var bruteHP, nerdHP;
+var bruteHP, nerdHP, bossHP;
+var bevoHP, turtHP, catHP, squirHP;
 var dHP, bHP, tHP, sHP;
 var playerx, playery;
 var eMeet;
@@ -222,30 +223,6 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(cameraDolly);
     camera.setZoom(1);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-    // var wintext = this.add.text(player.x,player.y,'test').setOrigin(0.5);
-
-    // var ui_camera = this.cameras.add().setScroll(0,1000);
-
-    // camera.ignore(wintext);
-    // ui_camera.ignore(player);
-
-    // var timeline = this.tweens.timeline({
-
-    //     tweens: [{
-    //         targets: ui_camera,
-    //         zoom:2,
-    //         scrollY:0,
-    //         duration:2000,
-    //         ease:'Sine.easeInOut'
-    //     },
-    //     {
-    //         targets: ui_camera,
-    //         zoom:1,
-    //         scrollY
-    //     }
-    // ]
-    // })
     
     },
     update: function(){
@@ -309,9 +286,10 @@ var WorldScene  = new Phaser.Class({
         }
 
     },  
-    onMeetAdvisor: function()
+    onMeetAdvisor: function(player, advisors)
     {
         this.message("tutorial", 140, 610);
+        console.log(advisors);
     },
     onMeetBoss: function(player, enemy) 
 	{  
@@ -331,6 +309,9 @@ var WorldScene  = new Phaser.Class({
     {
         player.x = 225;
         player.y = 1820;
+        this.message("Your animals took damage.\nBe careful out there!", player.x - 60, player.y - 100, 3000);
+        enemy.destroy();
+
     },
     onMeetMedic: function()
     {
@@ -341,11 +322,12 @@ var WorldScene  = new Phaser.Class({
     {
         console.log('skill progression menu');
     },
-    message: function(text, xCoord, yCoord)
+    message: function(text, xCoord, yCoord, time = 2000)
     {
-        var msg = this.add.text(xCoord,yCoord,text,{ font: "30px Arial", fill: "#ff0044"});
+        var style = { font: "25px Bradley Hand", fill: "#000000", backgroundColor: "#fddab9"};
+        var msg = this.add.text(xCoord,yCoord,text,style);
         msg.visible = true
-        setTimeout(() => { msg.visible = false; }, 2000);
+        setTimeout(() => { msg.visible = false; }, time);
     }
 });
 
