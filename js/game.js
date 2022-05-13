@@ -77,22 +77,19 @@ var BootScene = new Phaser.Class({
         keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
-        this.physics.add.sprite(625, 375, 'advisor').setScale(5);
+        this.physics.add.sprite(650, 350, 'advisor').setScale(8);
 
         var style = { font: "30px Bradley Hand", fill: "#000000", backgroundColor: "#fddab9"};
         var txtZero = this.add.text(20, 20, "Welcome to UT. I'm your Advisor.", style);
-        // setTimeout(() => { txtZero.visible = false; }, 5000);
         setTimeout(() => { txtOne = this.add.text(20, 80, "A&M has disrespected UT by\ndoing a 'Horns Down!'", style); }, 2000);
-        // setTimeout(() => { txtOne.visible = false; }, 10000);
         setTimeout(() => { txtTwo = this.add.text(20, 180, "Now they're taking over campus.", style); }, 4000);
-        // setTimeout(() => { txtTwo.visible = false; }, 13000);
-        setTimeout(() => { txtThr = this.add.text(20, 240, "Use WASD/arrow keys to find and\ncollect animals to help\nyou in your fight.", style); }, 6000);
-        // setTimeout(() => { txtThr.visible = false; }, 20000);
-        setTimeout(() => { txtFour = this.add.text(20, 380, "Once you have all four\nanimals, you can fight the\nboss - A&M's mascot, Reveille the dog!", style); }, 8000);
-        // setTimeout(() => { txtFour.visible = false; }, 26000);
-        setTimeout(() => { txtFive = this.add.text(20, 520, "Click Y to play.", style); }, 10000);
+        setTimeout(() => { txtThr = this.add.text(20, 240, "Use WASD/arrow keys to find 4 UT\nanimals to help you fight the boss -\nA&M's mascot, Reveille the dog!", style); }, 6000);
+        setTimeout(() => { txtFour = this.add.text(20, 380, "In your fight, use arrow keys to\nmove your cursor and space nto select\nan animal and an enemy.", style); }, 8000);
+        setTimeout(() => { txtFive = this.add.text(20, 520, "Advisors like me will be around to help!", style); }, 10000);
+        setTimeout(() => { txtSix = this.add.text(515, 95, "Click Y to play", style); }, 12000);
+        
 
-        // setTimtout(() => { go = true; }, 10500);
+        // setTimtout(() => { go = true; }, 12500);
         go = true;
     },
 
@@ -276,7 +273,7 @@ var WorldScene  = new Phaser.Class({
          } else if (space.isDown){
             theme.stop();
             this.scene.sleep('Worldscene');
-            this.scene.switch('BattleScene');
+            this.scene.switch('BattleScene'); // aaaa
          } else {
             player.setVelocity(0);
             player.anims.play('usStraight', true);

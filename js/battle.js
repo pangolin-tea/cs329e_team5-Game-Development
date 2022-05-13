@@ -37,13 +37,12 @@ var BattleScene = new Phaser.Class({
         this.load.spritesheet('squir', 'assets/party/squir.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('brute', 'assets/spritesheets/a&mbrute.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('nerd', 'assets/spritesheets/a&mnerd.png', {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('dog', 'assets/spritesheets/a&mboss.png', {frameWidth: 800, frameHeight: 533});
+        this.load.spritesheet('boss', 'assets/spritesheets/a&mboss.png', {frameWidth: 800, frameHeight: 533});
         this.load.image('cursor', 'assets/cursor.png');
         this.load.image('background', 'assets/battle_background.png');
     },
     create: function()
     {   
-        this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
         this.startBattle();
         // on wake event we call startBattle too
         this.sys.events.on('wake', this.endBattle, this); 
@@ -52,29 +51,39 @@ var BattleScene = new Phaser.Class({
     },
     startBattle: function()
     {	
-        cat = new PlayerCharacter(this, 100, 150, 'cat', 1, 'Domino', 80, 8, 'slash');
-		this.add.existing(cat);
-		bevo = new PlayerCharacter(this, 100, 250, 'bevo', 1, 'Bevo', 120, 5, 'charge');
-        this.add.existing(bevo);
-		turt = new PlayerCharacter(this, 100, 350, 'turt', 1, 'Pond Turtle', 60, 10, 'freeze');
-		this.add.existing(turt);
-		squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse');
-		this.add.existing(squir);
-	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 200, 'none').setScale(2.5);
-        this.add.existing(foeBrute);
-        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 200, 'none').setScale(2.5);
-        this.add.existing(foeNerd);
-        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Dog', 100, 200, 'none').setScale(.3);
-        foeDog.flipX = true;
-        this.add.existing(foeDog);
+        this.add.image(400, 300, 'background');
 
-        var catHP = this.add.text(16, 150, cat.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var bevoHP = this.add.text(16, 250, bevo.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var turtHP =  this.add.text(16, 350, turt.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var squirHP = this.add.text(16, 450, squir.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var bruteHP = this.add.text(660, 200, foeBrute.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var nerdHP = this.add.text(660, 400, foeNerd.hp + " hp", { fontSize: '12px', fill: '#000' });
-        var dogHP = this.add.text(560, 300, foeDog.hp + " hp", { fontSize: '12px', fill: '#000' });
+        cat = new PlayerCharacter(this, 150, 100, 'cat', 1, 'Domino', 80, 8, 'slash').setScale(1.5);
+		this.add.existing(cat);
+		bevo = new PlayerCharacter(this, 150, 225, 'bevo', 1, 'Bevo', 120, 5, 'charge').setScale(3);
+        this.add.existing(bevo);
+		turt = new PlayerCharacter(this, 150, 375, 'turt', 1, 'Pond Turtle', 60, 10, 'freeze').setScale(3);
+		this.add.existing(turt);
+		squir = new PlayerCharacter(this, 150, 500, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse').setScale(3);
+		this.add.existing(squir);
+	    foeBrute = new Enemy(this, 630, 125, 'brute', 1, 'Brute', 20, 200, 'none').setScale(3.5);
+        this.add.existing(foeBrute);
+        foeNerd = new Enemy(this, 630, 475, 'nerd', 1, 'Nerd', 20, 200, 'none').setScale(3.5);
+        this.add.existing(foeNerd);
+        foeBoss= new Enemy(this, 530, 300, 'boss', 1, 'Boss', 100, 200, 'none').setScale(0.4);
+        foeBoss.flipX = true;
+        this.add.existing(foeBoss);
+
+        this.add.text(20, 70, "Domino:", { fontSize: '17px', fill: '#000' });
+        this.add.text(20, 205, "Bevo:", { fontSize: '17px', fill: '#000' });
+        this.add.text(20, 322.5, "Pond\nTurtle:", { fontSize: '17px', fill: '#000' });
+        this.add.text(20, 450, "Albino\nSquirrel:", { fontSize: '17px', fill: '#000' });
+        this.add.text(695, 115, "Brute:", { fontSize: '17px', fill: '#000' });
+        this.add.text(695, 455, "Nerd:", { fontSize: '17px', fill: '#000' });
+        this.add.text(645, 280, "Boss:", { fontSize: '17px', fill: '#000' });
+
+        var catHP = this.add.text(20, 90, cat.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var bevoHP = this.add.text(20, 225, bevo.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var turtHP =  this.add.text(20, 362.5, turt.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var squirHP = this.add.text(20, 490, squir.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var bruteHP = this.add.text(695, 135, foeBrute.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var nerdHP = this.add.text(695, 475, foeNerd.hp + " hp", { fontSize: '17px', fill: '#000' });
+        var bossHP = this.add.text(645, 300, foeBoss.hp + " hp", { fontSize: '17px', fill: '#000' });
 
 		var music1 = this.sound.add('cat_meow');
         var music2 = this.sound.add('moo');
@@ -90,10 +99,10 @@ var BattleScene = new Phaser.Class({
 
         this.heroes = [cat, bevo, turt, squir];
 		
-		this.enemies = [foeBrute, foeNerd, foeDog];
+		this.enemies = [foeBrute, foeNerd, foeBoss];
 
-        this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP, dogHP];
-        this.units_health = [cat, bevo, turt, squir, foeBrute, foeNerd, foeDog];
+        this.health = [catHP, bevoHP, turtHP, squirHP, bruteHP, nerdHP, bossHP];
+        this.units_health = [cat, bevo, turt, squir, foeBrute, foeNerd, foeBoss];
 
         // this.actions = ["Attack", "Skip"]
 		
