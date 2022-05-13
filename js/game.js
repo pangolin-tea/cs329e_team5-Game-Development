@@ -307,7 +307,7 @@ var WorldScene  = new Phaser.Class({
 
         this.scene.sleep('UIScene');
 
-        // console.log(player.x, player.y);
+        console.log(player.x, player.y);
         // console.log(this.time.now);
     },
         
