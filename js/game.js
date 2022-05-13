@@ -273,19 +273,19 @@ var WorldScene  = new Phaser.Class({
         partyCount += 1;
         if (party.texture.key == 'bevo')
         {
-            this.message("Bevo has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+            this.message("Bevo has joined\nyour party! " + (4 - partyCount) +  " left.", player.x - 80, player.y + 40);
         }
         else if (party.texture.key == 'cat')
         {
-            this.message("Domino has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+            this.message("Domino has joined\nyour party! " + (4 - partyCount) +  " left.", player.x - 80, player.y + 40);
         }
         else if (party.texture.key == 'turt')
         {
-            this.message("Turtle has joined\nyour party! " + (4 - partyCount) +  "\nanimals left.", player.x - 20, player.y - 80);
+            this.message("Turtle has joined\nyour party! " + (4 - partyCount) +  " left.", player.x - 80, player.y + 40);
         }
         else
         {
-            this.message("Albino Squirrel has\njoined your party!\n" + (4 - partyCount) +  " animals left.", player.x - 20, player.y - 80);
+            this.message("Albino Squirrel has\njoined your party!\n" + (4 - partyCount) +  " left.", player.x - 80, player.y + 40);
         }
 
     },  
