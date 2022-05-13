@@ -352,17 +352,30 @@ var VictoryScene = new Phaser.Class ({
     },
     create: function()
     {
-    camera = this.cameras.main;
-    camera.setBackgroundColor(0xbababa);
-    var group = this.physics.add.staticGroup();
-    cat = group.create(250, 400, 'cat').setScale(0.8);
-    turtle = group.create(350, 400, 'turt').setScale(1.5);
-    bevo = group.create(450, 400, 'bevo').setScale(1.6);
-    squirrel = group.create(550, 400, 'squir').setScale(1.5);
-    us = group.create(400, 500, 'us').setScale(1);
+    space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    this.add.text(200, 200, "Thank you for playing!", { font: "30px Arial", fill: "#000000"});
+    keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+    camera = this.cameras.main;
+    camera.setBackgroundColor("black");
+    var group = this.physics.add.staticGroup();
+    cat = group.create(200, 400, 'cat').setScale(1);
+    turtle = group.create(325, 400, 'turt').setScale(2);
+    bevo = group.create(450, 400, 'bevo').setScale(2);
+    squirrel = group.create(550, 400, 'squir').setScale(2);
+    us = group.create(375, 500, 'us').setScale(2);
+
+    this.add.text(160, 200, "Thank you for playing!", { font: "50px Aldhabi", fill: "#4472C4"});
+    this.add.text(265,300,"Press Space to continue", { font: "30px Aldhabi", fill: "#4472C4"});
+    },
+    update: function()
+    {
+
+        if(space.isDown)
+        {
+            this.scene.start('CreditScene');
+        }
     }
+
 });
 
 var DefeatScene = new Phaser.Class ({
@@ -391,6 +404,33 @@ var DefeatScene = new Phaser.Class ({
     }
 });
 
+var CreditScene = new Phaser.Class ({
+    Extends: Phaser.Scene,
+
+    initialize:
+    function WorldScene (){
+        Phaser.Scene.call(this, { key: "CreditScene" });
+    },
+    preload: function()
+    {
+        this.load.image("credits", "assets/credits/creds.png");
+        this.load.image("memorial", "assets/credits/memorial.png");
+    },
+    create: function()
+    {
+        keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+        this.add.image(game.config.width/2, game.config.height/2,"credits").setScale(0.4);
+    },
+    update: function()
+    {
+        if(keyY.isDown)
+        {
+            this.add.image(game.config.width/2, game.config.height/2, "memorial").setScale(0.4);
+        }
+    }
+});
+
+
 var config = {
     type: Phaser.AUTO,
 	parent: "content",
@@ -402,10 +442,10 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {},
-            debug: true
+            debug: false
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene, VictoryScene, DefeatScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene,  VictoryScene, DefeatScene, CreditScene]
   };
 
 var game = new Phaser.Game(config);
