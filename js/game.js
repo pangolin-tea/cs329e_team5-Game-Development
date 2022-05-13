@@ -175,7 +175,7 @@ var WorldScene  = new Phaser.Class({
     worldLayer.setCollisionByExclusion([-1]);
     aboveLayer.setCollisionByExclusion([-1]);
 
-    player = this.physics.add.sprite(225, 1820, 'us').setSize(24,40);
+    player = this.physics.add.sprite(225, 1820, 'us').setSize(24,30);
 
     var party = this.physics.add.staticGroup();
     cat = party.create(2000, 800, 'cat').setScale(0.8);
@@ -223,6 +223,13 @@ var WorldScene  = new Phaser.Class({
     camera.startFollow(cameraDolly);
     camera.setZoom(1);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    // const debugGraphics = this.add.graphics().setAlpha(0.75);
+    // worldLayer.renderDebug(debugGraphics, {
+    //   tileColor: null, // Color of non-colliding tiles
+    //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    // });
     
     },
     update: function(){
@@ -252,6 +259,9 @@ var WorldScene  = new Phaser.Class({
             this.scene.sleep('Worldscene');
             this.scene.switch('BattleScene');
         } 
+        else {
+            player.anims.play('usStraight',true);
+        }
         if (cursors.shift.isDown) {
             velX *= 2;
             velY *= 2;
@@ -398,7 +408,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {},
-            debug: false
+            debug: true
         }
     },
     scene: [BootScene, WorldScene, BattleScene, UIScene, VictoryScene, DefeatScene]
