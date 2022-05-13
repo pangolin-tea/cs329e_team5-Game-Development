@@ -189,10 +189,16 @@ var WorldScene  = new Phaser.Class({
         this.physics.add.collider(player, aboveLayer);
 
         var advisors = this.physics.add.staticGroup();
-        a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
-        a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
-        a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
-        a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(873, 1715, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(774, 1272, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(1406, 1822, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(1407, 2099, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(2562, 2099, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(2740, 1515, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(2132, 987, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(1099, 1295, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(2556, 870, 'advisor').setSize(24,40).setOffset(19,18);
+        advisors.create(2554, 2611, 'advisor').setSize(24,40).setOffset(19,18);
         this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
         var enemies = this.physics.add.group();
@@ -250,15 +256,15 @@ var WorldScene  = new Phaser.Class({
         boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
         this.physics.add.collider(player, boss, this.onMeetBoss, false, this);
 
-        var medics = this.physics.add.staticGroup();
-        m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
-        this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
+        // var medics = this.physics.add.staticGroup();
+        // m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
+        // this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
 
-        var profs = this.physics.add.staticGroup();
-        p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
-        p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
-        p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
-        this.physics.add.collider(player, profs, this.onMeetProf, false, this);
+        // var profs = this.physics.add.staticGroup();
+        // p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
+        // p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
+        // p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
+        // this.physics.add.collider(player, profs, this.onMeetProf, false, this);
 
         camera = this.cameras.main;
         cameraDolly = new Phaser.Geom.Point(player.x, player.y);
@@ -336,8 +342,50 @@ var WorldScene  = new Phaser.Class({
     },  
     onMeetAdvisor: function(player, advisors)
     {
-        this.message("tutorial", 140, 610);
-        console.log(advisors);
+        var msg = "You've got this!";
+
+        if (advisors.x == 873)
+        {
+            msg = "The stadium is down\nthere, off San Jac st!";
+        }
+        else if (advisors.x == 774)
+        {
+            msg = "I heard you can find the\nlucky albino squirrel in\east mall...";
+        }
+        else if (advisors.x == 1406)
+        {
+            msg = "East mall is over\nto my right!";
+        }
+        else if (advisors.x == 1407)
+        {
+            msg = "This is the corner of\n21st and San Jac.";
+        }
+        else if (advisors.x == 2562)
+        {
+            msg = "This is the corner of\n24th and San Jac.";
+        }
+        else if (advisors.x == 2740)
+        {
+            msg = "Look at all this damage!\nMaybe Bevo at the stadium\ncan get rid of A&M...";
+        }
+        else if (advisors.x == 2132)
+        {
+            msg = "East mall is down here,\nand you're currently\non Speedway!";
+        }
+        else if (advisors.x == 1099)
+        {
+            msg = "Go up 21st past Speedway\nto see the boss at the fountain!";
+        }
+        else if (advisors.x == 2556)
+        {
+            msg = "You're on 24th and Speedway.\nGo up to see the FAC and\nturtle pond!";
+        }
+        else if (advisors.x == 2554)
+        {
+            msg = "You're so far down 24th!\nGo up to find Domino and the Pond Turtle.";
+        }
+
+        this.message(msg, advisors.x - 80, advisors.y + 40);
     },
     onMeetBoss: function(player, boss) 
 	{  
