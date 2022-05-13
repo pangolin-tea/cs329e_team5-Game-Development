@@ -60,11 +60,11 @@ var BattleScene = new Phaser.Class({
 		this.add.existing(turt);
 		squir = new PlayerCharacter(this, 100, 450, 'squir', 1, 'Albino Squirrel', 70, 3, 'confuse');
 		this.add.existing(squir);
-	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 200, 'none').setScale(2.5);
+	    foeBrute = new Enemy(this, 600, 200, 'brute', 1, 'Brute', 20, 20, 'none').setScale(2.5);
         this.add.existing(foeBrute);
-        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 200, 'none').setScale(2.5);
+        foeNerd = new Enemy(this, 600, 400, 'nerd', 1, 'Nerd', 20, 20, 'none').setScale(2.5);
         this.add.existing(foeNerd);
-        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Dog', 100, 200, 'none').setScale(.3);
+        foeDog = new Enemy(this, 480, 300, 'dog', 1, 'Dog', 100, 20, 'none').setScale(.3);
         foeDog.flipX = true;
         this.add.existing(foeDog);
 
