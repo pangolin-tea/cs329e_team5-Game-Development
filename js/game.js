@@ -248,7 +248,7 @@ var WorldScene  = new Phaser.Class({
 
         var boss = this.physics.add.staticGroup();
         boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
-        this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
+        this.physics.add.collider(player, boss, this.onMeetBoss, false, this);
 
         var medics = this.physics.add.staticGroup();
         m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
@@ -339,7 +339,7 @@ var WorldScene  = new Phaser.Class({
         this.message("tutorial", 140, 610);
         console.log(advisors);
     },
-    onMeetBoss: function(player, enemy) 
+    onMeetBoss: function(player, boss) 
 	{  
         if (partyCount == 4)
         {
@@ -350,7 +350,10 @@ var WorldScene  = new Phaser.Class({
             
             this.scene.sleep('WorldScene');
             this.scene.switch('BattleScene');
-            enemy.destroy();
+        }
+        else
+        {
+            this.message("Leave! You are too\nweak to beat me.", boss.x - 80, boss.y + 40);
         }
     },
     onMeetEnemy: function(player, enemy)
