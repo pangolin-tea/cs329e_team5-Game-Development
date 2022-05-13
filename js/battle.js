@@ -3,15 +3,9 @@ var bevo;
 var turt;
 var squir;
 var foeBrute;
-var foeNerd; 
-var catHP;
-var bevoHP;
-var turtHP;
-var squirHP;
-var bruteHP, nerdHP;
+var foeNerd;
 var key = true;
 var theme1;
-
 
 var BattleScene = new Phaser.Class({
     Extends: Phaser.Scene,
@@ -77,13 +71,13 @@ var BattleScene = new Phaser.Class({
         this.add.text(695, 455, "Nerd:", { fontSize: '17px', fill: '#000' });
         this.add.text(645, 280, "Boss:", { fontSize: '17px', fill: '#000' });
 
-        var catHP = this.add.text(20, 90, cat.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var bevoHP = this.add.text(20, 225, bevo.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var turtHP =  this.add.text(20, 362.5, turt.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var squirHP = this.add.text(20, 490, squir.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var bruteHP = this.add.text(695, 135, foeBrute.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var nerdHP = this.add.text(695, 475, foeNerd.hp + " hp", { fontSize: '17px', fill: '#000' });
-        var bossHP = this.add.text(645, 300, foeBoss.hp + " hp", { fontSize: '17px', fill: '#000' });
+        catHP = this.add.text(20, 90, cat.hp + " hp", { fontSize: '17px', fill: '#000' });
+        bevoHP = this.add.text(20, 225, bevo.hp + " hp", { fontSize: '17px', fill: '#000' });
+        turtHP =  this.add.text(20, 362.5, turt.hp + " hp", { fontSize: '17px', fill: '#000' });
+        squirHP = this.add.text(20, 490, squir.hp + " hp", { fontSize: '17px', fill: '#000' });
+        bruteHP = this.add.text(695, 135, foeBrute.hp + " hp", { fontSize: '17px', fill: '#000' });
+        nerdHP = this.add.text(695, 475, foeNerd.hp + " hp", { fontSize: '17px', fill: '#000' });
+        bossHP = this.add.text(645, 300, foeBoss.hp + " hp", { fontSize: '17px', fill: '#000' });
 
 		var music1 = this.sound.add('cat_meow');
         var music2 = this.sound.add('moo');
@@ -301,7 +295,7 @@ var PlayerCharacter = new Phaser.Class({
 
     initialize:
     function PlayerCharacter(scene, x, y, texture, frame, type, hp, damage) {
-        Unit.call(this, scene, x, y, texture, frame, type, hp, damage);
+        Unit.call(this, scene, x, y, texture, frame, type, hp - (window.ouch * 10), damage);
         // flip the image so I don"t have to edit it manually
         this.flipX = false;
         
