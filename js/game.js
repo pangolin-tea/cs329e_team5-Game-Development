@@ -248,7 +248,6 @@ var WorldScene  = new Phaser.Class({
 
         var boss = this.physics.add.staticGroup();
         boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
-        boss.body.immovable = true;
         this.physics.add.collider(player, boss, this.onMeetBoss, false, this);
 
         var medics = this.physics.add.staticGroup();
