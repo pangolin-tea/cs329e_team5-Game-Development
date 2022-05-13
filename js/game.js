@@ -257,30 +257,36 @@ var WorldScene  = new Phaser.Class({
         cameraDolly.x = Math.floor(player.x);
         cameraDolly.y = Math.floor(player.y);
 
+        player.setVelocity(0);
+        let velX = 0;
+        let velY = 0;
+
+
         if(keyA.isDown || left.isDown) {
-            player.setVelocityX(-160);
-            player.setVelocityY(0);
+            velX = -160
             player.anims.play('usTurn', true);
-         } else if(keyS.isDown || down.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(160);
+        } else if(keyS.isDown || down.isDown) {
+            velY = 160
             player.anims.play('usTurn', true);
-         } else if(keyD.isDown || right.isDown) {
-            player.setVelocityX(160);
-            player.setVelocityY(0);
+        } else if(keyD.isDown || right.isDown) {
+            velX = 160
             player.anims.play('usTurn', true);
-         } else if(keyW.isDown || up.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(-160);
+        } else if(keyW.isDown || up.isDown) {
+            velY = -160
             player.anims.play('usTurn', true);
-         } else if (space.isDown){
+        } else if (space.isDown){
             theme.stop();
             this.scene.sleep('Worldscene');
             this.scene.switch('BattleScene');
-         } else {
-            player.setVelocity(0);
-            player.anims.play('usStraight', true);
-         };
+        } 
+        if (cursors.shift.isDown) {
+            velX *= 2;
+            velY *= 2;
+        }
+
+        player.setVelocity(velX, velY);
+
+
         this.scene.sleep('UIScene');
     },
         
