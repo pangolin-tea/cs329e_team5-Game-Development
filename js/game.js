@@ -198,9 +198,53 @@ var WorldScene  = new Phaser.Class({
 
     var enemies = this.physics.add.group();
     this.physics.add.collider(enemies, worldLayer);
+    // side to side
     e1 = enemies.create(225, 1350, 'foe').setSize(24,40).setOffset(19,18);
     e1.setVelocityX(100);
     e1.setBounce(1);
+    e2 = enemies.create(1273, 1906, 'foe').setSize(24,40).setOffset(19,18);
+    e2.setVelocityX(100);
+    e2.setBounce(1);
+    e3 = enemies.create(1337, 1077, 'foe').setSize(24,40).setOffset(19,18);
+    e3.setVelocityX(100);
+    e3.setBounce(1);
+    e4 = enemies.create(1244, 755, 'foe').setSize(24,40).setOffset(19,18);
+    e4.setVelocityX(100);
+    e4.setBounce(1);
+    e5 = enemies.create(2628, 1280, 'foe').setSize(24,40).setOffset(19,18);
+    e5.setVelocityX(100);
+    e5.setBounce(1);
+    e6 = enemies.create(2628, 819, 'foe').setSize(24,40).setOffset(19,18);
+    e6.setVelocityX(100);
+    e6.setBounce(1);
+    e7 = enemies.create(2177, 1391, 'foe').setSize(24,40).setOffset(19,18);
+    e7.setVelocityX(100);
+    e7.setBounce(1);
+    e8 = enemies.create(1228, 1711, 'foe').setSize(24,40).setOffset(19,18);
+    e8.setVelocityX(100);
+    e8.setBounce(1);
+    e9 = enemies.create(2635, 1807, 'foe').setSize(24,40).setOffset(19,18);
+    e9.setVelocityX(100);
+    e9.setBounce(1);
+    // up and down
+    e10 = enemies.create(1201, 249, 'foe').setSize(24,40).setOffset(19,18);
+    e10.setVelocityY(100);
+    e10.setBounce(1);
+    e11 = enemies.create(1195, 1510, 'foe').setSize(24,40).setOffset(19,18);
+    e11.setVelocityY(100);
+    e11.setBounce(1);
+    e12 = enemies.create(830, 2220, 'foe').setSize(24,40).setOffset(19,18);
+    e12.setVelocityY(100);
+    e12.setBounce(1);
+    e13 = enemies.create(2127, 2189, 'foe').setSize(24,40).setOffset(19,18);
+    e13.setVelocityY(100);
+    e13.setBounce(1);
+    e14 = enemies.create(2417, 310, 'foe').setSize(24,40).setOffset(19,18);
+    e14.setVelocityY(100);
+    e14.setBounce(1);
+    e15 = enemies.create(2772, 472, 'foe').setSize(24,40).setOffset(19,18);
+    e15.setVelocityY(100);
+    e15.setBounce(1);
     this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
     var boss = this.physics.add.staticGroup();
@@ -262,8 +306,9 @@ var WorldScene  = new Phaser.Class({
 
         player.setVelocity(velX, velY);
 
-
         this.scene.sleep('UIScene');
+
+        // console.log(player.x, player.y);
     },
         
 
