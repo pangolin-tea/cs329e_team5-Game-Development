@@ -85,7 +85,7 @@ var BootScene = new Phaser.Class({
         setTimeout(() => { txtOne = this.add.text(20, 75, "A&M has disrespected UT by doing\na 'Horns Down!' They're overrunning campus.", style); }, 2000);
         setTimeout(() => { txtThr = this.add.text(20, 170, "Use WASD/arrow keys to move and shift to run to\nfind 4 UT animals to help you fight the boss -\nA&M's mascot, Reveille the dog!", style); }, 4000);
         setTimeout(() => { txtFour = this.add.text(20, 305, "In your fight, use arrow keys to\nmove your cursor and space to select\nan animal and an enemy.", style); }, 6000);
-        setTimeout(() => { txtFive = this.add.text(20, 440, "Advisors will help you, but enemies\nwill hinder you.", style); }, 8000);
+        setTimeout(() => { txtFive = this.add.text(20, 440, "Advisors will help you, but enemies\nwill hurt your animals.", style); }, 8000);
         setTimeout(() => { txtSix = this.add.text(20, 540, "Click Y to play", style); }, 10000);
         
 
@@ -357,7 +357,8 @@ var WorldScene  = new Phaser.Class({
     {
         player.x = 225;
         player.y = 1820;
-        this.message("An enemy found you.\nBe careful out there!", player.x - 60, player.y - 100, 3000);
+        this.message("Your animals took damage.\nBe careful out there!", player.x - 60, player.y - 100, 3000);
+        window.ouch++;
     },
     onMeetMedic: function()
     {
