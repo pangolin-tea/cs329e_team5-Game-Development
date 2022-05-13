@@ -157,116 +157,115 @@ var WorldScene  = new Phaser.Class({
         this.load.audio('texas_eyes', ['assets/audio/texas_eyes.mp3']);
     },
     create: function()
-    {
-        
-    var map = this.make.tilemap({ key: "map" });
+    {   
+        var map = this.make.tilemap({ key: "map" });
 
-    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-    theme = this.sound.add('texas_eyes');
-    theme.loop = true;
-    theme.play();
+        theme = this.sound.add('texas_eyes');
+        theme.loop = true;
+        theme.play();
 
-    var tileset = map.addTilesetImage("bigtileset", "tiles");
-    var belowLayer = map.createStaticLayer("Below", tileset);
-    var worldLayer = map.createStaticLayer("World", tileset);
-    var aboveLayer = map.createStaticLayer("Above", tileset);
+        var tileset = map.addTilesetImage("bigtileset", "tiles");
+        var belowLayer = map.createStaticLayer("Below", tileset);
+        var worldLayer = map.createStaticLayer("World", tileset);
+        var aboveLayer = map.createStaticLayer("Above", tileset);
 
-    worldLayer.setCollisionByExclusion([-1]);
-    aboveLayer.setCollisionByExclusion([-1]);
+        worldLayer.setCollisionByExclusion([-1]);
+        aboveLayer.setCollisionByExclusion([-1]);
 
-    player = this.physics.add.sprite(225, 1820, 'us').setSize(24,30);
+        player = this.physics.add.sprite(225, 1820, 'us').setSize(24,30);
 
-    var party = this.physics.add.staticGroup();
-    cat = party.create(2000, 800, 'cat').setScale(0.8);
-    turtle = party.create(3075, 745, 'turt').setScale(1.5);
-    bevo = party.create(780, 2350, 'bevo').setScale(1.6);
-    squirrel = party.create(2035, 1500, 'squir').setScale(1.5);
-    this.physics.add.collider(player, party, this.onMeetParty, false, this);
+        var party = this.physics.add.staticGroup();
+        cat = party.create(2000, 800, 'cat').setScale(0.8);
+        turtle = party.create(3075, 745, 'turt').setScale(1.5);
+        bevo = party.create(780, 2350, 'bevo').setScale(1.6);
+        squirrel = party.create(2035, 1500, 'squir').setScale(1.5);
+        this.physics.add.collider(player, party, this.onMeetParty, false, this);
 
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    this.physics.add.collider(player, worldLayer);
-    this.physics.add.collider(player, aboveLayer);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+        this.physics.add.collider(player, worldLayer);
+        this.physics.add.collider(player, aboveLayer);
 
-    var advisors = this.physics.add.staticGroup();
-    a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
-    a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
-    a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
-    a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
-    this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
+        var advisors = this.physics.add.staticGroup();
+        a1 = advisors.create(130, 600, 'advisor').setSize(24,40).setOffset(19,18);
+        a2 = advisors.create(465, 925, 'advisor').setSize(24,40).setOffset(19,18);
+        a3 = advisors.create(1150, 750, 'advisor').setSize(24,40).setOffset(19,18);
+        a4 = advisors.create(1327, 950, 'advisor').setSize(24,40).setOffset(19,18);
+        this.physics.add.overlap(player, advisors, this.onMeetAdvisor, false, this);
 
-    var enemies = this.physics.add.group();
-    this.physics.add.collider(enemies, worldLayer);
-    // side to side
-    e1 = enemies.create(225, 1350, 'foe').setSize(24,40).setOffset(19,18);
-    e1.setVelocityX(100);
-    e1.setBounce(1);
-    e2 = enemies.create(1273, 1906, 'foe').setSize(24,40).setOffset(19,18);
-    e2.setVelocityX(100);
-    e2.setBounce(1);
-    e3 = enemies.create(1337, 1077, 'foe').setSize(24,40).setOffset(19,18);
-    e3.setVelocityX(100);
-    e3.setBounce(1);
-    e4 = enemies.create(1244, 755, 'foe').setSize(24,40).setOffset(19,18);
-    e4.setVelocityX(100);
-    e4.setBounce(1);
-    e5 = enemies.create(2628, 1280, 'foe').setSize(24,40).setOffset(19,18);
-    e5.setVelocityX(100);
-    e5.setBounce(1);
-    e6 = enemies.create(2628, 819, 'foe').setSize(24,40).setOffset(19,18);
-    e6.setVelocityX(100);
-    e6.setBounce(1);
-    e7 = enemies.create(2177, 1391, 'foe').setSize(24,40).setOffset(19,18);
-    e7.setVelocityX(100);
-    e7.setBounce(1);
-    e8 = enemies.create(1228, 1711, 'foe').setSize(24,40).setOffset(19,18);
-    e8.setVelocityX(100);
-    e8.setBounce(1);
-    e9 = enemies.create(2635, 1807, 'foe').setSize(24,40).setOffset(19,18);
-    e9.setVelocityX(100);
-    e9.setBounce(1);
-    // up and down
-    e10 = enemies.create(1201, 249, 'foe').setSize(24,40).setOffset(19,18);
-    e10.setVelocityY(100);
-    e10.setBounce(1);
-    e11 = enemies.create(1195, 1510, 'foe').setSize(24,40).setOffset(19,18);
-    e11.setVelocityY(100);
-    e11.setBounce(1);
-    e12 = enemies.create(830, 2220, 'foe').setSize(24,40).setOffset(19,18);
-    e12.setVelocityY(100);
-    e12.setBounce(1);
-    e13 = enemies.create(2127, 2189, 'foe').setSize(24,40).setOffset(19,18);
-    e13.setVelocityY(100);
-    e13.setBounce(1);
-    e14 = enemies.create(2417, 310, 'foe').setSize(24,40).setOffset(19,18);
-    e14.setVelocityY(100);
-    e14.setBounce(1);
-    e15 = enemies.create(2772, 472, 'foe').setSize(24,40).setOffset(19,18);
-    e15.setVelocityY(100);
-    e15.setBounce(1);
-    this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
+        var enemies = this.physics.add.group();
+        this.physics.add.collider(enemies, worldLayer);
+        // side to side
+        e1 = enemies.create(225, 1350, 'foe').setSize(24,40).setOffset(19,18);
+        e1.setVelocityX(100);
+        e1.setBounce(1);
+        e2 = enemies.create(1273, 1906, 'foe').setSize(24,40).setOffset(19,18);
+        e2.setVelocityX(100);
+        e2.setBounce(1);
+        e3 = enemies.create(1337, 1077, 'foe').setSize(24,40).setOffset(19,18);
+        e3.setVelocityX(100);
+        e3.setBounce(1);
+        e4 = enemies.create(1244, 755, 'foe').setSize(24,40).setOffset(19,18);
+        e4.setVelocityX(100);
+        e4.setBounce(1);
+        e5 = enemies.create(2628, 1280, 'foe').setSize(24,40).setOffset(19,18);
+        e5.setVelocityX(100);
+        e5.setBounce(1);
+        e6 = enemies.create(2628, 819, 'foe').setSize(24,40).setOffset(19,18);
+        e6.setVelocityX(100);
+        e6.setBounce(1);
+        e7 = enemies.create(2177, 1391, 'foe').setSize(24,40).setOffset(19,18);
+        e7.setVelocityX(100);
+        e7.setBounce(1);
+        e8 = enemies.create(1228, 1711, 'foe').setSize(24,40).setOffset(19,18);
+        e8.setVelocityX(100);
+        e8.setBounce(1);
+        e9 = enemies.create(2635, 1807, 'foe').setSize(24,40).setOffset(19,18);
+        e9.setVelocityX(100);
+        e9.setBounce(1);
+        // up and down
+        e10 = enemies.create(1201, 249, 'foe').setSize(24,40).setOffset(19,18);
+        e10.setVelocityY(100);
+        e10.setBounce(1);
+        e11 = enemies.create(1195, 1510, 'foe').setSize(24,40).setOffset(19,18);
+        e11.setVelocityY(100);
+        e11.setBounce(1);
+        e12 = enemies.create(830, 2220, 'foe').setSize(24,40).setOffset(19,18);
+        e12.setVelocityY(100);
+        e12.setBounce(1);
+        e13 = enemies.create(2127, 2189, 'foe').setSize(24,40).setOffset(19,18);
+        e13.setVelocityY(100);
+        e13.setBounce(1);
+        e14 = enemies.create(2417, 310, 'foe').setSize(24,40).setOffset(19,18);
+        e14.setVelocityY(100);
+        e14.setBounce(1);
+        e15 = enemies.create(2772, 472, 'foe').setSize(24,40).setOffset(19,18);
+        e15.setVelocityY(100);
+        e15.setBounce(1);
+        this.physics.add.overlap(player, enemies, this.onMeetEnemy, false, this);
 
-    var boss = this.physics.add.staticGroup();
-    boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
-    this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
+        var boss = this.physics.add.staticGroup();
+        boss.create(1150, 500, 'boss').setScale(0.125).setSize(150, 100).setOffset(300, 200);
+        this.physics.add.overlap(player, boss, this.onMeetBoss, false, this);
 
-    var medics = this.physics.add.staticGroup();
-    m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
-    this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
+        var medics = this.physics.add.staticGroup();
+        m1 = medics.create(875, 615, 'medic').setSize(24,40).setOffset(19,18);
+        this.physics.add.collider(player, medics, this.onMeetMedic, false, this);
 
-    var profs = this.physics.add.staticGroup();
-    p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
-    p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
-    p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
-    this.physics.add.collider(player, profs, this.onMeetProf, false, this);
+        var profs = this.physics.add.staticGroup();
+        p1 = profs.create(1200, 875, 'prof').setSize(24,40).setOffset(19,18);
+        p2 = profs.create(1450, 875, 'prof').setSize(24,40).setOffset(19,18);
+        p3 = profs.create(1327, 625, 'prof').setSize(24,40).setOffset(19,18);
+        this.physics.add.collider(player, profs, this.onMeetProf, false, this);
 
-    camera = this.cameras.main;
-    cameraDolly = new Phaser.Geom.Point(player.x, player.y);
-    camera.startFollow(player);
-    camera.startFollow(cameraDolly);
-    camera.setZoom(1);
-    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        camera = this.cameras.main;
+        cameraDolly = new Phaser.Geom.Point(player.x, player.y);
+        camera.startFollow(player);
+        camera.startFollow(cameraDolly);
+        camera.setZoom(1);
+        camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     
     },
     update: function(){
@@ -309,6 +308,7 @@ var WorldScene  = new Phaser.Class({
         this.scene.sleep('UIScene');
 
         // console.log(player.x, player.y);
+        // console.log(this.time.now);
     },
         
 
@@ -364,7 +364,6 @@ var WorldScene  = new Phaser.Class({
     {
         console.log('healing dialogue');
     },
-
     onMeetProf: function()
     {
         console.log('skill progression menu');
@@ -422,7 +421,6 @@ var DefeatScene = new Phaser.Class ({
     },
     create: function()
     {
-    console.log('5');
     camera = this.cameras.main;
     camera.setBackgroundColor(0xbababa);
     var group = this.physics.add.staticGroup();
