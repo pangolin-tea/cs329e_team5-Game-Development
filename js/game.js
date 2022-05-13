@@ -77,19 +77,18 @@ var BootScene = new Phaser.Class({
         keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
-        this.physics.add.sprite(650, 350, 'advisor').setScale(8);
+        this.physics.add.sprite(695, 385, 'advisor').setScale(8);
 
         var style = { font: "30px Bradley Hand", fill: "#000000", backgroundColor: "#fddab9"};
         var txtZero = this.add.text(20, 20, "Welcome to UT. I'm your Advisor.", style);
-        setTimeout(() => { txtOne = this.add.text(20, 80, "A&M has disrespected UT by\ndoing a 'Horns Down!'", style); }, 2000);
-        setTimeout(() => { txtTwo = this.add.text(20, 180, "Now they're taking over campus.", style); }, 4000);
-        setTimeout(() => { txtThr = this.add.text(20, 240, "Use WASD/arrow keys to find 4 UT\nanimals to help you fight the boss -\nA&M's mascot, Reveille the dog!", style); }, 6000);
-        setTimeout(() => { txtFour = this.add.text(20, 380, "In your fight, use arrow keys to\nmove your cursor and space nto select\nan animal and an enemy.", style); }, 8000);
-        setTimeout(() => { txtFive = this.add.text(20, 520, "Advisors like me will be around to help!", style); }, 10000);
-        setTimeout(() => { txtSix = this.add.text(515, 95, "Click Y to play", style); }, 12000);
+        setTimeout(() => { txtOne = this.add.text(20, 80, "A&M has disrespected UT by doing\na 'Horns Down!' They're overrunning campus.", style); }, 2000);
+        setTimeout(() => { txtThr = this.add.text(20, 180, "Use WASD/arrow keys to move and shift to run to\nfind 4 UT animals to help you fight the boss -\nA&M's mascot, Reveille the dog!", style); }, 4000);
+        setTimeout(() => { txtFour = this.add.text(20, 320, "In your fight, use arrow keys to\nmove your cursor and space to select\nan animal and an enemy.", style); }, 6000);
+        setTimeout(() => { txtFive = this.add.text(20, 460, "Advisors like me will be around to help!", style); }, 8000);
+        setTimeout(() => { txtSix = this.add.text(20, 520, "Click Y to play", style); }, 10000);
         
 
-        // setTimtout(() => { go = true; }, 12500);
+        // setTimtout(() => { go = true; }, 10500);
         go = true;
     },
 
@@ -254,30 +253,36 @@ var WorldScene  = new Phaser.Class({
         cameraDolly.x = Math.floor(player.x);
         cameraDolly.y = Math.floor(player.y);
 
+        player.setVelocity(0);
+        let velX = 0;
+        let velY = 0;
+
+
         if(keyA.isDown || left.isDown) {
-            player.setVelocityX(-160);
-            player.setVelocityY(0);
+            velX = -160
             player.anims.play('usTurn', true);
-         } else if(keyS.isDown || down.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(160);
+        } else if(keyS.isDown || down.isDown) {
+            velY = 160
             player.anims.play('usTurn', true);
-         } else if(keyD.isDown || right.isDown) {
-            player.setVelocityX(160);
-            player.setVelocityY(0);
+        } else if(keyD.isDown || right.isDown) {
+            velX = 160
             player.anims.play('usTurn', true);
-         } else if(keyW.isDown || up.isDown) {
-            player.setVelocityX(0);
-            player.setVelocityY(-160);
+        } else if(keyW.isDown || up.isDown) {
+            velY = -160
             player.anims.play('usTurn', true);
-         } else if (space.isDown){
+        } else if (space.isDown){
             theme.stop();
             this.scene.sleep('Worldscene');
-            this.scene.switch('BattleScene'); // aaaa
-         } else {
-            player.setVelocity(0);
-            player.anims.play('usStraight', true);
-         };
+            this.scene.switch('BattleScene');
+        } 
+        if (cursors.shift.isDown) {
+            velX *= 2;
+            velY *= 2;
+        }
+
+        player.setVelocity(velX, velY);
+
+
         this.scene.sleep('UIScene');
     },
         
