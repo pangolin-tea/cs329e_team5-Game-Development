@@ -398,7 +398,7 @@ var VictoryScene = new Phaser.Class ({
 
     keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
     camera = this.cameras.main;
-    camera.setBackgroundColor("black");
+    camera.setBackgroundColor("#CC5500");
     var group = this.physics.add.staticGroup();
     cat = group.create(200, 400, 'cat').setScale(1);
     turtle = group.create(325, 400, 'turt').setScale(2);
@@ -406,8 +406,9 @@ var VictoryScene = new Phaser.Class ({
     squirrel = group.create(550, 400, 'squir').setScale(2);
     us = group.create(375, 500, 'us').setScale(2);
 
-    this.add.text(160, 200, "Thank you for playing!", { font: "50px Aldhabi", fill: "#4472C4"});
-    this.add.text(265,300,"Press Space to continue", { font: "30px Aldhabi", fill: "#4472C4"});
+    this.add.text(260, 100, "Victory!", { font: "60px Cooper Black", fill: "black"});
+    this.add.text(150, 230, "Thank you for playing!", { font: "40px Cooper Black", fill: "black"});
+    this.add.text(200,300,"Press Space to continue", { font: "30px Cooper Black", fill: "black"});
     },
     update: function()
     {
@@ -435,13 +436,13 @@ var DefeatScene = new Phaser.Class ({
     create: function()
     {
     camera = this.cameras.main;
-    camera.setBackgroundColor(0xbababa);
+    camera.setBackgroundColor("black");
     var group = this.physics.add.staticGroup();
-    cat = group.create(350, 400, 'boss').setScale(.125);
-    turtle = group.create(200, 400, 'foe');
-    bevo = group.create(500, 400, 'foe');
+    cat = group.create(400, 400, 'boss').setScale(.5);
+    turtle = group.create(200, 400, 'foe').setScale(2.5);
+    bevo = group.create(600, 400, 'foe').setScale(2.5);
 
-    this.add.text(300, 200, "Game Over", { font: "30px Arial", fill: "#ff0044"});
+    this.add.text(180, 150, "GAME OVER", { font: "80px Algerian", fontstyle: "bold", fill: "#ff0044"});
     }
 });
 
@@ -486,7 +487,7 @@ var config = {
             debug: false
         }
     },
-    scene: [BootScene, WorldScene, BattleScene, UIScene,  VictoryScene, DefeatScene, CreditScene]
+    scene: [BootScene, WorldScene, BattleScene, UIScene, VictoryScene, DefeatScene, CreditScene]
   };
 
 var game = new Phaser.Game(config);
