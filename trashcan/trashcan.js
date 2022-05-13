@@ -20,3 +20,29 @@
     // }
     
 // });
+
+
+
+    // var wintext = this.add.text(player.x,player.y,'test').setOrigin(0.5);
+
+    // var ui_camera = this.cameras.add().setScroll(0,1000);
+
+    // camera.ignore(wintext);
+    // ui_camera.ignore(player);
+
+    // var timeline = this.tweens.timeline({
+
+    //     tweens: [{
+    //         targets: ui_camera,
+    //         zoom:2,
+    //         scrollY:0,
+    //         duration:2000,
+    //         ease:'Sine.easeInOut'
+    //     },
+    //     {
+    //         targets: ui_camera,
+    //         zoom:1,
+    //         scrollY
+    //     }
+    // ]
+    // })
