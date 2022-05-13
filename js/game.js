@@ -77,20 +77,16 @@ var BootScene = new Phaser.Class({
         keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
-        this.physics.add.sprite(625, 375, 'advisor').setScale(5);
+        this.physics.add.sprite(695, 385, 'advisor').setScale(8);
 
         var style = { font: "30px Bradley Hand", fill: "#000000", backgroundColor: "#fddab9"};
         var txtZero = this.add.text(20, 20, "Welcome to UT. I'm your Advisor.", style);
-        // setTimeout(() => { txtZero.visible = false; }, 5000);
-        setTimeout(() => { txtOne = this.add.text(20, 80, "A&M has disrespected UT by\ndoing a 'Horns Down!'", style); }, 2000);
-        // setTimeout(() => { txtOne.visible = false; }, 10000);
-        setTimeout(() => { txtTwo = this.add.text(20, 180, "Now they're taking over campus.", style); }, 4000);
-        // setTimeout(() => { txtTwo.visible = false; }, 13000);
-        setTimeout(() => { txtThr = this.add.text(20, 240, "Use WASD/arrow keys to find and\ncollect animals to help\nyou in your fight.", style); }, 6000);
-        // setTimeout(() => { txtThr.visible = false; }, 20000);
-        setTimeout(() => { txtFour = this.add.text(20, 380, "Once you have all four\nanimals, you can fight the\nboss - A&M's mascot, Reveille the dog!", style); }, 8000);
-        // setTimeout(() => { txtFour.visible = false; }, 26000);
-        setTimeout(() => { txtFive = this.add.text(20, 520, "Click Y to play.", style); }, 10000);
+        setTimeout(() => { txtOne = this.add.text(20, 75, "A&M has disrespected UT by doing\na 'Horns Down!' They're overrunning campus.", style); }, 2000);
+        setTimeout(() => { txtThr = this.add.text(20, 170, "Use WASD/arrow keys to move and shift to run to\nfind 4 UT animals to help you fight the boss -\nA&M's mascot, Reveille the dog!", style); }, 4000);
+        setTimeout(() => { txtFour = this.add.text(20, 305, "In your fight, use arrow keys to\nmove your cursor and space to select\nan animal and an enemy.", style); }, 6000);
+        setTimeout(() => { txtFive = this.add.text(20, 440, "Advisors will help you, but enemies\nwill hurt your animals.", style); }, 8000);
+        setTimeout(() => { txtSix = this.add.text(20, 540, "Click Y to play", style); }, 10000);
+        
 
         // setTimtout(() => { go = true; }, 10500);
         go = true;
