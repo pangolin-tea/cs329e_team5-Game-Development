@@ -354,7 +354,7 @@ var WorldScene  = new Phaser.Class({
         }
         else
         {
-            this.message("Leave! You are too\nweak to beat me.", boss.x, boss.y);
+            this.message("Leave! You are too\nweak to beat me.", boss.x - 80, boss.y + 40);
         }
     },
     onMeetEnemy: function(player, enemy)
