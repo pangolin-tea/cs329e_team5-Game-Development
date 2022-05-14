@@ -295,7 +295,8 @@ var PlayerCharacter = new Phaser.Class({
 
     initialize:
     function PlayerCharacter(scene, x, y, texture, frame, type, hp, damage) {
-        Unit.call(this, scene, x, y, texture, frame, type, hp - (window.ouch * 10), damage);
+        totalHP = hp - (window.ouch * 10)
+        Unit.call(this, scene, x, y, texture, frame, type, totalHP, damage);
         // flip the image so I don"t have to edit it manually
         this.flipX = false;
         
@@ -478,10 +479,32 @@ var UIScene = new Phaser.Class({
         this.menus.add(this.enemiesMenu);
         
         this.battleScene = this.scene.get("BattleScene");
+
+        // for (i = 0; i < 7; i++)
+        // {
+        //     this.units[i].attack(this.heroes[i]);  
+        // }
         
         this.remapHeroes();
         this.remapEnemies();
         // this.remapActions();
+
+        if (cat.hp <= 0)
+        {
+            cat.takeDamage(0);
+        }
+        if (bevo.hp <= 0)
+        {
+            bevo.takeDamage(0);
+        }
+        if (turt.hp <= 0)
+        {
+            turt.takeDamage(0);
+        }
+        if (squir.hp <= 0)
+        {
+            squir.takeDamage(0);
+        }
         
         this.input.keyboard.on("keydown", this.onKeyInput, this);   
         

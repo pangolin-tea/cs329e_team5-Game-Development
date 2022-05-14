@@ -298,8 +298,9 @@ var WorldScene  = new Phaser.Class({
             player.anims.play('usTurn', true);
         // } else if (space.isDown){
         //     theme.stop();
+        //     window.ouch = 12;
         //     this.scene.sleep('Worldscene');
-        //     this.scene.switch('BattleScene');
+        //     this.scene.switch('DefeatScene');
         } 
         else {
             player.anims.play('usStraight',true);
@@ -307,6 +308,10 @@ var WorldScene  = new Phaser.Class({
         if (cursors.shift.isDown) {
             velX *= 2;
             velY *= 2;
+        }
+        if (window.ouch == 12)
+        {
+            this.scene.switch('DefeatScene');
         }
 
         player.setVelocity(velX, velY);
@@ -494,6 +499,11 @@ var DefeatScene = new Phaser.Class ({
     bevo = group.create(600, 400, 'foe').setScale(2.5);
 
     this.add.text(180, 150, "GAME OVER", { font: "80px Algerian", fontstyle: "bold", fill: "#ff0044"});
+
+    if (window.ouch >= 12)
+    {
+        this.add.text(220, 520, "You bumped into too many enemies.\nYour animals were too hurt to fight!", { font: "25px Algerian", fontstyle: "bold", fill: "#ff0044"});
+    }
     }
 });
 
