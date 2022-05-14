@@ -45,7 +45,7 @@ var BattleScene = new Phaser.Class({
     },
     startBattle: function()
     {	
-        
+        this.add.image(400, 300, 'background');
 
         cat = new PlayerCharacter(this, 150, 100, 'cat', 1, 'Domino', 80, 8, 'slash').setScale(1.5);
 		this.add.existing(cat);
@@ -59,7 +59,7 @@ var BattleScene = new Phaser.Class({
         this.add.existing(foeBrute);
         foeNerd = new Enemy(this, 630, 475, 'nerd', 1, 'Nerd', 20, 20, 'none').setScale(3.5);
         this.add.existing(foeNerd);
-        foeBoss= new Enemy(this, 530, 300, 'boss', 1, 'Boss', 100, 20, 'none').setScale(0.4);
+        foeBoss= new Enemy(this, 530, 300, 'boss', 1, 'Boss', 70, 20, 'none').setScale(0.4);
         foeBoss.flipX = true;
         this.add.existing(foeBoss);
 
@@ -485,8 +485,10 @@ var UIScene = new Phaser.Class({
         
         this.input.keyboard.on("keydown", this.onKeyInput, this);   
         
+        move = false;
         this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
         
+        move = true;
         this.events.on("SelectEnemies", this.onSelectEnemies, this);
         
         this.events.on("Enemy", this.onEnemy, this);
@@ -505,10 +507,11 @@ var UIScene = new Phaser.Class({
     },
     onPlayerSelect: function(id) {
         this.heroesMenu.select(id);
-        // this.currentMenu = this.actionsMenu;
-        // this.actionsMenu.select(0);
-        //this.heroesMenu.select(0);
+        // // this.currentMenu = this.actionsMenu;
+        // // this.actionsMenu.select(0);
+        // //this.heroesMenu.select(0);
         this.currentMenu = this.heroesMenu;
+        this.heroesMenu.confirm();
     },
     onSelectEnemies: function() {
         // this.actionsMenu.select(id);
@@ -528,7 +531,7 @@ var UIScene = new Phaser.Class({
     //     this.actionsMenu.remap(actions);
     // },
     onKeyInput: function(event) {
-        if(this.currentMenu) {
+        if(this.currentMenu == this.enemiesMenu) {
             if(event.code === "ArrowUp" || event.code === "KeyW") {
                 this.currentMenu.moveSelectionUp();
             } else if(event.code === "ArrowDown" || event.code === "KeyS") {

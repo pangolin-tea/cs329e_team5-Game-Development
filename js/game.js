@@ -89,8 +89,8 @@ var BootScene = new Phaser.Class({
         setTimeout(() => { txtSix = this.add.text(20, 540, "Click Y to play", style); }, 10000);
         
 
-        // setTimtout(() => { go = true; }, 10500);
-        go = true;
+        setTimeout(() => { go = true; }, 10500);
+        // go = true;
     },
 
     update: function()
@@ -296,10 +296,10 @@ var WorldScene  = new Phaser.Class({
         } else if(keyW.isDown || up.isDown) {
             velY = -160
             player.anims.play('usTurn', true);
-        } else if (space.isDown){
-            theme.stop();
-            this.scene.sleep('Worldscene');
-            this.scene.switch('BattleScene');
+        // } else if (space.isDown){
+        //     theme.stop();
+        //     this.scene.sleep('Worldscene');
+        //     this.scene.switch('BattleScene');
         } 
         else {
             player.anims.play('usStraight',true);
@@ -350,7 +350,7 @@ var WorldScene  = new Phaser.Class({
         }
         else if (advisors.x == 774)
         {
-            msg = "I heard you can find the\nlucky albino squirrel in\east mall...";
+            msg = "I heard you can find the\nlucky albino squirrel in\neast mall...";
         }
         else if (advisors.x == 1406)
         {
@@ -382,7 +382,7 @@ var WorldScene  = new Phaser.Class({
         }
         else if (advisors.x == 2554)
         {
-            msg = "You're so far down 24th!\nGo up to find Domino and the Pond Turtle.";
+            msg = "You're so far down 24th!\nGo up to find Domino and\nthe Pond Turtle.";
         }
 
         this.message(msg, advisors.x - 80, advisors.y + 40);
